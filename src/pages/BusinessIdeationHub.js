@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function StartupRegistration() {
+export default function BusinessIdeationHub() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -14,7 +14,6 @@ export default function StartupRegistration() {
         { label: "Full Name", name: "fullName", type: "text" },
         { label: "Email Address", name: "email", type: "email" },
         { label: "Phone Number", name: "phone", type: "tel" },
-        { label: "LinkedIn Profile (optional)", name: "linkedin", type: "url" },
         { label: "Location (City, State)", name: "location", type: "text" },
       ],
     },
@@ -22,35 +21,54 @@ export default function StartupRegistration() {
       title: "Professional Background",
       fields: [
         { label: "Current Role/Occupation", name: "role", type: "text" },
-        { label: "Areas of Expertise", name: "expertise", type: "select", options: ["Tech", "Marketing", "Sales", "Finance", "Operations", "Product"] },
+        { label: "Industry Experience", name: "industry", type: "select", options: ["IT", "Healthcare", "Agriculture", "Finance", "Other"] },
         { label: "Years of Experience", name: "experience", type: "number" },
-        { label: "Notable Achievements (if any)", name: "achievements", type: "textarea" },
+        { label: "Skillset", name: "skillset", type: "multiselect", options: ["Tech", "Marketing", "Finance", "Operations"] },
+        { label: "Field of Study", name: "fieldOfStudy", type: "text" },
       ],
     },
     {
-      title: "Startup Interests",
+      title: "Startup Readiness & Goals",
       fields: [
-        { label: "Industries Interested In", name: "industries", type: "multiselect", options: ["AI", "FinTech", "AgriTech", "EdTech", "HealthTech"] },
-        { label: "Startup Stage Preference", name: "stagePreference", type: "select", options: ["Idea", "MVP", "Early Revenue", "Scaling"] },
-        { label: "Preferred Business Model", name: "businessModel", type: "select", options: ["B2B", "B2C", "SaaS", "Marketplace"] },
+        { label: "Why do you want to start a business?", name: "businessReason", type: "textarea" },
+        { label: "What best describes you?", name: "businessStage", type: "select", options: [
+            "I have an idea and need validation",
+            "I am looking for a business idea",
+            "I have a business and want to scale it",
+            "I need a co-founder"
+          ]
+        },
+        { label: "Are you open to co-founding a business with someone?", name: "cofoundingInterest", type: "radio", options: ["Yes", "No"] },
       ],
     },
     {
-      title: "Expectations & Contribution",
+      title: "Business Preferences",
       fields: [
-        { label: "Skills & Resources You Can Offer", name: "skills", type: "multiselect", options: ["Mentorship", "Investment", "Networking", "Tech Expertise"] },
-        { label: "Expected Role in the Startup", name: "expectedRole", type: "select", options: ["Full-time Co-founder", "Part-time Advisor", "Investor"] },
-        { label: "Investment Capacity (if applicable)", name: "investmentCapacity", type: "number" },
+        { label: "What industries interest you?", name: "preferredIndustries", type: "multiselect", options: ["AgriTech", "AI/Tech", "HealthTech", "EdTech"] },
+        { label: "What is your budget for starting a business?", name: "budget", type: "select", options: ["Less than ₹1 lakh", "₹1-5 lakh", "₹5-10 lakh", "₹10 lakh+"] },
+        { label: "What kind of business model interests you?", name: "businessModel", type: "select", options: ["Digital Startup (App, SaaS, AI-based)", "Service-based Business", "Retail/E-commerce", "Manufacturing/Production", "Social Impact/NGO"] },
+        { label: "What challenges do you need help with?", name: "challenges", type: "multiselect", options: [
+            "Idea Validation",
+            "Market Research",
+            "Business Planning",
+            "Finding a Co-founder",
+            "Fundraising",
+            "Technology Development",
+            "Marketing & Sales"
+          ]
+        },
       ],
     },
     {
-      title: "Additional Information",
+      title: "Additional Questions",
       fields: [
-        { label: "Why Do You Want to Be a Co-founder?", name: "cofounderReason", type: "textarea" },
-        { label: "Resume or Portfolio", name: "resume", type: "file" },
+        { label: "Do you need mentorship or guidance?", name: "mentorship", type: "radio", options: ["Yes", "No"] },
+        { label: "Would you like to join our startup community for networking?", name: "networking", type: "radio", options: ["Yes", "No"] },
+        { label: "Any additional comments or specific requirements?", name: "additionalComments", type: "textarea" },
       ],
     }
   ];
+  
   const handleMultiSelect = (e) => {
     const values = Array.from(e.target.selectedOptions, (option) => option.value);
     setFormData({ ...formData, [e.target.name]: values });
@@ -91,8 +109,8 @@ export default function StartupRegistration() {
 
   return (
     <div className="w-full max-w-5xl h-fit mx-auto bg-white p-4 rounded-3xl shadow-xl mt-10 border border-gray-200" style={{backdropFilter: 'blur(20px)'}}>
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 CoFounder Registration</h2>
-      <p className="text-center text-gray-500 mb-6">Register your CoFounder and take the first step toward success!</p>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 Business Ideation Hub Registration</h2>
+      <p className="text-center text-gray-500 mb-6">Register your Business Ideation Hub and take the first step toward success!</p>
 
 <div className="flex items-center justify-center space-x-2 mb-6">
 

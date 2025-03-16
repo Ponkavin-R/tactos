@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function StartupRegistration() {
+export default function Businessconsultation() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -14,43 +14,79 @@ export default function StartupRegistration() {
         { label: "Full Name", name: "fullName", type: "text" },
         { label: "Email Address", name: "email", type: "email" },
         { label: "Phone Number", name: "phone", type: "tel" },
-        { label: "LinkedIn Profile (optional)", name: "linkedin", type: "url" },
         { label: "Location (City, State)", name: "location", type: "text" },
       ],
     },
     {
-      title: "Professional Background",
+      title: "Business Information",
       fields: [
-        { label: "Current Role/Occupation", name: "role", type: "text" },
-        { label: "Areas of Expertise", name: "expertise", type: "select", options: ["Tech", "Marketing", "Sales", "Finance", "Operations", "Product"] },
-        { label: "Years of Experience", name: "experience", type: "number" },
-        { label: "Notable Achievements (if any)", name: "achievements", type: "textarea" },
+        { label: "Business Name (if applicable)", name: "businessName", type: "text" },
+        { 
+          label: "Industry", 
+          name: "industry", 
+          type: "select", 
+          options: ["AgriTech", "AI/Tech", "HealthTech", "EdTech", "Retail", "Other"] 
+        },
+        { 
+          label: "Business Stage", 
+          name: "businessStage", 
+          type: "select", 
+          options: ["Idea Stage", "MVP (Minimum Viable Product)", "Early Revenue", "Scaling Business"] 
+        },
+        { label: "Website (if available)", name: "website", type: "text" },
       ],
     },
     {
-      title: "Startup Interests",
+      title: "Consultation Needs",
       fields: [
-        { label: "Industries Interested In", name: "industries", type: "multiselect", options: ["AI", "FinTech", "AgriTech", "EdTech", "HealthTech"] },
-        { label: "Startup Stage Preference", name: "stagePreference", type: "select", options: ["Idea", "MVP", "Early Revenue", "Scaling"] },
-        { label: "Preferred Business Model", name: "businessModel", type: "select", options: ["B2B", "B2C", "SaaS", "Marketplace"] },
-      ],
-    },
-    {
-      title: "Expectations & Contribution",
-      fields: [
-        { label: "Skills & Resources You Can Offer", name: "skills", type: "multiselect", options: ["Mentorship", "Investment", "Networking", "Tech Expertise"] },
-        { label: "Expected Role in the Startup", name: "expectedRole", type: "select", options: ["Full-time Co-founder", "Part-time Advisor", "Investor"] },
-        { label: "Investment Capacity (if applicable)", name: "investmentCapacity", type: "number" },
+        { 
+          label: "What do you need help with?", 
+          name: "consultationNeeds", 
+          type: "multiselect", 
+          options: [
+            "Business Idea Validation", 
+            "Market Research", 
+            "Business Strategy & Planning", 
+            "Fundraising & Investment Readiness", 
+            "Branding & Marketing", 
+            "Legal & Compliance", 
+            "Technology Development", 
+            "Scaling & Growth Strategy"
+          ] 
+        },
+        { label: "Describe Your Business Briefly", name: "businessDescription", type: "textarea" },
+        { label: "Key Challenges You Are Facing", name: "keyChallenges", type: "textarea" },
       ],
     },
     {
       title: "Additional Information",
       fields: [
-        { label: "Why Do You Want to Be a Co-founder?", name: "cofounderReason", type: "textarea" },
-        { label: "Resume or Portfolio", name: "resume", type: "file" },
+        { 
+          label: "Do you need ongoing mentorship?", 
+          name: "mentorship", 
+          type: "radio", 
+          options: ["Yes", "No"] 
+        },
+        { label: "Any specific expectations from the consultation?", name: "consultationExpectations", type: "textarea" },
+        { label: "Preferred Date & Time for Consultation", name: "preferredDateTime", type: "datetime-local" },
       ],
-    }
+    },
+    {
+      title: "Submit & Payment",
+      fields: [
+        { 
+          label: "Upload Supporting Documents (Pitch Deck, Business Plan, etc.)", 
+          name: "supportingDocuments", 
+          type: "file", 
+          multiple: true 
+        }
+      ],
+    },
   ];
+  
+  
+  
+  
   const handleMultiSelect = (e) => {
     const values = Array.from(e.target.selectedOptions, (option) => option.value);
     setFormData({ ...formData, [e.target.name]: values });
@@ -91,8 +127,8 @@ export default function StartupRegistration() {
 
   return (
     <div className="w-full max-w-5xl h-fit mx-auto bg-white p-4 rounded-3xl shadow-xl mt-10 border border-gray-200" style={{backdropFilter: 'blur(20px)'}}>
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 CoFounder Registration</h2>
-      <p className="text-center text-gray-500 mb-6">Register your CoFounder and take the first step toward success!</p>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 Business Consultation Registration</h2>
+      <p className="text-center text-gray-500 mb-6">Register your Business Consultation Hub and take the first step toward success!</p>
 
 <div className="flex items-center justify-center space-x-2 mb-6">
 

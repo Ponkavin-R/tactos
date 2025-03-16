@@ -36,7 +36,7 @@ export default function Solution() {
   return (
     <div className="min-h-screen bg-gray-50 text-black px-4 md:px-10 py-10">
  <header className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-blue-600">Dr Solution</h1>
+        <h1 className="text-4xl font-bold text-blue-600">IT Solutions</h1>
         <p className="text-gray-500 mt-2">We build tailored solutions to elevate your business growth.</p>
         <p className="text-gray-400 mt-1">Our expertise lies in creating digital products that drive success.</p>
       </header>

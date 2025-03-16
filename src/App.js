@@ -10,6 +10,9 @@ import StartupReg from "./pages/StartupReg";
 import CoFounderRegistration from "./pages/CoFounderReg";
 import Solution from "./pages/Solution";
 import Event from "./pages/Event";
+import JobList from "./pages/Careers";
+import BusinessIdeationHub from "./pages/BusinessIdeationHub";
+import Businessconsultation from "./pages/BusinessConsultation";
 
 function App() {
   return (
@@ -19,9 +22,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/solutions" element={<Solution />} />
         <Route path="/events" element={<Event/>} />
-        <Route path="/about" element={<About />} />
+        <Route path="/career" element={<JobList />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/startup-reg" element={<StartupReg />} />
+        <Route path="/business-idea-hub" element={<BusinessIdeationHub/>}/>
+        <Route path="/business-consultation" element={<Businessconsultation/>}/>
         <Route path="/cofounder-reg" element={<CoFounderRegistration />} />
       </Routes>
       <Footer />

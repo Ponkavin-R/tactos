@@ -33,7 +33,7 @@ const Navbar = ({ isLoggedIn, handleLogout}) => {
       { to: "/startup-reg", label: "Startup Registration" },
       { to: "/cofounder-reg", label: "Cofounder Registration" },
       { to: "/business-idea-hub", label: "Business Idea Hub" },
-      { to: "/about", label: "About" },
+      { to: "/career", label: "Career" },
       { to: "/contact", label: "Contact" }
     ]);
   }, []);
@@ -80,7 +80,7 @@ const Navbar = ({ isLoggedIn, handleLogout}) => {
       </Link>
 
       {/* Navigation Links */}
-      <nav className="flex space-x-14 mr-4 text-gray-700 font-medium">
+      <nav className="flex space-x-10 text-gray-700 font-medium">
         <Link to="/" className="hover:text-blue-700 text-white transition duration-300">Home</Link>
         <Link to="/solutions" className="hover:text-blue-700 text-white  transition duration-300">Solutions</Link>
 
@@ -116,7 +116,8 @@ const Navbar = ({ isLoggedIn, handleLogout}) => {
 
         <Link to="/events" className="hover:text-blue-700 text-white  transition duration-300">Events</Link>
         <Link to="/business-idea-hub" className="hover:text-blue-700 text-white  transition duration-300">Business Idea Hub</Link>
-        <Link to="/about" className="hover:text-blue-700 transition text-white  duration-300">About</Link>
+        <Link to="/business-consultation" className="hover:text-blue-700 text-white  transition duration-300">Business Consultation</Link>
+        <Link to="/career" className="hover:text-blue-700 transition text-white  duration-300">Career</Link>
         <Link to="/contact" className="hover:text-blue-700 transition text-white  duration-300">Contact</Link>
       </nav>
     </motion.header>
@@ -145,12 +146,13 @@ const Navbar = ({ isLoggedIn, handleLogout}) => {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 150, damping: 20 }}
-              className="w-full bg-white shadow-lg rounded-xl p-4 grid grid-cols-3 sm:grid-cols-3 gap-2 "
+              className="w-full bg-white shadow-lg rounded-xl p-2 grid grid-cols-2 sm:grid-cols-2 gap-2 "
             >
               <NavItem to="/startup-reg" icon={<AiOutlineTeam />} label="Startup Registration" activeTab={activeTab} setActiveTab={setActiveTab} />
 <NavItem to="/cofounder-reg" icon={<FaRegUser />} label="Cofounder Registration" activeTab={activeTab} setActiveTab={setActiveTab} />
 <NavItem to="/business-idea-hub" icon={<AiOutlineBulb />} label="Business Idea Hub" activeTab={activeTab} setActiveTab={setActiveTab} />
-<NavItem to="/about" icon={<AiOutlineSolution />} label="About" activeTab={activeTab} setActiveTab={setActiveTab} />
+<NavItem to="/business-consultation" icon={<AiOutlineBulb />} label="Business Consultation" activeTab={activeTab} setActiveTab={setActiveTab} />
+<NavItem to="/career" icon={<AiOutlineSolution />} label="Career" activeTab={activeTab} setActiveTab={setActiveTab} />
 <NavItem to="/contact" icon={<FaRegCalendarAlt />} label="Contact" activeTab={activeTab} setActiveTab={setActiveTab} />
 
             </motion.div>
