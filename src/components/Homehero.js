@@ -1,106 +1,88 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-
+import React, { useState, useEffect } from "react";
+import { FaPlay } from "react-icons/fa";
+import Logo from "../assest/l2.svg"
 const HeroSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [scale, setScale] = useState(1);
 
-  const slides = [
-    {
-      title: 'Empowering Tier 3 Students',
-      description: 'At Tactos Strategic Solutions, we mentor Tier 3 students from ideation to successful exit.',
-      time: '10:00 AM - 11:00 AM',
-      day: 'Monday',
-      platform: 'YouTube',
-      img: '/h1.webp',
-      cards: [
-        { title: 'Mentorship', imgSrc: 'https://via.placeholder.com/80', alt: 'Mentorship Icon' },
-        { title: 'Funding', imgSrc: 'https://via.placeholder.com/80', alt: 'Funding Icon' },
-        { title: 'Business Consulting', imgSrc: 'https://via.placeholder.com/80', alt: 'Consulting Icon' }
-      ]
-    },
-    {
-      title: 'Driving Sustainable Business Growth',
-      description: 'We help businesses navigate challenges, optimize operations, and achieve strategic goals.',
-      time: '11:00 AM - 12:00 PM',
-      day: 'Wednesday',
-      platform: 'Zoom',
-      img: '/h2.svg',
-      cards: [
-        { title: 'Market Analysis', imgSrc: 'https://via.placeholder.com/80', alt: 'Market Analysis Icon' },
-        { title: 'Operational Efficiency', imgSrc: 'https://via.placeholder.com/80', alt: 'Efficiency Icon' },
-        { title: 'Strategic Planning', imgSrc: 'https://via.placeholder.com/80', alt: 'Planning Icon' }
-      ]
-    },
-    {
-      title: 'Building Resilient Businesses',
-      description: 'We deliver high-impact strategies that drive business resilience and growth.',
-      time: '1:00 PM - 2:00 PM',
-      day: 'Friday',
-      platform: 'Google Meet',
-      img: '/h3.svg',
-      cards: [
-        { title: 'Business Resilience', imgSrc: 'https://via.placeholder.com/80', alt: 'Resilience Icon' },
-        { title: 'Strategic Growth', imgSrc: 'https://via.placeholder.com/80', alt: 'Growth Icon' },
-        { title: 'Future Readiness', imgSrc: 'https://via.placeholder.com/80', alt: 'Readiness Icon' }
-      ]
-    }
-  ];
-
-  const handleNext = () => setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const newScale = 1 + scrollY * 0.0005;
+      setScale(newScale);
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-blue-100 py-6">
-      <div className="container mx-auto text-center">
-        <div className="overflow-hidden relative w-full">
-          <div className="flex transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-            {slides.map((slide, index) => (
-              <div key={index} className="w-full flex-shrink-0 px-6">
-                <h1 className="text-5xl font-bold text-blue-950">{slide.title}</h1>
-                <div className="mt-6 flex justify-center gap-6 overflow-x-auto">
-                  {slide.cards.map((card, i) => (
-                    <motion.div key={i}
-                      className="bg-white shadow-md rounded-xl p-4 w-52 transform transition-all hover:scale-105"
-                      whileHover={{ scale: 1.1 }}>
-                      <h5 className="text-gray-600 text-sm text-center">{card.title}</h5>
-                      <img src={card.imgSrc} alt={card.alt}
-                        className="mx-auto my-2 rounded-full h-20 w-20 shadow-lg"/>
-                    </motion.div>
-                  ))}
-                </div>
-                <p className="text-gray-500 max-w-2xl mx-auto mt-4">{slide.description}</p>
-                <p className="text-blue-950 text-sm mt-2">
-                  Catch the insight at <span className="font-semibold">{slide.time}</span>
-                </p>
-                <p className="text-sm text-gray-500 mb-4">
-                  Every <span className="font-semibold text-orange-500">{slide.day}</span> on
-                  <span className="text-indigo-500"> {slide.platform}</span>
-                </p>
-              </div>
-            ))}
+    <section className="relative flex flex-col items-center justify-center text-center py-16 px-6 bg-gradient-to-b from-[#fdf6f8] to-[#eef3fd] min-h-screen">
+      {/* Sponsor Section */}
+      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 flex gap-4">
+        <div className="bg-white px-6 py-3 rounded-xl shadow-lg text-sm font-semibold text-gray-700 border border-gray-200">
+          Presented By <br /> <span className="font-bold text-gray-900">CHARLES GROUP</span>
+        </div>
+        <div className="bg-white px-6 py-3 rounded-xl shadow-lg text-sm font-semibold text-gray-700 border border-gray-200">
+          Co-Presented By <br /> <span className="font-bold text-gray-900">Zoho</span>
+        </div>
+        <div className="bg-white px-6 py-3 rounded-xl shadow-lg text-sm font-semibold text-gray-700 border border-gray-200">
+          Powered By <br /> <span className="font-bold text-gray-900">Sangetha</span>
+        </div>
+      </div>
+
+      {/* Show Details */}
+      <p className="text-gray-600 text-lg mt-10">
+        Catch the excitement <span className="font-bold text-blue-600">10:00 AM - 12:00 PM</span>
+      </p>
+      <p className="text-gray-600 text-lg">
+        Every <span className="font-bold text-orange-500">Monday & Wednesday</span> on <span className="text-red-500 font-bold">YouTube</span> & <span className="text-purple-500 font-bold">Zoom</span>
+      </p>
+
+      {/* Title */}
+      <h1 className="text-5xl md:text-6xl font-bold mt-6 leading-tight text-blue-950">
+        Empowering Students & Businesses <br />
+        <span className="text-blue-800">Through Strategic Solutions</span>
+      </h1>
+
+      {/* Description */}
+      <p className="text-gray-700 mt-6 max-w-2xl text-lg">
+        At Tactos Strategic Solutions, we mentor Tier 3 students from ideation to successful exit and help businesses navigate challenges, optimize operations, and achieve strategic goals.
+      </p>
+
+      {/* Watch Button */}
+      {/* <button className="mt-8 bg-black text-white px-8 py-4 rounded-full flex items-center gap-3 shadow-xl hover:bg-gray-900 transition-all text-lg font-semibold">
+        <FaPlay className="text-red-500" /> Watch the Latest Episodes
+      </button> */}
+
+      {/* Cards Section */}
+      <div className="flex flex-wrap justify-center gap-6 mt-10">
+        {[
+          { title: 'Mentorship', imgSrc: 'https://c8.alamy.com/comp/2GGGE1A/business-online-training-seminar-or-courses-background-vector-illustration-mentor-doing-presentation-about-marketing-sales-report-e-commerce-2GGGE1A.jpg', alt: 'Mentorship Icon' },
+          { title: 'Funding', imgSrc: 'https://cdni.iconscout.com/illustration/premium/thumb/man-explaining-financial-doughnut-chart-calculations-illustration-download-in-svg-png-gif-file-formats--finance-growth-investment-business-persons-pack-illustrations-7342505.png', alt: 'Funding Icon' },
+          { title: 'Business Consulting', imgSrc: 'https://cdni.iconscout.com/illustration/premium/thumb/online-consultant-illustration-download-in-svg-png-gif-file-formats--financial-meeting-advice-pack-business-illustrations-4694342.png?f=webp', alt: 'Consulting Icon' },
+          { title: 'Market Analysis', imgSrc: 'https://cdni.iconscout.com/illustration/premium/thumb/market-research-and-analysis-illustration-download-in-svg-png-gif-file-formats--analytics-logo-graph-pack-business-illustrations-7249462.png?f=webp', alt: 'Market Analysis Icon' },
+          { title: 'Operational Efficiency', imgSrc: 'https://cdni.iconscout.com/illustration/premium/thumb/portfolio-showcase-illustration-download-in-svg-png-gif-file-formats--professional-personal-branding-career-pack-business-illustrations-9909934.png', alt: 'Efficiency Icon' },
+          { title: 'Strategic Planning', imgSrc: 'https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg', alt: 'Planning Icon' }
+        ].map((card, index) => (
+          <div key={index} className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-40 ">
+            <img src={card.imgSrc} alt={card.alt} className="w-20 h-20 mb-3 rounded-lg hover:scale-90 duration-300" />
+            <p className="text-sm font-semibold text-gray-800">{card.title}</p>
           </div>
-        </div>
-        <div className="flex justify-between items-center">
-          <button onClick={handlePrev} className="text-blue-950 text-2xl">←</button>
-          <button onClick={handleNext} className="text-blue-950 text-2xl">→</button>
-        </div>
-        <div className="flex justify-center  gap-2">
-          {slides.map((_, index) => (
-            <div key={index} className={`h-3 w-3 rounded-full transition-all ${index === currentIndex ? 'bg-blue-950 scale-125' : 'bg-gray-300'}`}/>
-          ))}
-        </div>
-        <motion.img
-          key={currentIndex}
-          src={slides[currentIndex].img}
-          alt="Slide Image"
-          className="w-screen h-96 object-contain rounded-xl "
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        ))}
+      </div>
+
+      
+
+      {/* Scroll Zoom Image */}
+      <div className="flex justify-center mt-20">
+        <img 
+          src={Logo}
+          alt="Zooming Image" 
+          className="transition-transform duration-300" 
+          style={{ transform: `scale(${scale})`, maxWidth: "80%" }}
         />
       </div>
-    </div>
+    </section>
   );
 };
 

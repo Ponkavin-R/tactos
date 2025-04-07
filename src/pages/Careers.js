@@ -1,64 +1,25 @@
-import React, { useState } from 'react';
-
-const jobs = [
-  {
-    id: 1,
-    company: "Photosnap",
-    logo: "/l2.svg",
-    isNew: true,
-    featured: true,
-    position: "Senior Frontend Developer",
-    role: "Frontend",
-    level: "Senior",
-    postedAt: "1d ago",
-    contract: "Full Time",
-    location: "USA Only",
-    salary: "$120k - $150k",
-    experience: "5+ years",
-    dateOfJoining: "Immediate",
-    languages: ["HTML", "CSS", "JavaScript"],
-    tools: [],
-  },
-  {
-    id: 2,
-    company: "Manage",
-    logo: "/l2.svg",
-    isNew: true,
-    featured: true,
-    position: "Fullstack Developer",
-    role: "Fullstack",
-    level: "Midweight",
-    postedAt: "1d ago",
-    contract: "Part Time",
-    location: "Remote",
-    salary: "$80k - $100k",
-    experience: "3+ years",
-    dateOfJoining: "Within 1 month",
-    languages: ["Python"],
-    tools: ["React"],
-  },
-  {
-    id: 3,
-    company: "Tactos",
-    logo: "/l2.svg",
-    isNew: true,
-    featured: true,
-    position: "Business trainee",
-    role: "Fullstack",
-    level: "Midweight",
-    postedAt: "1d ago",
-    contract: "Part Time",
-    location: "Remote",
-    salary: "$100k - $150k",
-    experience: "3+ years",
-    dateOfJoining: "Within 1 month",
-    languages: ["Python"],
-    tools: ["React"],
-  },
-];
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const JobBoardComponent = ({ job, handleTagClick }) => {
-  const { company, logo, isNew, featured, position, role, level, postedAt, contract, location, salary, experience, dateOfJoining, languages, tools } = job;
+  const {
+    company,
+    logo,
+    isNew,
+    featured,
+    position,
+    role,
+    level,
+    postedAt,
+    contract,
+    location,
+    salary,
+    experience,
+    dateOfJoining,
+    languages,
+    tools
+  } = job;
+
   const primaryTags = [role, level, salary, experience, dateOfJoining];
   const secondaryTags = [...(languages || []), ...(tools || [])];
 
@@ -68,30 +29,39 @@ const JobBoardComponent = ({ job, handleTagClick }) => {
         <img className="w-16 h-16 rounded-full object-contain" src={logo} alt={company} />
       </div>
       <div className="flex flex-col justify-between flex-grow">
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-4">
           <h3 className="text-blue-950 font-bold text-lg">{company}</h3>
           {isNew && <span className="text-xs bg-blue-950 text-white font-semibold px-3 py-1 rounded-full uppercase">New</span>}
           {featured && <span className="text-xs bg-gray-800 text-white font-semibold px-3 py-1 rounded-full uppercase">Featured</span>}
         </div>
         <h2 className="text-xl font-semibold mt-1 text-blue-950">{position}</h2>
-        <p className="text-gray-600 mt-1">{postedAt} • {contract} • {location}</p>
+        <p className="text-gray-600 mt-1">
+          <strong>Posted:</strong> {postedAt}  <strong>Contract:</strong> {contract}
+        </p>
+        <p className="text-gray-600 mt-1">
+          <strong>Location:</strong> {location}
+        </p>
+        <p className="text-gray-600 mt-1">
+          <strong>Salary:</strong> {salary}  <strong>Experience:</strong> {experience}  <strong>Date of Joining:</strong> {dateOfJoining}
+        </p>
       </div>
-      <div className="flex flex-wrap items-center mt-4 sm:mt-0 sm:ml-auto">
+      <div className="flex flex-wrap items-center  sm:mt-0 sm:ml-auto md:ml-4">
         {[...primaryTags, ...secondaryTags].map((tag) => (
           <span
             key={tag}
             onClick={() => handleTagClick(tag)}
-            className="cursor-pointer text-blue-950 bg-blue-100 font-semibold text-sm py-1 px-3 rounded-full mr-2 mb-2 hover:bg-blue-950 hover:text-white transition"
+            className="cursor-pointer text-blue-950 bg-blue-100 font-semibold text-sm py-1 px-3 rounded-full mr-2 mb-1 hover:bg-blue-950 hover:text-white transition"
           >
             {tag}
           </span>
         ))}
       </div>
-      <div className="mt-4 sm:mt-0 sm:ml-6">
-        <button className="bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-800 transition-all">
-          Apply Now
-        </button>
-      </div>
+      <div className="mt-4 sm:mt-0 sm:ml-6 w-fit">
+  <button className="bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-800 transition-all">
+    Apply Now
+  </button>
+</div>
+
     </div>
   );
 };
@@ -100,7 +70,22 @@ const JobList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("All");
   const [selectedTags, setSelectedTags] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState(jobs);
+  const [allJobs, setAllJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get("https://tactos-backend.onrender.com/api/careers");
+        setAllJobs(response.data);
+        setFilteredJobs(response.data);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -121,12 +106,12 @@ const JobList = () => {
   };
 
   const filterJobs = (term, selectedFilter, tags) => {
-    let filtered = jobs.filter(job => job.position.toLowerCase().includes(term));
+    let filtered = allJobs.filter(job => job.position.toLowerCase().includes(term));
     if (selectedFilter !== "All") {
       filtered = filtered.filter(job => job.contract === selectedFilter);
     }
     if (tags.length > 0) {
-      filtered = filtered.filter(job => tags.every(tag => 
+      filtered = filtered.filter(job => tags.every(tag =>
         [job.role, job.level, job.salary, job.experience, job.dateOfJoining, ...(job.languages || []), ...(job.tools || [])].includes(tag)
       ));
     }
@@ -137,13 +122,13 @@ const JobList = () => {
     setSearchTerm("");
     setFilter("All");
     setSelectedTags([]);
-    setFilteredJobs(jobs);
+    setFilteredJobs(allJobs);
   };
 
   return (
     <div className="max-w-4xl mx-auto my-10 px-4">
-<h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 Tactos Careers</h2>
-<p className="text-center text-gray-500 mb-6">✨ Apply for your dream job & succeed! 🎯</p>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 Tactos Careers</h2>
+      <p className="text-center text-gray-500 mb-6">✨ Apply for your dream job & succeed! 🎯</p>
 
       <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
         <input
@@ -161,8 +146,10 @@ const JobList = () => {
           <option value="All">All</option>
           <option value="Full Time">Full Time</option>
           <option value="Part Time">Part Time</option>
+          <option value="Internship">Internship</option>
         </select>
       </div>
+
       {selectedTags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-4">
           {selectedTags.map(tag => (
@@ -173,8 +160,11 @@ const JobList = () => {
           <button onClick={clearFilters} className="text-red-600 font-semibold">Clear</button>
         </div>
       )}
+
       {filteredJobs.length > 0 ? (
-        filteredJobs.map((job) => <JobBoardComponent key={job.id} job={job} handleTagClick={handleTagClick} />)
+        filteredJobs.map((job) => (
+          <JobBoardComponent key={job._id || job.id} job={job} handleTagClick={handleTagClick} />
+        ))
       ) : (
         <div className="text-center text-gray-600 text-lg font-semibold p-6 bg-gray-100 rounded-xl shadow-md">
           No jobs found. Try a different search term or filter.

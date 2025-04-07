@@ -29,14 +29,14 @@ const Footer = () => {
           </div>
 
           {/* Quick Links Column */}
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold text-white mb-3">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li className="cursor-pointer hover:text-blue-400 transition-all">About Us</li>
               <li className="cursor-pointer hover:text-blue-400 transition-all">Contact Us</li>
               <li className="cursor-pointer hover:text-blue-400 transition-all">FAQs</li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Services Column */}
           <div>
