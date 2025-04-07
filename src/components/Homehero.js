@@ -20,13 +20,13 @@ const HeroSection = () => {
       {/* Sponsor Section */}
       <div className="absolute top-6 left-1/2 transform -translate-x-1/2 flex gap-4">
         <div className="bg-white px-6 py-3 rounded-xl shadow-lg text-sm font-semibold text-gray-700 border border-gray-200">
-          Presented By <br /> <span className="font-bold text-gray-900">CHARLES GROUP</span>
+          Tactos <br /> <span className="font-bold text-gray-900">Content 1</span>
         </div>
         <div className="bg-white px-6 py-3 rounded-xl shadow-lg text-sm font-semibold text-gray-700 border border-gray-200">
-          Co-Presented By <br /> <span className="font-bold text-gray-900">Zoho</span>
+          Tactos <br /> <span className="font-bold text-gray-900">content 2</span>
         </div>
         <div className="bg-white px-6 py-3 rounded-xl shadow-lg text-sm font-semibold text-gray-700 border border-gray-200">
-          Powered By <br /> <span className="font-bold text-gray-900">Sangetha</span>
+          Tactos <br /> <span className="font-bold text-gray-900">Content 3</span>
         </div>
       </div>
 
@@ -34,9 +34,9 @@ const HeroSection = () => {
       <p className="text-gray-600 text-lg mt-10">
         Catch the excitement <span className="font-bold text-blue-600">10:00 AM - 12:00 PM</span>
       </p>
-      <p className="text-gray-600 text-lg">
+     /* <p className="text-gray-600 text-lg">
         Every <span className="font-bold text-orange-500">Monday & Wednesday</span> on <span className="text-red-500 font-bold">YouTube</span> & <span className="text-purple-500 font-bold">Zoom</span>
-      </p>
+      </p> */
 
       {/* Title */}
       <h1 className="text-5xl md:text-6xl font-bold mt-6 leading-tight text-blue-950">
