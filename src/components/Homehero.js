@@ -30,13 +30,13 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Show Details */}
+      {/* Show Details 
       <p className="text-gray-600 text-lg mt-10">
         Catch the excitement <span className="font-bold text-blue-600">10:00 AM - 12:00 PM</span>
-      </p>
-     /* <p className="text-gray-600 text-lg">
+      </p>*/}
+{/* <p className="text-gray-600 text-lg">
         Every <span className="font-bold text-orange-500">Monday & Wednesday</span> on <span className="text-red-500 font-bold">YouTube</span> & <span className="text-purple-500 font-bold">Zoom</span>
-      </p> */
+      </p> */}
 
       {/* Title */}
       <h1 className="text-5xl md:text-6xl font-bold mt-6 leading-tight text-blue-950">
