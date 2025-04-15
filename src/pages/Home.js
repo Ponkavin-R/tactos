@@ -8,6 +8,7 @@ import Mission_Vission from '../components/Mission_Vission'
 import Home_Solution from '../components/Home_Solution'
 import Logo from "../assest/l2.svg";
 import TestimonialCarousel from "../components/Testimonial";
+import CoreSolutions from "../components/CoreSolutions";
 
 export default function Home() {
     const [scale, setScale] = useState(1);
@@ -55,6 +56,7 @@ export default function Home() {
         <KeyPartners/> */}
         <Mission_Vission/>
         <Home_Solution/>
+        <CoreSolutions/>
         <Investors/>
         <TestimonialCarousel/>
         

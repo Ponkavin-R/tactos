@@ -99,12 +99,16 @@ export default function Solution() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 px-6 md:px-12 py-12 overflow-hidden">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl text-center font-extrabold text-blue-950 leading-tight">
+          IT Solutions<br />
+
+        </h1>
       {/* Header */}
       <header className="relative bg-gradient-to-br from-blue-50 to-white rounded-xl p-10 text-center mb-16 shadow-md animate-fade-in">
         <h2 className="text-blue-700 font-medium text-sm tracking-widest uppercase mb-3">
           Tailored Solutions for Your Business Growth
         </h2>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+        <h1 className="text-2xl sm:text-5xl md:text-2xl font-extrabold text-gray-900 leading-tight">
           Don't Miss Out on <br />
           <span className="text-blue-800">
             <Typewriter

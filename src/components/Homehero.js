@@ -31,7 +31,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center pt-12 px-6 min-h-screen overflow-hidden">
+    <section className="relative flex flex-col items-center justify-center text-center  px-6 min-h-screen overflow-hidden">
       {/* Fixed Background Image */}
       <div
         className="fixed top-0 left-0 w-full h-full z-[-1] bg-cover bg-center"
@@ -50,7 +50,7 @@ const HeroSection = () => {
 
       {/* Title */}
       <h1
-        className={`text-3xl md:text-5xl font-bold mt-6 leading-tight text-blue-950 transition-opacity duration-1000 ease-in-out ${
+        className={`text-3xl md:text-5xl font-bold leading-tight text-blue-950 transition-opacity duration-1000 ease-in-out ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
         }`}
       >
