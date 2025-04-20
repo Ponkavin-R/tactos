@@ -37,6 +37,8 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
     setActiveItem(pathToLabel[location.pathname] || "");
     setActiveTab(location.pathname);
   }, [location.pathname]);
+  const mobileNavRef = useRef(null);
+
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -46,6 +48,12 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         !dropdownRef.current.contains(event.target)
       ) {
         setIsDropdownOpen(false);
+      }
+      if (
+        mobileNavRef.current &&
+        !mobileNavRef.current.contains(event.target)
+      ) {
+        setIsMoreOpen(false);
       }
     };
 
@@ -226,10 +234,11 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 100, opacity: 0 }}
+        ref={mobileNavRef}
         transition={{ type: "spring", stiffness: 120, damping: 15 }}
         className="lg:hidden fixed bottom-1 w-screen bg-white shadow-xl p-1 flex justify-between items-center rounded-2xl border-t border-gray-300 backdrop-blur-xl z-50 flex-col"
       >
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between  w-full">
           <NavItem to="/" icon={<FiHome />} label="Home" activeTab={activeTab} setActiveTab={setActiveTab} />
           <NavItem to="/solutions" icon={<AiOutlineSolution />} label="Solutions" activeTab={activeTab} setActiveTab={setActiveTab} />
           <NavItem to="/events" icon={<FaRegCalendarAlt />} label="Events" activeTab={activeTab} setActiveTab={setActiveTab} />

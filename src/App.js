@@ -15,12 +15,14 @@ import BusinessIdeationHub from "./pages/BusinessIdeationHub";
 import Businessconsultation from "./pages/BusinessConsultation";
 import JobDescription from "./components/JobDescription";
 import EventDescription from "./components/EventDescription";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <div className="md:mt-16">
+      <ScrollToTop/>
+      <div className="">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/solutions" element={<Solution />} />

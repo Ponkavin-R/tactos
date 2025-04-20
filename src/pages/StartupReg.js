@@ -18,21 +18,15 @@ export default function StartupReg() {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Custom Typewriter Effect
   useEffect(() => {
     let current = 0;
     let forward = true;
-
     const interval = setInterval(() => {
       const currentText = typewriterTexts[currentIndex];
-
       if (forward) {
         setDisplayText(currentText.slice(0, current + 1));
         current++;
-        if (current > currentText.length) {
-          forward = false;
-          setTimeout(() => {}, 1000);
-        }
+        if (current > currentText.length) forward = false;
       } else {
         setDisplayText(currentText.slice(0, current - 1));
         current--;
@@ -42,12 +36,52 @@ export default function StartupReg() {
         }
       }
     }, 100);
-
     return () => clearInterval(interval);
   }, [currentIndex]);
 
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.includes(".com");
+  };
+
+  const handleChange = (e) => {
+    const { name, type, value, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "file" ? files[0] : value,
+    }));
+  };
+
+  const handleMultiSelect = (e) => {
+    const values = Array.from(e.target.selectedOptions, (option) => option.value);
+    setFormData((prev) => ({ ...prev, [e.target.name]: values }));
+  };
+
+  const handleNext = () => {
+    const currentFields = sections[step].fields;
+    for (let field of currentFields) {
+      if (!formData[field.name] && field.type !== "file" && !field.optional) {
+        setErrorMessage(`⚠️ Please fill out: ${field.label}`);
+        return;
+      }
+      if (field.type === "email" && !validateEmail(formData[field.name])) {
+        setErrorMessage("⚠️ Please enter a valid email address with '.com'");
+        return;
+      }
+    }
+    setErrorMessage("");
+    setStep((prevStep) => prevStep + 1);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const lastStepFields = sections[step].fields;
+    for (let field of lastStepFields) {
+      if (!formData[field.name] && !field.optional) {
+        setErrorMessage(`⚠️ Please fill out: ${field.label}`);
+        return;
+      }
+    }
+    setErrorMessage("");
     setLoading(true);
     const formDataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -59,20 +93,27 @@ export default function StartupReg() {
     });
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_API_URL}/api/register`,
         formDataToSend,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
-      console.log(response.data);
       setSubmitted(true);
     } catch (error) {
-      console.error("Error submitting form:", error);
       setErrorMessage("Submission failed! Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const restrictInput = (type, e) => {
+    const value = e.nativeEvent.data;
+    if (!value) return;
+    if (type === "text" && /\d/.test(value)) {
+      e.preventDefault();
+    }
+    if (type === "tel" && /\D/.test(value)) {
+      e.preventDefault();
     }
   };
 
@@ -102,7 +143,7 @@ export default function StartupReg() {
           type: "select",
           options: ["Idea", "MVP", "Early Revenue", "Scaling"],
         },
-        { label: "Website (if available)", name: "website", type: "url", optional: true },
+        { label: "Website (optional)", name: "website", type: "url", optional: true },
         { label: "Location", name: "location", type: "text" },
         {
           label: "Are you looking for an Incubation Centre?",
@@ -132,70 +173,33 @@ export default function StartupReg() {
     },
   ];
 
-  const handleChange = (e) => {
-    const { name, type, value, files } = e.target;
-    if (type === "file") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: files.length > 0 ? files[0] : null,
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleMultiSelect = (e) => {
-    const values = Array.from(e.target.selectedOptions, (option) => option.value);
-    setFormData((prev) => ({ ...prev, [e.target.name]: values }));
-  };
-
-  const handleNext = () => {
-    const currentFields = sections[step].fields;
-    for (let field of currentFields) {
-      if (!formData[field.name] && field.type !== "file" && !field.optional) {
-        setErrorMessage(`⚠️ Please fill out: ${field.label}`);
-        return;
-      }
-    }
-    setErrorMessage("");
-    setStep((prevStep) => prevStep + 1);
-  };
-
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-red-100 via-white to-orange-200 flex items-center justify-center py-10 px-4">
-      <div className="w-full max-w-7xl rounded-2xl shadow-xl flex flex-col md:flex-row overflow-hidden">
-        {/* Left Side */}
+    <div className="w-full min-h-screen bg-gradient-to-br from-red-100 via-white to-orange-200 flex items-center justify-center py-2 px-2 md:mt-20 lg:mt-20">
+      <div className="w-full max-w-6xl rounded-2xl shadow-xl flex flex-col md:flex-row overflow-hidden">
         <motion.div
           initial={{ x: -80, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="md:w-1/2 mb-10 md:mb-0 text-center md:text-left p-6"
+          className="md:w-1/2 text-center md:text-left p-4 sm:p-6"
         >
-          <img
-            src={cr}
-            alt="cofounder"
-            className="w-3/4 h-auto mx-auto  animate-[bounce_3s_infinite]"
-          />
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mt-6">
+          <img src={cr} alt="cofounder" className="w-3/4 h-auto mx-auto animate-[bounce_3s_infinite]" />
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mt-4">
             {displayText}
             <span className="text-indigo-600 font-extrabold">|</span>
           </h1>
-          <p className="text-gray-600 mt-4 max-w-md mx-auto md:mx-0">
+          <p className="text-sm sm:text-base text-gray-600 mt-2 max-w-sm mx-auto md:mx-0">
             Join a network of passionate individuals and connect with the right co-founder to build something amazing!
           </p>
         </motion.div>
 
-        {/* Right Side */}
-        <div className="w-full md:w-1/2 p-8 md:p-10 bg-white">
-          <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">Startup Registration</h2>
-          <div className="flex items-center justify-center space-x-2 mb-6">
+        <div className="flex-1 bg-white p-8 shadow-2xl rounded-3xl border border-gray-200 w-screen  max-w-xl">
+          <h2 className="text-xl sm:text-2xl font-bold text-center mb-3 text-gray-800">Startup Registration</h2>
+
+          <div className="flex items-center justify-center space-x-2 mb-4">
             {sections.map((_, index) => (
-              <span
-                key={index}
-                className={`h-2 w-10 rounded-full transition-all duration-300 ${
-                  index <= step ? "bg-indigo-600" : "bg-gray-300"
-                }`}
-              ></span>
+              <span key={index} className={`h-2 w-8 rounded-full transition-all duration-300 ${
+                index <= step ? "bg-indigo-600" : "bg-gray-300"
+              }`} />
             ))}
           </div>
 
@@ -204,7 +208,7 @@ export default function StartupReg() {
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.3 }}
-              className="bg-red-100 text-red-700 p-4 rounded-lg text-center mb-4"
+              className="bg-red-100 text-red-700 p-3 rounded text-sm mb-4 text-center"
             >
               {errorMessage}
             </motion.div>
@@ -212,25 +216,26 @@ export default function StartupReg() {
 
           {submitted ? (
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-green-600 mb-4">🎉 Registration Successful!</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-green-600 mb-3">🎉 Registration Successful!</h2>
               <button
                 onClick={() => {
                   setSubmitted(false);
                   setStep(0);
                   setFormData({});
                 }}
-                className="px-6 py-3 bg-indigo-600 text-white rounded-full shadow-md hover:bg-indigo-700"
+                className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
               >
                 Register Another Startup
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <h3 className="text-lg font-semibold text-center text-indigo-700 mb-2">
+            <form onSubmit={handleSubmit} className="space-y-4 text-sm ">
+              <h3 className="text-base font-semibold text-center text-indigo-700 mb-2">
                 {sections[step]?.title}
               </h3>
+
               {sections[step]?.fields.map((field, index) => (
-                <div key={index} className="flex flex-col mb-2">
+                <div key={index} className="flex flex-col mb-1">
                   <label className="text-gray-700 font-medium mb-1">{field.label}</label>
                   {field.type === "radio" ? (
                     field.options.map((option, idx) => (
@@ -252,33 +257,38 @@ export default function StartupReg() {
                       multiple
                       value={formData[field.name] || []}
                       onChange={handleMultiSelect}
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                      className="p-2 border border-gray-300 rounded-md"
                     >
                       {field.options.map((option, idx) => (
-                        <option key={idx} value={option}>
-                          {option}
-                        </option>
+                        <option key={idx} value={option}>{option}</option>
                       ))}
                     </select>
                   ) : field.type === "file" ? (
-                    <input
-                      type="file"
-                      name={field.name}
-                      onChange={handleChange}
-                      className="p-2 border border-gray-300 rounded-lg"
-                    />
+                    <div className="flex flex-col items-start gap-2">
+                      <label className="text-gray-600">Upload:</label>
+                      <label className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded cursor-pointer text-sm">
+                        Choose File
+                        <input
+                          type="file"
+                          name={field.name}
+                          onChange={handleChange}
+                          className="hidden"
+                        />
+                      </label>
+                      {formData[field.name]?.name && (
+                        <span className="text-gray-700 text-xs">{formData[field.name].name}</span>
+                      )}
+                    </div>
                   ) : field.type === "select" ? (
                     <select
                       name={field.name}
                       value={formData[field.name] || ""}
                       onChange={handleChange}
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                      className="p-2 border border-gray-300 rounded-md"
                     >
                       <option value="">-- Select --</option>
                       {field.options.map((option, idx) => (
-                        <option key={idx} value={option}>
-                          {option}
-                        </option>
+                        <option key={idx} value={option}>{option}</option>
                       ))}
                     </select>
                   ) : (
@@ -287,18 +297,19 @@ export default function StartupReg() {
                       name={field.name}
                       value={formData[field.name] || ""}
                       onChange={handleChange}
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                      onBeforeInput={(e) => restrictInput(field.type, e)}
+                      className="p-2 border border-gray-300 rounded-md"
                     />
                   )}
                 </div>
               ))}
 
-              <div className="flex justify-between mt-4">
+              <div className="flex justify-between mt-3">
                 {step > 0 && (
                   <button
                     type="button"
                     onClick={() => setStep(step - 1)}
-                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-full hover:bg-gray-400"
+                    className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
                   >
                     Back
                   </button>
@@ -307,7 +318,7 @@ export default function StartupReg() {
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+                    className="px-4 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
                   >
                     Next
                   </button>
@@ -315,7 +326,7 @@ export default function StartupReg() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600"
+                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                   >
                     {loading ? "Submitting..." : "Submit"}
                   </button>

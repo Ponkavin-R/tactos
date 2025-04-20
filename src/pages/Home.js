@@ -31,7 +31,7 @@ export default function Home() {
           transform: `scale(${scale})`,
           backgroundAttachment: "fixed",
           backgroundRepeat: "no-repeat",
-          backgroundSize: window.innerWidth > 768 ? "contain" : "80%", // contain on large, fixed % on mobile
+          backgroundSize: window.innerWidth > 768 ? "contain" : "100%", // contain on large, fixed % on mobile
           opacity: 0.05,
         }}
       />

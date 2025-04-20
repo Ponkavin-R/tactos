@@ -38,12 +38,12 @@ const BusinessServices = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-transparent py-6 px-6 md:px-20">
-      <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-16">
+    <div className="min-h-screen bg-transparent py-8 px-4 sm:px-6 md:px-12 lg:px-20">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-950 mb-12">
         Explore Our Expert Services
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         {services.map((service, index) => (
           <motion.div
             key={index}
@@ -51,11 +51,11 @@ const BusinessServices = () => {
             initial="hidden"
             animate="visible"
             variants={cardVariants}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="relative bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
           >
-            <div className="relative h-60 w-full overflow-hidden">
+            <div className="relative h-48 sm:h-56 w-full overflow-hidden">
               <img
                 src={service.image}
                 alt={service.title}
@@ -64,16 +64,16 @@ const BusinessServices = () => {
               <div className="absolute inset-0 bg-black bg-opacity-30"></div>
             </div>
 
-            <div className="p-8">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+            <div className="p-6 sm:p-7">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
                 {service.title}
               </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <p className="text-sm text-gray-600 mb-5 leading-relaxed">
                 {service.description}
               </p>
               <button
                 onClick={() => navigate(service.route)}
-                className="inline-block bg-blue-600 text-white font-medium py-2 px-6 rounded-full hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg"
+                className="inline-block bg-blue-600 text-white text-sm font-medium py-2 px-5 rounded-full hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg"
               >
                 Get Started
               </button>

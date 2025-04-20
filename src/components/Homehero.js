@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaPlay } from "react-icons/fa";
 import Logo from "../assest/l2.svg";
-import LeftWing from "../assest/f1.jpg";
-import RightWing from "../assest/f2.jpg";
 
 const HeroSection = () => {
   const [scale, setScale] = useState(1);
@@ -33,40 +31,13 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center px-12 min-h-screen overflow-hidden">
-      {/* Fixed Background Image */}
-      <div
-        className="fixed top-0 left-0 w-full h-full z-[-1] bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${Logo})`,
-          transform: `scale(${scale})`,
-          backgroundAttachment: "fixed",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-          opacity: 0.05,
-        }}
-      />
-
-      {/* Gradient Background Overlay */}
+    <section className="relative flex flex-col items-center justify-center text-center px-6 min-h-[80vh] overflow-hidden py-10"> {/* ⬅ reduced height & padding */}
+      {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#fdf6f8] to-[#eef3fd] z-[-1]" />
-
-      {/* Falcon Wings */}
-      {/* <img
-        src={LeftWing}
-        alt="Left Falcon Wing"
-        className="absolute left-0 top-[20%] w-32 md:w-40 lg:w-52 z-10 transition-transform duration-300"
-        style={{ transform: `scale(${scale})` }}
-      />
-      <img
-        src={RightWing}
-        alt="Right Falcon Wing"
-        className="absolute right-0 top-[20%] w-32 md:w-40 lg:w-52 z-10 transition-transform duration-300"
-        style={{ transform: `scale(${scale})` }}
-      /> */}
 
       {/* Title */}
       <h1
-        className={`text-3xl md:text-3xl px-6 font-bold leading-tight text-blue-950 transition-opacity duration-1000 ease-in-out ${
+        className={`text-lg md:text-xl px-4 font-semibold leading-snug text-blue-950 transition-opacity duration-1000 ease-in-out ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
         }`}
       >
@@ -76,17 +47,17 @@ const HeroSection = () => {
 
       {/* Description */}
       <p
-        className={`text-gray-700 mt-6 max-w-2xl text-base md:text-lg transition-opacity duration-1000 ease-in-out delay-300 ${
+        className={`text-gray-700 mt-2 max-w-xl text-sm md:text-base transition-opacity duration-1000 ease-in-out delay-300 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
         Acting as a trusted intermediary, we connect you with vetted and
         reliable tech partners. Just share your budget—we’ll ensure your project
-        is delivered on time, within budget, and without compromise
+        is delivered on time, within budget, and without compromise.
       </p>
 
       {/* Cards Section */}
-      <div className="flex flex-wrap w-screen justify-center gap-10 mt-10">
+      <div className="flex flex-wrap w-screen justify-center gap-6 mt-8">
         {[
           {
             title: "Mentorship",
@@ -112,12 +83,7 @@ const HeroSection = () => {
               "https://cdni.iconscout.com/illustration/premium/thumb/market-research-and-analysis-illustration-download-in-svg-png-gif-file-formats--analytics-logo-graph-pack-business-illustrations-7249462.png?f=webp",
             alt: "Market Analysis Icon",
           },
-          {
-            title: "Operational Efficiency",
-            imgSrc:
-              "https://cdni.iconscout.com/illustration/premium/thumb/portfolio-showcase-illustration-download-in-svg-png-gif-file-formats--professional-personal-branding-career-pack-business-illustrations-9909934.png",
-            alt: "Efficiency Icon",
-          },
+
           {
             title: "Incubation",
             imgSrc:
@@ -139,7 +105,7 @@ const HeroSection = () => {
         ].map((card, index) => (
           <div
             key={index}
-            className={"group relative flex flex-col items-center bg-white p-3 rounded-md hover:shadow-2xl shadow-lg w-28 sm:w-28 hover:scale-110 transition-all duration-300"}
+            className="group relative flex flex-col items-center bg-white p-2 rounded-md hover:shadow-2xl shadow-md w-24 sm:w-24 hover:scale-105 transition-all duration-300"
           >
             <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full"></span>
             <span className="absolute top-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 delay-100 group-hover:w-full"></span>
@@ -147,9 +113,9 @@ const HeroSection = () => {
             <img
               src={card.imgSrc}
               alt={card.alt}
-              className="w-20 h-20 mb-3 rounded-lg hover:scale-90 duration-300"
+              className="w-14 h-14 mb-2 rounded-lg hover:scale-90 duration-300"
             />
-            <p className="text-sm font-semibold text-gray-800 text-center">
+            <p className="text-xs font-medium text-gray-800 text-center">
               {card.title}
             </p>
           </div>
