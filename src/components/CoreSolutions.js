@@ -5,8 +5,10 @@ import {
   Megaphone,
   Settings,
   Briefcase,
+  Workflow ,
 } from "lucide-react";
 import { motion } from "framer-motion";
+
 
 // Animation Variants
 const cardVariants = {
@@ -26,15 +28,15 @@ const Corevalues = () => {
   return (
     <div className="text-center py-16 px-4 md:px-10 lg:px-20 bg-[#f8f9fa] mb-28">
       {/* Section Heading */}
-      <h2 className="text-4xl font-bold text-green-900">What We Offer</h2>
+      {/* <h2 className="text-4xl font-bold text-green-900">IT Solutions</h2>
       <p className="text-lg text-gray-700 mt-6 max-w-2xl mx-auto">
         Our services are built to empower your business. From stunning websites
         to smart automation, we deliver cutting-edge solutions that help you
         grow, adapt, and lead.
-      </p>
+      </p> */}
 
       {/* Feature Cards */}
-      <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-8">
+      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-8">
         {features.map((feature, index) => (
           <motion.div
             key={index}
@@ -132,9 +134,17 @@ const features = [
   {
     imageUrl: "https://img.freepik.com/free-photo/standard-quality-control-collage-concept_23-2149595847.jpg?ga=GA1.1.478944376.1741702639&semt=ais_hybrid&w=740",
     icon: Briefcase,
-    title: "Business Solution",
+    title: "AI Solution",
     description:
-      "Tailor-made business solutions designed to support startups and enterprises in achieving their vision and scaling sustainably.",
+      "Custom AI solutions crafted to empower startups and enterprises in achieving their goals, optimizing operations, and scaling intelligently.",
+    backgroundColor: "dark", // this flag activates the gradient animation
+  },
+  {
+    imageUrl: "https://aws.vedmarg.com/wp-content/uploads/2022/08/erp-modules-benefits-features.png",
+    icon: Workflow,
+    title: "ERP Solution",
+    description:
+      "Tactos offers tailored ERP solutions to unify your business operations. Streamline finance, HR, inventory, and more—all in one platform.",
     backgroundColor: "dark", // this flag activates the gradient animation
   },
 ];

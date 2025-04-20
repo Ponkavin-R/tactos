@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaPlay } from "react-icons/fa";
 import Logo from "../assest/l2.svg";
+import LeftWing from "../assest/f1.jpg";
+import RightWing from "../assest/f2.jpg";
 
 const HeroSection = () => {
   const [scale, setScale] = useState(1);
@@ -31,7 +33,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center  px-6 min-h-screen overflow-hidden">
+    <section className="relative flex flex-col items-center justify-center text-center px-12 min-h-screen overflow-hidden">
       {/* Fixed Background Image */}
       <div
         className="fixed top-0 left-0 w-full h-full z-[-1] bg-cover bg-center"
@@ -48,9 +50,23 @@ const HeroSection = () => {
       {/* Gradient Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#fdf6f8] to-[#eef3fd] z-[-1]" />
 
+      {/* Falcon Wings */}
+      {/* <img
+        src={LeftWing}
+        alt="Left Falcon Wing"
+        className="absolute left-0 top-[20%] w-32 md:w-40 lg:w-52 z-10 transition-transform duration-300"
+        style={{ transform: `scale(${scale})` }}
+      />
+      <img
+        src={RightWing}
+        alt="Right Falcon Wing"
+        className="absolute right-0 top-[20%] w-32 md:w-40 lg:w-52 z-10 transition-transform duration-300"
+        style={{ transform: `scale(${scale})` }}
+      /> */}
+
       {/* Title */}
       <h1
-        className={`text-3xl md:text-5xl font-bold leading-tight text-blue-950 transition-opacity duration-1000 ease-in-out ${
+        className={`text-3xl md:text-3xl px-6 font-bold leading-tight text-blue-950 transition-opacity duration-1000 ease-in-out ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
         }`}
       >
@@ -70,7 +86,7 @@ const HeroSection = () => {
       </p>
 
       {/* Cards Section */}
-      <div className="flex flex-wrap justify-center gap-6 mt-10">
+      <div className="flex flex-wrap w-screen justify-center gap-10 mt-10">
         {[
           {
             title: "Mentorship",
@@ -103,7 +119,19 @@ const HeroSection = () => {
             alt: "Efficiency Icon",
           },
           {
-            title: "Strategic Planning",
+            title: "Incubation",
+            imgSrc:
+              "https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg",
+            alt: "Planning Icon",
+          },
+          {
+            title: "IT Solutions",
+            imgSrc:
+              "https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg",
+            alt: "Planning Icon",
+          },
+          {
+            title: "Auxiliation",
             imgSrc:
               "https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg",
             alt: "Planning Icon",
@@ -111,8 +139,11 @@ const HeroSection = () => {
         ].map((card, index) => (
           <div
             key={index}
-            className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-36 sm:w-40 hover:shadow-lg transition-all duration-300"
+            className={"group relative flex flex-col items-center bg-white p-3 rounded-md hover:shadow-2xl shadow-lg w-28 sm:w-28 hover:scale-110 transition-all duration-300"}
           >
+            <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full"></span>
+            <span className="absolute top-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 delay-100 group-hover:w-full"></span>
+            <span className="absolute top-0 right-0 w-0.5 h-0 bg-gradient-to-b from-purple-500 via-pink-500 to-blue-500 transition-all duration-300 delay-200 group-hover:h-full"></span>
             <img
               src={card.imgSrc}
               alt={card.alt}

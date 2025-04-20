@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const JobBoardComponent = ({ job, handleTagClick }) => {
   const {
@@ -58,7 +59,8 @@ const JobBoardComponent = ({ job, handleTagClick }) => {
       </div>
       <div className="mt-4 sm:mt-0 sm:ml-6 w-fit">
   <button className="bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-800 transition-all">
-    Apply Now
+    <Link to={`/jd/${job._id}`}>
+    View Job</Link>
   </button>
 </div>
 
@@ -76,7 +78,7 @@ const JobList = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await axios.get("https://tactos-backend.onrender.com/api/careers");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/careers`);
         setAllJobs(response.data);
         setFilteredJobs(response.data);
       } catch (error) {
@@ -106,17 +108,25 @@ const JobList = () => {
   };
 
   const filterJobs = (term, selectedFilter, tags) => {
-    let filtered = allJobs.filter(job => job.position.toLowerCase().includes(term));
+    let filtered = allJobs.filter(job => 
+      job.position && job.position.toLowerCase().includes(term) // Check if job.position exists
+    );
+  
     if (selectedFilter !== "All") {
       filtered = filtered.filter(job => job.contract === selectedFilter);
     }
+  
     if (tags.length > 0) {
-      filtered = filtered.filter(job => tags.every(tag =>
-        [job.role, job.level, job.salary, job.experience, job.dateOfJoining, ...(job.languages || []), ...(job.tools || [])].includes(tag)
-      ));
+      filtered = filtered.filter(job => 
+        tags.every(tag =>
+          [job.role, job.level, job.salary, job.experience, job.dateOfJoining, ...(job.languages || []), ...(job.tools || [])].includes(tag)
+        )
+      );
     }
+  
     setFilteredJobs(filtered);
   };
+  
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -127,8 +137,8 @@ const JobList = () => {
 
   return (
     <div className="max-w-4xl mx-auto my-10 px-4">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 Tactos Careers</h2>
-      <p className="text-center text-gray-500 mb-6">✨ Apply for your dream job & succeed! 🎯</p>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">Tactos Careers</h2>
+      <p className="text-center text-gray-500 mb-6">Apply for your dream job & succeed!</p>
 
       <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
         <input

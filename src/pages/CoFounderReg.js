@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { Typewriter } from "react-simple-typewriter";
+import cr from "../assest/cr.png";
 
 export default function CoFounder() {
   const [step, setStep] = useState(0);
@@ -9,8 +11,34 @@ export default function CoFounder() {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const validateField = (field, value) => {
+    if (field.optional) return true;
+    if (!value || value === "") return false;
+
+    switch (field.type) {
+      case "email":
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      case "tel":
+        return /^[0-9]{10}$/.test(value); // Simple 10-digit phone number
+      case "number":
+        return !isNaN(value);
+      default:
+        return true;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Final validation before submission
+    const currentFields = sections[step].fields;
+    for (let field of currentFields) {
+      if (!validateField(field, formData[field.name])) {
+        setErrorMessage(`⚠️ Invalid or missing input in: ${field.label}`);
+        return;
+      }
+    }
+
     setLoading(true);
 
     const formDataToSend = new FormData();
@@ -23,9 +51,11 @@ export default function CoFounder() {
     });
 
     try {
-      const response = await axios.post("https://tactos-backend.onrender.com/api/cofounderregister", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/cofounderregister`,
+        formDataToSend,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
       console.log(response.data);
       setSubmitted(true);
     } catch (error) {
@@ -35,95 +65,6 @@ export default function CoFounder() {
       setLoading(false);
     }
   };
-
-
-  const sections = [
-
-    {
-
-      title: "Personal Information",
-
-      fields: [
-
-        { label: "Full Name", name: "fullName", type: "text" },
-
-        { label: "Email Address", name: "email", type: "email" },
-
-        { label: "Phone Number", name: "phone", type: "tel" },
-
-        { label: "LinkedIn Profile (optional)", name: "linkedin", type: "url", optional: true  },
-
-        { label: "Location (City, State)", name: "location", type: "text" },
-
-      ],
-
-    },
-
-    {
-
-      title: "Professional Background",
-
-      fields: [
-
-        { label: "Current Role/Occupation", name: "role", type: "text" },
-
-        { label: "Areas of Expertise", name: "expertise", type: "select", options: ["Tech", "Marketing", "Sales", "Finance", "Operations", "Product"] },
-
-        { label: "Years of Experience", name: "experience", type: "number" },
-
-        { label: "Notable Achievements (if any)", name: "achievements", type: "textarea" },
-
-      ],
-
-    },
-
-    {
-
-      title: "Startup Interests",
-
-      fields: [
-
-        { label: "Industries Interested In", name: "industries", type: "multiselect", options: ["AI", "FinTech", "AgriTech", "EdTech", "HealthTech"] },
-
-        { label: "Startup Stage Preference", name: "stagePreference", type: "select", options: ["Idea", "MVP", "Early Revenue", "Scaling"] },
-
-        { label: "Preferred Business Model", name: "businessModel", type: "select", options: ["B2B", "B2C", "SaaS", "Marketplace"] },
-
-      ],
-
-    },
-
-    {
-
-      title: "Expectations & Contribution",
-
-      fields: [
-
-        { label: "Skills & Resources You Can Offer", name: "skills", type: "multiselect", options: ["Mentorship", "Investment", "Networking", "Tech Expertise"] },
-
-        { label: "Expected Role in the Startup", name: "expectedRole", type: "select", options: ["Full-time Co-founder", "Part-time Advisor", "Investor"] },
-
-        { label: "Investment Capacity (if applicable)", name: "investmentCapacity", type: "number" },
-
-      ],
-
-    },
-
-    {
-
-      title: "Additional Information",
-
-      fields: [
-
-        { label: "Do you want to be a cofounder?", name: "coFounder", type: "radio", options: ["Yes", "No"] },
-
-        { label: "Resume or Portfolio", name: "resume", type: "file" },
-
-      ],
-
-    }
-
-  ];
 
   const handleMultiSelect = (e) => {
     const values = Array.from(e.target.selectedOptions, (option) => option.value);
@@ -142,8 +83,9 @@ export default function CoFounder() {
   const handleNext = () => {
     const currentFields = sections[step].fields;
     for (let field of currentFields) {
-      if (!formData[field.name] && field.type !== "file" && !field.optional) {
-        setErrorMessage(`⚠️ Please fill out: ${field.label}`);
+      const value = formData[field.name];
+      if (!validateField(field, value)) {
+        setErrorMessage(`⚠️ Invalid or missing input in: ${field.label}`);
         return;
       }
     }
@@ -151,67 +93,243 @@ export default function CoFounder() {
     setStep((prevStep) => prevStep + 1);
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setSubmitted(true);
-  // };
+  const sections = [
+    {
+      title: "Personal Information",
+      fields: [
+        { label: "Full Name", name: "fullName", type: "text" },
+        { label: "Email Address", name: "email", type: "email" },
+        { label: "Phone Number", name: "phone", type: "tel" },
+        { label: "LinkedIn Profile (optional)", name: "linkedin", type: "url", optional: true },
+        { label: "Location (City, State)", name: "location", type: "text" },
+      ],
+    },
+    {
+      title: "Professional Background",
+      fields: [
+        { label: "Current Role/Occupation", name: "role", type: "text" },
+        {
+          label: "Areas of Expertise",
+          name: "expertise",
+          type: "select",
+          options: ["Tech", "Marketing", "Sales", "Finance", "Operations", "Product"],
+        },
+        { label: "Years of Experience", name: "experience", type: "number" },
+        { label: "Notable Achievements (if any)", name: "achievements", type: "textarea", optional: true },
+      ],
+    },
+    {
+      title: "Startup Interests",
+      fields: [
+        {
+          label: "Industries Interested In",
+          name: "industries",
+          type: "multiselect",
+          options: ["AI", "FinTech", "AgriTech", "EdTech", "HealthTech"],
+        },
+        {
+          label: "Startup Stage Preference",
+          name: "stagePreference",
+          type: "select",
+          options: ["Idea", "MVP", "Early Revenue", "Scaling"],
+        },
+        {
+          label: "Preferred Business Model",
+          name: "businessModel",
+          type: "select",
+          options: ["B2B", "B2C", "SaaS", "Marketplace"],
+        },
+      ],
+    },
+    {
+      title: "Expectations & Contribution",
+      fields: [
+        {
+          label: "Skills & Resources You Can Offer",
+          name: "skills",
+          type: "multiselect",
+          options: ["Mentorship", "Investment", "Networking", "Tech Expertise"],
+        },
+        {
+          label: "Expected Role in the Startup",
+          name: "expectedRole",
+          type: "select",
+          options: ["Full-time Co-founder", "Part-time Advisor", "Investor"],
+        },
+        { label: "Investment Capacity (if applicable)", name: "investmentCapacity", type: "number", optional: true },
+      ],
+    },
+    {
+      title: "Additional Information",
+      fields: [
+        {
+          label: "Do you want to be a cofounder?",
+          name: "coFounder",
+          type: "radio",
+          options: ["Yes", "No"],
+        },
+        { label: "Resume or Portfolio", name: "resume", type: "file" },
+      ],
+    },
+  ];
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-xl mt-10 border border-gray-200">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🚀 CoFounder Registration</h2>
-      <p className="text-center text-gray-500 mb-6">Register your Startup and take the first step toward success!</p>
-      <div className="flex items-center justify-center space-x-2 mb-6">
-        {sections.map((_, index) => (
-          <span key={index} className={`h-2 w-10 rounded-full transition-all duration-300 ${index <= step ? "bg-blue-500" : "bg-gray-300"}`}></span>
-        ))}
-      </div>
+    <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-screen bg-gradient-to-br from-yellow-100 via-white to-blue-100 px-4 py-12">
+      {/* Left Side */}
+      <motion.div
+        initial={{ x: -80, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="md:w-1/2 mb-10 md:mb-0 text-center md:text-left"
+      >
+        <img
+          src={cr}
+          alt="cofounder illustration"
+          className="w-3/4 h-auto mb-2 animate-[bounce_3s_infinite]"
+        />
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mt-6">
+          <Typewriter
+            words={["Find Your Dream Co-Founder", "Build Ideas Together", "Start Something Big!"]}
+            loop={true}
+            cursor
+            cursorStyle="|"
+            typeSpeed={60}
+            deleteSpeed={40}
+            delaySpeed={2000}
+          />
+        </h1>
+        <p className="text-gray-600 mt-4 max-w-md">
+          Join a network of passionate individuals and connect with the right co-founder to build something amazing!
+        </p>
+      </motion.div>
 
-      {errorMessage && (
-        <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="bg-red-100 text-red-600 p-4 rounded-lg mb-4 text-center">
-          {errorMessage}
-        </motion.div>
-      )}
+      {/* Right Side - Form */}
+      <motion.div
+        initial={{ x: 80, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="md:w-1/2 bg-white p-6 rounded-lg shadow-2xl w-full max-w-2xl"
+      >
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">CoFounder Registration</h2>
+        <p className="text-center text-gray-500 mb-4">Register now and take the first step toward your startup dream!</p>
 
-      {submitted ? (
-        <div className="text-center animate-fade-in">
-          <h2 className="text-4xl font-bold text-green-500 mb-4">🎉 Registration Successful!</h2>
-          <button onClick={() => { setSubmitted(false); setStep(0); setFormData({}); }} className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all">
-            Register Another Startup
-          </button>
+        <div className="flex justify-center mb-4 space-x-2">
+          {sections.map((_, index) => (
+            <span
+              key={index}
+              className={`h-2 w-8 rounded-full transition-all duration-300 ${index <= step ? "bg-blue-500" : "bg-gray-300"}`}
+            ></span>
+          ))}
         </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-6 shadow-xl p-4">
-          <h3 className="text-lg font-semibold text-center">{sections[step]?.title}</h3>
-          {sections[step]?.fields.map((field, index) => (
-            <div key={index} className="flex flex-col space-y-2">
-              <label className="text-gray-600 font-medium">{field.label}</label>
-              {field.type === "radio" ? (
-                field.options.map((option, idx) => (
-                  <label key={idx} className="flex items-center space-x-2">
-                    <input type="radio" name={field.name} value={option} checked={formData[field.name] === option} onChange={handleChange} className="form-radio" />
-                    <span>{option}</span>
-                  </label>
-                ))
-              ) : field.type === "multiselect" ? (
-                <select name={field.name} multiple value={formData[field.name] || []} onChange={handleMultiSelect} className="w-full p-4 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 transition-all shadow-md">
-                  {field.options.map((option, idx) => (
-                    <option key={idx} value={option}>{option}</option>
-                  ))}
-                </select>
-              ) : field.type === "file" ? (
-                <input type="file" name={field.name} onChange={handleChange} className="w-full p-4 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 transition-all shadow-md" />
+
+        {errorMessage && (
+          <motion.div
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="bg-red-100 text-red-600 p-3 rounded-lg mb-4 text-center"
+          >
+            {errorMessage}
+          </motion.div>
+        )}
+
+        {submitted ? (
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-green-500 mb-4">🎉 Registration Successful!</h2>
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setStep(0);
+                setFormData({});
+              }}
+              className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+            >
+              Register Another
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <h3 className="text-lg font-semibold text-center">{sections[step]?.title}</h3>
+            {sections[step]?.fields.map((field, index) => (
+              <div key={index} className="flex flex-col">
+                <label className="text-gray-700 font-medium mb-1">{field.label}</label>
+                {field.type === "radio" ? (
+                  field.options.map((option, idx) => (
+                    <label key={idx} className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        name={field.name}
+                        value={option}
+                        checked={formData[field.name] === option}
+                        onChange={handleChange}
+                        className="form-radio"
+                      />
+                      <span>{option}</span>
+                    </label>
+                  ))
+                ) : field.type === "multiselect" ? (
+                  <select
+                    name={field.name}
+                    multiple
+                    value={formData[field.name] || []}
+                    onChange={handleMultiSelect}
+                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
+                  >
+                    {field.options.map((option, idx) => (
+                      <option key={idx} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : field.type === "file" ? (
+                  <input
+                    type="file"
+                    name={field.name}
+                    onChange={handleChange}
+                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
+                  />
+                ) : field.type === "textarea" ? (
+                  <textarea
+                    name={field.name}
+                    value={formData[field.name] || ""}
+                    onChange={handleChange}
+                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
+                  />
+                ) : (
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    value={formData[field.name] || ""}
+                    onChange={handleChange}
+                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
+                  />
+                )}
+              </div>
+            ))}
+
+            <div className="flex justify-between pt-4">
+              {step > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setStep(step - 1)}
+                  className="px-4 py-2 bg-gray-300 rounded-full"
+                >
+                  Back
+                </button>
+              )}
+              {step < sections.length - 1 ? (
+                <button type="button" onClick={handleNext} className="px-4 py-2 bg-blue-500 text-white rounded-full">
+                  Next
+                </button>
               ) : (
-                <input type={field.type} name={field.name} value={formData[field.name] || ""} onChange={handleChange} className="w-full p-4 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 transition-all shadow-md" />
+                <button type="submit" disabled={loading} className="px-4 py-2 bg-green-500 text-white rounded-full">
+                  {loading ? "Submitting..." : "Submit"}
+                </button>
               )}
             </div>
-          ))}
-
-          <div className="flex justify-between mt-6">
-            {step > 0 && <button type="button" onClick={() => setStep(step - 1)} className="px-6 py-3 bg-gray-300 text-gray-700 rounded-full">Back</button>}
-            {step < sections.length  ? <button type="button" onClick={handleNext} className="px-6 py-3 bg-blue-600 text-white rounded-full">Next</button> : <button type="submit" className="px-6 py-3 bg-green-500 text-white rounded-full">Submit</button>}
-          </div>
-        </form>
-      )}
+          </form>
+        )}
+      </motion.div>
     </div>
   );
 }

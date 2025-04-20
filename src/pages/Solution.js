@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { FaLaptopCode, FaMobileAlt, FaBullhorn, FaRobot, FaBriefcase } from "react-icons/fa";
 import { Typewriter } from "react-simple-typewriter";
-
+import Corevalues from "../components/CoreSolutions";
+import { motion, AnimatePresence } from "framer-motion";
 export default function Solution() {
   const [formData, setFormData] = useState({
     startupName: "",
@@ -37,8 +38,8 @@ export default function Solution() {
       logo: <FaRobot />,
     },
     {
-      name: "Business Solution",
-      description: "Tailor-made business solutions for your startup.",
+      name: "AI Solution",
+      description: "Custom AI solutions crafted to empower startups and enterprises in achieving their goals, optimizing operations, and scaling intelligently.",
       logo: <FaBriefcase />,
     },
   ];
@@ -79,7 +80,7 @@ export default function Solution() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axios.post("https://tactos-backend.onrender.com/api/solutions", formData);
+        const response = await axios.post("${process.env.REACT_APP_API_URL}/api/solutions", formData);
         if (response.status === 201) {
           alert("Form Submitted Successfully!");
           setFormData({
@@ -104,119 +105,149 @@ export default function Solution() {
 
         </h1>
       {/* Header */}
-      <header className="relative bg-gradient-to-br from-blue-50 to-white rounded-xl p-10 text-center mb-16 shadow-md animate-fade-in">
-        <h2 className="text-blue-700 font-medium text-sm tracking-widest uppercase mb-3">
-          Tailored Solutions for Your Business Growth
-        </h2>
-        <h1 className="text-2xl sm:text-5xl md:text-2xl font-extrabold text-gray-900 leading-tight">
-          Don't Miss Out on <br />
-          <span className="text-blue-800">
-            <Typewriter
-              words={["Tactos"]}
-              loop={0}
-              cursor
-              cursorStyle="_"
-              typeSpeed={100}
-              deleteSpeed={50}
-              delaySpeed={1500}
-            />
-          </span>
-        </h1>
-        <p className="text-gray-600 mt-6 max-w-2xl mx-auto text-lg">
-          Explore our services and find the best fit for your needs. We’ll guide you through the entire process.
-        </p>
-      </header>
+      <motion.header
+      initial={{ opacity: 0, y: -30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      className="relative bg-gradient-to-br from-white via-blue-50 to-white rounded-3xl px-6 py-16 sm:px-10 text-center mb-2 shadow-xl overflow-hidden"
+    >
+      {/* Optional Background Pattern */}
+      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f680_1px,transparent_1px)] [background-size:18px_18px] pointer-events-none rounded-3xl" />
 
-      {/* Services */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-12">
-        {services.map((service, index) => (
-          <div
-            key={index}
-            className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-xl hover:bg-blue-900 hover:text-white transition duration-300 p-6 flex flex-col items-center space-y-3"
-          >
-            <div className="text-blue-700 text-4xl">{service.logo}</div>
-            <h2 className="text-xl font-semibold text-center">{service.name}</h2>
-            <p className="text-sm text-center">{service.description}</p>
-          </div>
-        ))}
-      </section>
+      {/* Subheading */}
+      <h2 className="text-blue-600 font-semibold text-sm tracking-widest uppercase mb-4 relative z-10">
+        Empowering Innovation & Growth
+      </h2>
+
+      {/* Main Heading */}
+      <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight tracking-tight relative z-10">
+        Transform Your Business with
+        <br />
+        <span className="text-blue-700">Tactos Solutions</span>
+      </h1>
+
+      {/* Description */}
+      <p className="text-gray-600 mt-6 max-w-2xl mx-auto text-base sm:text-lg relative z-10">
+        Discover innovative strategies and tailor-made services that elevate your brand, streamline your workflow, and drive success in the digital era.
+      </p>
+
+    </motion.header>
+
+      <Corevalues/>
 
       {/* Form */}
       <form
-        className="bg-white rounded-xl shadow-xl p-10 mt-12 max-w-3xl mx-auto border border-gray-200"
-        onSubmit={handleSubmit}
-      >
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Project Details</h2>
+      onSubmit={handleSubmit}
+      className="bg-white rounded-3xl shadow-2xl p-10 mt-12 max-w-4xl mx-auto border border-gray-200"
+    >
+      <h2 className="text-4xl font-extrabold mb-10 text-center text-blue-800 tracking-tight">
+        Project Details
+      </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {["startupName", "founderName", "email", "phoneNumber"].map((field, index) => (
+      {/* Input Fields */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {["startupName", "founderName", "email", "phoneNumber"].map(
+          (field, index) => (
             <div key={index}>
-              <label className="text-gray-700 block mb-2 capitalize">{field.replace(/([A-Z])/g, " $1")}</label>
+              <label className="text-gray-700 block mb-2 font-medium capitalize">
+                {field.replace(/([A-Z])/g, " $1")}
+              </label>
               <input
                 type="text"
                 name={field}
                 value={formData[field]}
                 onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
-                  errors[field] ? "border-red-500" : ""
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 text-gray-800 shadow-sm outline-none ${
+                  errors[field] ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors[field] && <p className="text-red-500 text-sm mt-1">{errors[field]}</p>}
+              {errors[field] && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors[field]}
+                </p>
+              )}
             </div>
-          ))}
-        </div>
+          )
+        )}
+      </div>
 
-        {/* Services */}
-        <div className="mt-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">Select Services</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-8">
-              {services.map((service, index) => (
-                <div key={index} className="flex items-center">
+      {/* Services */}
+      <div className="mt-10">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+          Select Services and Set Quote Amount
+        </h3>
+
+        <div className="space-y-6">
+          {services.map((service, index) => {
+            const isSelected = formData.service.includes(service.name);
+            return (
+              <motion.div
+                key={index}
+                layout
+                className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+              >
+                <div className="flex items-center">
                   <input
                     type="checkbox"
                     value={service.name}
-                    checked={formData.service.includes(service.name)}
+                    checked={isSelected}
                     onChange={() => handleServiceSelect(service.name)}
                     className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
                   />
-                  <label className="ml-4 text-gray-700">{service.name}</label>
+                  <label className="ml-4 text-lg font-medium text-gray-700">
+                    {service.name}
+                  </label>
                 </div>
-              ))}
-            </div>
 
-            <div className="space-y-4">
-              {formData.service.length > 0 && (
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">Set Quote Amount</h3>
-                  {formData.service.map((service, index) => (
-                    <div key={index} className="flex items-center gap-4 mb-1">
-                      <label htmlFor={`quote-${service}`} className="text-gray-600 w-32">
-                        {service}
-                      </label>
+                <AnimatePresence>
+                  {isSelected && (
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full md:w-1/3"
+                    >
                       <input
                         type="number"
-                        id={`quote-${service}`}
-                        value={quoteAmounts[service] || ""}
-                        onChange={(e) => handleQuoteChange(e, service)}
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="₹"
+                        id={`quote-${service.name}`}
+                        value={quoteAmounts[service.name] || ""}
+                        onChange={(e) =>
+                          handleQuoteChange(e, service.name)
+                        }
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none custom-number-input shadow-sm"
+                        placeholder="Enter amount in ₹"
                       />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
+      </div>
 
-        <button
-          type="submit"
-          className="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition duration-300"
-        >
-          Submit
-        </button>
-      </form>
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="mt-12 w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold py-3 rounded-xl transition duration-300 shadow-lg"
+      >
+        Submit
+      </button>
+
+      {/* Hide arrows for number input */}
+      <style jsx>{`
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+      `}</style>
+    </form>
     </div>
   );
 }

@@ -51,7 +51,7 @@ export default function BusinessConsultation() {
     });
     try {
       const response = await axios.post(
-        "https://tactos-backend.onrender.com/api/businessconsultation",
+        `${process.env.REACT_APP_API_URL}/api/businessconsultation`,
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -80,7 +80,7 @@ export default function BusinessConsultation() {
     {
       title: "Business Information",
       fields: [
-        { label: "Business Name (if applicable)", name: "businessName", type: "text" },
+        { label: "Business Name (optional)", name: "businessName", type: "text" },
         {
           label: "Industry",
           name: "industry",
@@ -93,7 +93,7 @@ export default function BusinessConsultation() {
           type: "select",
           options: ["Idea Stage", "MVP (Minimum Viable Product)", "Early Revenue", "Scaling Business"],
         },
-        { label: "Website (if available)", name: "website", type: "text", optional: true },
+        { label: "Website (optional)", name: "website", type: "text", optional: true },
       ],
     },
     {
@@ -185,7 +185,7 @@ export default function BusinessConsultation() {
   <img
     src={farmerAnimation}
     alt="Farmer"
-    className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_infinite] motion-safe:transition-transform"
+    className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_3] motion-safe:transition-transform"
   />
   <h1 className="text-4xl font-bold text-green-800 mb-4">
     Empowering Farmers & Entrepreneurs
@@ -209,7 +209,7 @@ export default function BusinessConsultation() {
         {/* Right Side Form */}
         <div className="flex-1 bg-white p-8 shadow-2xl rounded-3xl border border-gray-200 w-full max-w-xl">
           <div className="flex flex-col items-center mb-6">
-            <h2 className="text-2xl font-bold text-blue-700 text-center">🚀 Business Consultation Registration</h2>
+            <h2 className="text-2xl font-bold text-blue-700 text-center">Business Consultation Registration</h2>
             <p className="text-center text-gray-500">Register your Startup and take the first step toward success!</p>
           </div>
 

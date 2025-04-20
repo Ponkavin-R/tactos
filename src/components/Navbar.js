@@ -2,7 +2,7 @@ import { FiHome } from "react-icons/fi";
 import { AiOutlineTeam, AiOutlineBulb, AiOutlineSolution } from "react-icons/ai";
 import { FaRegCalendarAlt, FaRegUser } from "react-icons/fa";
 import { MdBusinessCenter, MdMoreHoriz } from "react-icons/md";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
@@ -15,10 +15,12 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("/");
   const location = useLocation();
-
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
+  
+  const dropdownRef = useRef();
 
   useEffect(() => {
     const pathToLabel = {
@@ -35,6 +37,21 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
     setActiveItem(pathToLabel[location.pathname] || "");
     setActiveTab(location.pathname);
   }, [location.pathname]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   if (!isClient) return null;
 
@@ -63,161 +80,146 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         className="lg:hidden top-0 h-fit left-0 w-screen -translate-x-1/2 bg-gradient-to-r from-[#0a192f] to-[#1c3b57] shadow-xl p-1 flex justify-between items-center rounded-xl border border-gray-200 backdrop-blur-xl z-50"
       >
         <Link to="/" className="flex flex-row items-center">
-          <img src="/l1.png" alt="" className="object-contain h-16 w-fit" />
+          <img
+            src="/l1.png"
+            alt="logo"
+            className="object-contain h-16 w-fit"
+          />
         </Link>
       </motion.div>
 
       {/* 🔹 Desktop Navbar */}
-      <motion.header
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="hidden lg:flex bg-white shadow-lg px-6 items-center justify-between rounded-xl w-full mx-auto"
-      >
-        {/* Logo Section */}
-        <Link to="/" className="flex items-center space-x-3">
-          <img src="/l1.png" alt="Logo" className="h-20 w-auto object-contain scale-110 bg-transparent" />
-        </Link>
-
-        {/* Navigation Links */}
-        <nav className="flex space-x-10 text-black font-medium mt-3">
-  <Link
-    to="/"
-    className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-      location.pathname === "/" ? "text-blue-700" : ""
-    }`}
-    onClick={() => setActiveItem("Home")}
-  >
-    Home
-    {location.pathname === "/" && (
-      <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-    )}
+        <div className="hidden md:flex fixed top-2 items-center w-full justify-center z-30">
+    <motion.header
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="w-fit h-20 bg-white/90 backdrop-blur-lg shadow-xl px-10 rounded-full flex items-center justify-center space-x-12"
+    >
+  {/* Logo */}
+  <Link to="/" className="flex items-center justify-center">
+    <img
+      src="/l2.jpeg"
+      alt="logo"
+      className="object-contain h-16 w-fit mix-blend-multiply filter brightness-200 -mt-3 invert"
+    />
   </Link>
 
-  <Link
-    to="/solutions"
-    className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-      location.pathname === "/solutions" ? "text-blue-700" : ""
-    }`}
-    onClick={() => setActiveItem("Solutions")}
-  >
-    IT Solutions
-    {location.pathname === "/solutions" && (
-      <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-    )}
-  </Link>
+  {/* Nav Links */}
+  <nav className="flex space-x-10 text-black font-medium mt-3">
+    <Link
+      to="/"
+      className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
+        location.pathname === "/" ? "text-blue-700" : ""
+      }`}
+      onClick={() => setActiveItem("Home")}
+    >
+      Home
+      {location.pathname === "/" && (
+        <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+      )}
+    </Link>
 
-{/* Registration Dropdown */}
-<div className="relative flex flex-col items-center">
-  <button
-    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-    className="flex flex-col items-center space-y-0.5 hover:text-blue-700 transition duration-300 transform hover:scale-105"
-  >
-    <div className="flex items-center space-x-1">
-      <span className={`${location.pathname === "/startup-reg" || location.pathname === "/cofounder-reg" ? "text-blue-700 font-semibold" : ""}`}>
-        Registration
-      </span>
-      <ChevronDown size={18} />
+    <Link
+      to="/solutions"
+      className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
+        location.pathname === "/solutions" ? "text-blue-700" : ""
+      }`}
+      onClick={() => setActiveItem("Solutions")}
+    >
+      IT Solutions
+      {location.pathname === "/solutions" && (
+        <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+      )}
+    </Link>
+
+    {/* Registration Dropdown */}
+    <div className="relative flex flex-col items-center" ref={dropdownRef}>
+      <button
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        className="flex flex-col items-center space-y-0.5 hover:text-blue-700 transition duration-300 transform hover:scale-105"
+      >
+        <div className="flex items-center space-x-1">
+          <span
+            className={`${
+              location.pathname === "/startup-reg" ||
+              location.pathname === "/cofounder-reg"
+                ? "text-blue-700 font-semibold"
+                : ""
+            }`}
+          >
+            Registration
+          </span>
+          <ChevronDown size={18} />
+        </div>
+        {(location.pathname === "/startup-reg" ||
+          location.pathname === "/cofounder-reg") && (
+          <Logo className="text-blue-700 w-6 h-6 mt-1" />
+        )}
+      </button>
+
+      {isDropdownOpen && (
+        <div className="absolute top-16 right-0 w-56 bg-white shadow-md rounded-lg py-2 z-50">
+          <Link
+            to="/startup-reg"
+            className="block px-4 py-2 text-black hover:bg-blue-950 hover:text-white transition duration-300"
+            onClick={() => setIsDropdownOpen(false)}
+          >
+            Startup Registration
+          </Link>
+          <Link
+            to="/cofounder-reg"
+            className="block px-4 py-2 text-black hover:bg-blue-950 hover:text-white transition duration-300"
+            onClick={() => setIsDropdownOpen(false)}
+          >
+            Cofounder Registration
+          </Link>
+        </div>
+      )}
     </div>
 
-    {/* Logo should appear under "Registration" heading if either of the registration paths is active */}
-    {(location.pathname === "/startup-reg" || location.pathname === "/cofounder-reg") && (
-      <Logo className="text-blue-700 w-6 h-6 mt-1" />
-    )}
-  </button>
+    <Link
+      to="/events"
+      className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
+        location.pathname === "/events" ? "text-blue-700" : ""
+      }`}
+      onClick={() => setActiveItem("Events")}
+    >
+      Events
+      {location.pathname === "/events" && (
+        <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+      )}
+    </Link>
 
-  {isDropdownOpen && (
-    <div className="absolute left-0 mt-6 w-56 bg-white shadow-md rounded-lg py-2 z-50">
-      <Link
-        to="/startup-reg"
-        className="block px-4 py-2 text-black hover:bg-blue-950 hover:text-white transition duration-300"
-        onClick={() => {
-          setIsDropdownOpen(false);
-        }}
-      >
-        Startup Registration
-      </Link>
-      <Link
-        to="/cofounder-reg"
-        className="block px-4 py-2 text-black hover:bg-blue-950 hover:text-white transition duration-300"
-        onClick={() => {
-          setIsDropdownOpen(false);
-        }}
-      >
-        Cofounder Registration
-      </Link>
-    </div>
-  )}
+    <Link
+      to="/career"
+      className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
+        location.pathname === "/career" ? "text-blue-700" : ""
+      }`}
+      onClick={() => setActiveItem("Career")}
+    >
+      Career
+      {location.pathname === "/career" && (
+        <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+      )}
+    </Link>
+
+    <Link
+      to="/contact"
+      className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
+        location.pathname === "/contact" ? "text-blue-700" : ""
+      }`}
+      onClick={() => setActiveItem("Contact")}
+    >
+      Contact
+      {location.pathname === "/contact" && (
+        <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+      )}
+    </Link>
+  </nav>
+</motion.header>
 </div>
 
-
-  <Link
-    to="/events"
-    className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-      location.pathname === "/events" ? "text-blue-700" : ""
-    }`}
-    onClick={() => setActiveItem("Events")}
-  >
-    Events
-    {location.pathname === "/events" && (
-      <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-    )}
-  </Link>
-
-  <Link
-    to="/business-idea-hub"
-    className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-      location.pathname === "/business-idea-hub" ? "text-blue-700" : ""
-    }`}
-    onClick={() => setActiveItem("Business Ideation Hub")}
-  >
-    Business Ideation Hub
-    {location.pathname === "/business-idea-hub" && (
-      <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-    )}
-  </Link>
-
-  <Link
-    to="/business-consultation"
-    className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-      location.pathname === "/business-consultation" ? "text-blue-700" : ""
-    }`}
-    onClick={() => setActiveItem("Business Consultation")}
-  >
-    Business Consultation
-    {location.pathname === "/business-consultation" && (
-      <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-    )}
-  </Link>
-
-  <Link
-    to="/career"
-    className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-      location.pathname === "/career" ? "text-blue-700" : ""
-    }`}
-    onClick={() => setActiveItem("Career")}
-  >
-    Career
-    {location.pathname === "/career" && (
-      <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-    )}
-  </Link>
-
-  <Link
-    to="/contact"
-    className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-      location.pathname === "/contact" ? "text-blue-700" : ""
-    }`}
-    onClick={() => setActiveItem("Contact")}
-  >
-    Contact
-    {location.pathname === "/contact" && (
-      <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-    )}
-  </Link>
-</nav>
-
-      </motion.header>
 
       {/* 🔹 Mobile Floating Navigation */}
       <motion.nav

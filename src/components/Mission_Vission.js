@@ -11,7 +11,7 @@ const Mission_Vision = () => {
   };
 
   return (
-    <section className="py-24 bg-gradient-to-b from-[#eef3fd] via-[#fdf6f8] to-white">
+    <section className="py-24 bg-transparent">
       <div className="max-w-7xl px-4 md:px-6 mx-auto grid lg:grid-cols-2 gap-12 items-center">
         {/* Single Icon Card Section - Left Side */}
         <motion.div

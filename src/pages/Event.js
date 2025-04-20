@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+
 import {
   FaCalendarAlt,
   FaClock,
@@ -11,6 +13,8 @@ import {
   FaGlobe,
   FaCheckCircle,
 } from 'react-icons/fa';
+import Typewriter from 'typewriter-effect';
+import { Sparkles } from 'lucide-react';
 
 const Event = () => {
   const [events, setEvents] = useState([]);
@@ -21,6 +25,8 @@ const Event = () => {
     startDate: '',
   });
   const [activeTab, setActiveTab] = useState('Free');
+  const navigate = useNavigate();
+
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -30,7 +36,7 @@ const Event = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get('https://tactos-backend.onrender.com/api/events');
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/events`);
         setEvents(res.data);
         setFilteredEvents(res.data);
       } catch (error) {
@@ -65,7 +71,7 @@ const Event = () => {
       {eventList.map((event, i) => (
         <motion.div
           key={i}
-          className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
+          className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -121,6 +127,15 @@ const Event = () => {
                   </a>
                 </p>
               )}
+              {/* View Event Button */}
+<div className="mt-4">
+  <button
+    onClick={() => navigate(`/event-description/${event._id}`)}
+    className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
+  >
+    View Event
+  </button>
+</div>
             </div>
           </div>
         </motion.div>
@@ -128,16 +143,41 @@ const Event = () => {
     </div>
   );
 
-  const freeEvents = filteredEvents.filter(e => e.type === 'Free' && e.status !== 'Completed');
-  const paidEvents = filteredEvents.filter(e => e.type === 'Paid' && e.status !== 'Completed');
-  const completedCount = filteredEvents.filter(e => e.status === 'Completed').length;
+  const freeEvents = filteredEvents.filter((e) => e.type === 'Free' && e.status !== 'Completed');
+  const paidEvents = filteredEvents.filter((e) => e.type === 'Paid' && e.status !== 'Completed');
+  const completedCount = filteredEvents.filter((e) => e.status === 'Completed').length;
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-10 text-gray-800">Explore Events</h1>
+        {/* Hero Section */}
+        <section className="relative w-full bg-white py-8 px-6 flex flex-col items-center text-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 opacity-60 z-0" />
+          <div className="relative z-10 mb-6">
+            <div className="w-16 h-16 rounded-full bg-yellow-400 shadow-xl flex items-center justify-center animate-bounce">
+              <Sparkles className="text-white w-8 h-8" />
+            </div>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 z-10 leading-tight">
+            Elevate Your Business <br />
+            <span className="text-yellow-500">with Our Events</span>
+          </h2>
+          <div className="mt-6 text-lg md:text-xl text-gray-600 max-w-2xl z-10">
+            <Typewriter
+              options={{
+                strings: [
+                  'Join expert-led workshops & seminars.',
+                  'Explore trending innovations and market insights.',
+                  'Network, learn, and grow your business with Tactos.',
+                ],
+                autoStart: true,
+                loop: true,
+              }}
+            />
+          </div>
+        </section>
 
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6 mt-10">
           {/* Filter Sidebar */}
           <div className="lg:w-1/4 bg-white p-6 rounded-xl shadow-lg">
             <h3 className="text-xl font-semibold mb-6 text-gray-700 border-b pb-2">Filter Events</h3>
@@ -177,9 +217,8 @@ const Event = () => {
             </div>
           </div>
 
-          {/* Events Section */}
+          {/* Event Cards */}
           <div className="lg:w-3/4">
-            {/* Tabs */}
             <div className="flex gap-4 mb-6 border-b border-gray-300">
               <button
                 className={`px-4 py-2 font-medium ${activeTab === 'Free' ? 'border-b-4 border-blue-500 text-blue-600' : 'text-gray-500'}`}
@@ -195,7 +234,6 @@ const Event = () => {
               </button>
             </div>
 
-            {/* Tab Content */}
             {activeTab === 'Free' ? renderEventCards(freeEvents) : renderEventCards(paidEvents)}
 
             <div className="mt-10 text-center">
