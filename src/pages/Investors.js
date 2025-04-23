@@ -1,15 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
-const testimonials = [
-  { type: "Our Partner", name: "Harsh P.", image: "https://randomuser.me/api/portraits/men/32.jpg" },
-  { type: "Our Investor", name: "Jane D.", image: "https://randomuser.me/api/portraits/women/44.jpg" },
-  { type: "Key Partner", name: "Robert K.", image: "https://randomuser.me/api/portraits/men/45.jpg" },
-];
+import axios from "axios";
 
 const Investors = () => {
+  const [testimonials, setTestimonials] = useState([]);
   const speed = 12;
-  const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
 
   const getTypeColor = (type) => {
     const colors = {
@@ -19,6 +14,21 @@ const Investors = () => {
     };
     return colors[type] || "bg-gray-500";
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/ourinvestors`);
+        setTestimonials(res.data);
+      } catch (err) {
+        console.error("Failed to fetch investors:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
 
   return (
     <div className="py-12 bg-gray-100 overflow-hidden relative">

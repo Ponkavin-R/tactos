@@ -1,65 +1,33 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    image: "https://randomuser.me/api/portraits/women/65.jpg",
-    review:
-      "This platform exceeded my expectations. The support and tools provided were excellent.",
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Michael Lee",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-    review:
-      "Amazing experience! The community and mentorship really helped our startup grow.",
-    rating: 4,
-  },
-  {
-    id: 3,
-    name: "Priya Sharma",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-    review:
-      "The best support I’ve received as an entrepreneur. Highly recommended!",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "Daniel Kim",
-    image: "https://randomuser.me/api/portraits/men/75.jpg",
-    review:
-      "Professional environment and fantastic guidance. Thank you for the great service!",
-    rating: 5,
-  },
-];
-
-// Duplicate testimonials to ensure seamless looping
-const loopedTestimonials = [...testimonials, ...testimonials];
+import axios from "axios";
 
 const TestimonialCarousel = () => {
   const scrollRef = useRef(null);
+  const [testimonials, setTestimonials] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/testimonials`)
+      .then((res) => setTestimonials([...res.data, ...res.data])) // Duplicated for loop effect
+      .catch((err) => console.error("Failed to fetch testimonials", err));
+  }, []);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
-
     if (!scrollContainer) return;
 
     const scroll = () => {
       if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-        scrollContainer.scrollLeft = 0; // Reset position after half the scroll width
+        scrollContainer.scrollLeft = 0;
       } else {
-        scrollContainer.scrollLeft += 1; // Continue scrolling
+        scrollContainer.scrollLeft += 1;
       }
     };
 
-    const interval = setInterval(scroll, 20); // Adjust the speed as needed
-
+    const interval = setInterval(scroll, 20);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials]);
 
   return (
     <section className="py-12 sm:py-20 bg-gradient-to-r from-white to-[#f9f9fc]">
@@ -76,9 +44,9 @@ const TestimonialCarousel = () => {
           ref={scrollRef}
           className="flex space-x-6 overflow-x-auto scroll-smooth scrollbar-hide"
         >
-          {loopedTestimonials.map((t, index) => (
+          {testimonials.map((t, index) => (
             <motion.div
-              key={`${t.id}-${index}`}
+              key={`${t._id}-${index}`}
               className="flex-shrink-0 w-60 sm:w-72 bg-white rounded-3xl shadow-xl p-4 sm:p-6 transform transition-transform hover:scale-105"
               initial={{ opacity: 0, rotateY: -90 }}
               whileInView={{ opacity: 1, rotateY: 0 }}
@@ -89,7 +57,6 @@ const TestimonialCarousel = () => {
               }}
               viewport={{ once: true }}
             >
-              {/* 3D Image Style */}
               <div className="flex justify-center perspective-1000">
                 <img
                   src={t.image}

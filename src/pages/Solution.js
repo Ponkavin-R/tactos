@@ -88,10 +88,22 @@ export default function Solution() {
     e.preventDefault();
     if (validateForm()) {
       try {
+        // Prepare service + quoteAmount mapping
+        const servicesWithQuotes = formData.service.map((serviceName) => ({
+          name: serviceName,
+          quote: quoteAmounts[serviceName] || 0,
+        }));
+  
+        const payload = {
+          ...formData,
+          services: servicesWithQuotes, // new key: array of { name, quote }
+        };
+  
         const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/solutions`,
-          formData
+          payload
         );
+  
         if (response.status === 201) {
           alert("Form Submitted Successfully!");
           setFormData({
@@ -101,6 +113,7 @@ export default function Solution() {
             phoneNumber: "",
             service: [],
           });
+          setQuoteAmounts({});
         }
       } catch (error) {
         console.error("Error submitting form:", error);
@@ -108,6 +121,7 @@ export default function Solution() {
       }
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-white text-gray-900 px-4 sm:px-6 md:px-12 py-12 overflow-hidden">
