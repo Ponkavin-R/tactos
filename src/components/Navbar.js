@@ -29,6 +29,8 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
       "/startup-reg": "Startup Registration",
       "/cofounder-reg": "Cofounder Registration",
       "/events": "Events",
+      "/startups": "Start-Ups",
+      "/login": "Login",
       "/business-idea-hub": "Business Ideation Hub",
       "/business-consultation": "Business Consultation",
       "/career": "Career",
@@ -98,37 +100,40 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 
       {/* 🔹 Desktop Navbar */}
 {/* 🔹 Desktop Navbar */}
-<div className="hidden md:flex fixed top-0 left-0 w-full h-24 items-center justify-center z-30">
+<div className="hidden md:flex fixed top-0 left-0 w-full h-24 items-center z-30">
+  <Link to="/" className="flex items-start justify-start">
+    <img
+      src="/l2.jpeg"
+      alt="logo"
+      className="object-contain h-16 w-fit mix-blend-multiply filter brightness-200 -mt-3 invert"
+    />
+  </Link>
   <motion.header
     initial={{ opacity: 0, y: -10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, ease: "easeOut" }}
-    className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 py-3 flex items-center justify-center space-x-12"
+    className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 py-3 flex items-center justify-evenly space-x-12 w-fit"
   >
     {/* Logo */}
-    <Link to="/" className="flex items-center justify-center">
+    {/* <div className="flex items-start justify-start">
       <img
         src="/l2.jpeg"
         alt="logo"
         className="object-contain h-16 w-fit mix-blend-multiply filter brightness-200 -mt-3 invert"
       />
-    </Link>
+    </div> */}
 
     {/* Nav Links */}
-    <nav className="flex space-x-10 text-black font-medium mt-3">
+    <nav className="flex space-x-10 text-black font-medium mt-3 flex-grow justify-center">
       <Link
         to="/"
-        className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
+        className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col  items-center ${
           location.pathname === "/" ? "text-blue-700" : ""
         }`}
         onClick={() => setActiveItem("Home")}
       >
         Home
-        {location.pathname === "/" && (
-          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-        )}
       </Link>
-
       <Link
         to="/solutions"
         className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
@@ -137,9 +142,6 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Solutions")}
       >
         IT Solutions
-        {location.pathname === "/solutions" && (
-          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-        )}
       </Link>
 
       {/* Registration Dropdown */}
@@ -161,10 +163,6 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
             </span>
             <ChevronDown size={18} />
           </div>
-          {(location.pathname === "/startup-reg" ||
-            location.pathname === "/cofounder-reg") && (
-            <Logo className="text-blue-700 w-6 h-6 mt-1" />
-          )}
         </button>
 
         {isDropdownOpen && (
@@ -195,9 +193,16 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Events")}
       >
         Events
-        {location.pathname === "/events" && (
-          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-        )}
+      </Link>
+
+      <Link
+        to="/startups"
+        className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
+          location.pathname === "/startups" ? "text-blue-700" : ""
+        }`}
+        onClick={() => setActiveItem("Start-Ups")}
+      >
+        Start-Ups
       </Link>
 
       <Link
@@ -208,9 +213,6 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Career")}
       >
         Career
-        {location.pathname === "/career" && (
-          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-        )}
       </Link>
 
       <Link
@@ -221,13 +223,31 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Contact")}
       >
         Contact
-        {location.pathname === "/contact" && (
-          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
-        )}
       </Link>
     </nav>
+
+    {/* Login Button */}
+    
   </motion.header>
+  <div className="flex items-center justify-end">
+      {isLoggedIn ? (
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+        >
+          Logout
+        </button>
+      ) : (
+        <Link
+          to="/login"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+        >
+          Login
+        </Link>
+      )}
+    </div>
 </div>
+
 
 
 

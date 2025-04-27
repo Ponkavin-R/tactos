@@ -80,7 +80,7 @@ export default function BusinessConsultation() {
     {
       title: "Business Information",
       fields: [
-        { label: "Business Name (optional)", name: "businessName", type: "text" },
+        { label: "Business Name (optional)", name: "businessName", type: "text", optional: true },
         {
           label: "Industry",
           name: "industry",
@@ -153,8 +153,13 @@ export default function BusinessConsultation() {
     const { name, type, value, files } = e.target;
     if (type === "file") {
       setFormData((prev) => ({ ...prev, [name]: files.multiple ? [...files] : files[0] }));
+    } 
+    else if (name === "phone") {
+      // Allow only digits and limit to 10 digits
+      const numericValue = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: numericValue }));
     }
-     else {
+    else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
@@ -182,29 +187,22 @@ export default function BusinessConsultation() {
       <div className="flex flex-col md:flex-row items-center gap-12 max-w-7xl mx-auto">
         {/* Left Side Content */}
         <div className="flex-1 text-left animate-fade-in-up">
-  <img
-    src={farmerAnimation}
-    alt="Farmer"
-    className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_3] motion-safe:transition-transform"
-  />
-  <h1 className="text-4xl font-bold text-green-800 mb-4">
-    Empowering Farmers & Entrepreneurs
-  </h1>
-  <div className="text-xl text-gray-700">
-    <Typewriter
-      options={{
-        strings: [
-          "Transforming AgriTech ideas into reality",
-          "Boost your business with expert consultation",
-          "Guidance from idea to scale",
-        ],
-        autoStart: true,
-        loop: true,
-      }}
-    />
-  </div>
-</div>
-
+          <img src={farmerAnimation} alt="Farmer" className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_3] motion-safe:transition-transform" />
+          <h1 className="text-4xl font-bold text-green-800 mb-4">Empowering Farmers & Entrepreneurs</h1>
+          <div className="text-xl text-gray-700">
+            <Typewriter
+              options={{
+                strings: [
+                  "Transforming AgriTech ideas into reality",
+                  "Boost your business with expert consultation",
+                  "Guidance from idea to scale",
+                ],
+                autoStart: true,
+                loop: true,
+              }}
+            />
+          </div>
+        </div>
 
         {/* Right Side Form */}
         <div className="flex-1 bg-white p-8 shadow-2xl rounded-3xl border border-gray-200 w-full max-w-xl">
@@ -269,26 +267,56 @@ export default function BusinessConsultation() {
                       </label>
                     ))
                   ) : field.type === "multiselect" ? (
-                    <select
-                      name={field.name}
-                      multiple
-                      value={formData[field.name] || []}
-                      onChange={handleMultiSelect}
-                      className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none"
-                    >
-                      {field.options.map((option, idx) => (
-                        <option key={idx} value={option}>{option}</option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setFormData((prev) => ({ ...prev, [`${field.name}DropdownOpen`]: !prev[`${field.name}DropdownOpen`] }))}
+                        className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none text-left"
+                      >
+                        {(formData[field.name] && formData[field.name].length > 0)
+                          ? formData[field.name].join(", ")
+                          : `Select ${field.label}`}
+                      </button>
+
+                      {formData[`${field.name}DropdownOpen`] && (
+                        <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                          {field.options.map((option, idx) => (
+                            <label key={idx} className="flex items-center p-3 hover:bg-gray-100 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                value={option}
+                                checked={formData[field.name]?.includes(option) || false}
+                                onChange={(e) => {
+                                  const selectedOptions = formData[field.name] || [];
+                                  if (e.target.checked) {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      [field.name]: [...selectedOptions, option],
+                                    }));
+                                  } else {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      [field.name]: selectedOptions.filter((item) => item !== option),
+                                    }));
+                                  }
+                                }}
+                                className="mr-2"
+                              />
+                              {option}
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
                   ) : field.type === "file" ? (
                     <input
-  type="file"
-  name={field.name}
-  multiple={field.multiple}
-  onChange={handleChange}
-  className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none"
-/>
-
+                      type="file"
+                      name={field.name}
+                      multiple={field.multiple}
+                      onChange={handleChange}
+                      className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none"
+                    />
                   ) : field.type === "select" ? (
                     <select
                       name={field.name}
@@ -320,12 +348,34 @@ export default function BusinessConsultation() {
                   )}
                 </div>
               ))}
-
-<div className="flex justify-between mt-6">
-            {step > 0 && <button type="button" onClick={() => setStep(step - 1)} className="px-6 py-3 bg-gray-300 text-gray-700 rounded-full">Back</button>}
-            {step < sections.length-1 ? <button type="button" onClick={handleNext} className="px-6 py-3 bg-blue-600 text-white rounded-full">Next</button> : <button type="submit" className="px-6 py-3 bg-green-500 text-white rounded-full">Submit</button>}
-          </div>
-
+              <div className="flex justify-between mt-3">
+                {step > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setStep(step - 1)}
+                    className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                  >
+                    Back
+                  </button>
+                )}
+                {step < sections.length - 1 ? (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="px-4 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                  >
+                    {loading ? "Submitting..." : "Submit"}
+                  </button>
+                )}
+              </div>
             </form>
           )}
         </div>

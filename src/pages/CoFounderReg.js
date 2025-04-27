@@ -14,23 +14,28 @@ export default function CoFounder() {
   const validateField = (field, value) => {
     if (field.optional) return true;
     if (!value || value === "") return false;
-
+  
     switch (field.type) {
       case "email":
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
       case "tel":
-        return /^[0-9]{10}$/.test(value); // Simple 10-digit phone number
+        return /^[0-9]{10}$/.test(value);
       case "number":
         return !isNaN(value);
+      case "file":
+        return value && typeof value === "object" && value.name; // << this is the fix
       default:
         return true;
     }
   };
+  
+  
+  
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Final validation before submission
     const currentFields = sections[step].fields;
     for (let field of currentFields) {
       if (!validateField(field, formData[field.name])) {
@@ -76,7 +81,15 @@ export default function CoFounder() {
     if (type === "file") {
       setFormData((prev) => ({ ...prev, [name]: files.length > 0 ? files[0] : null }));
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      if (name === "phone") {
+        // Only allow numbers and limit to 10 digits
+        const cleanedValue = value.replace(/\D/g, ""); // Remove non-digits
+        if (cleanedValue.length <= 10) {
+          setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+        }
+      } else {
+        setFormData((prev) => ({ ...prev, [name]: value }));
+      }
     }
   };
 
@@ -187,7 +200,7 @@ export default function CoFounder() {
           alt="cofounder illustration"
           className="w-3/4 h-auto mb-2 animate-[bounce_3s_infinite]"
         />
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mt-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mt-6">
           <Typewriter
             words={["Find Your Dream Co-Founder", "Build Ideas Together", "Start Something Big!"]}
             loop={true}
@@ -208,16 +221,16 @@ export default function CoFounder() {
         initial={{ x: 80, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1 }}
-        className="md:w-1/2 bg-white p-6 rounded-lg shadow-2xl w-full max-w-2xl"
+        className="md:w-1/2 bg-white p-4 rounded-lg shadow-2xl w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">CoFounder Registration</h2>
-        <p className="text-center text-gray-500 mb-4">Register now and take the first step toward your startup dream!</p>
+        <h2 className="text-xl font-bold text-center text-gray-800 mb-2">CoFounder Registration</h2>
+        <p className="text-center text-gray-500 mb-4 text-sm">Register now and take the first step toward your startup dream!</p>
 
         <div className="flex justify-center mb-4 space-x-2">
           {sections.map((_, index) => (
             <span
               key={index}
-              className={`h-2 w-8 rounded-full transition-all duration-300 ${index <= step ? "bg-blue-500" : "bg-gray-300"}`}
+              className={`h-2 w-6 rounded-full transition-all duration-300 ${index <= step ? "bg-blue-500" : "bg-gray-300"}`}
             ></span>
           ))}
         </div>
@@ -227,7 +240,7 @@ export default function CoFounder() {
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="bg-red-100 text-red-600 p-3 rounded-lg mb-4 text-center"
+            className="bg-red-100 text-red-600 p-2 rounded-lg mb-4 text-center text-sm"
           >
             {errorMessage}
           </motion.div>
@@ -235,24 +248,24 @@ export default function CoFounder() {
 
         {submitted ? (
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-green-500 mb-4">🎉 Registration Successful!</h2>
+            <h2 className="text-2xl font-bold text-green-500 mb-4">🎉 Registration Successful!</h2>
             <button
               onClick={() => {
                 setSubmitted(false);
                 setStep(0);
                 setFormData({});
               }}
-              className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 text-sm"
             >
               Register Another
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <h3 className="text-lg font-semibold text-center">{sections[step]?.title}</h3>
             {sections[step]?.fields.map((field, index) => (
               <div key={index} className="flex flex-col">
-                <label className="text-gray-700 font-medium mb-1">{field.label}</label>
+                <label className="text-gray-700 font-medium mb-1 text-sm">{field.label}</label>
                 {field.type === "radio" ? (
                   field.options.map((option, idx) => (
                     <label key={idx} className="flex items-center space-x-2">
@@ -268,32 +281,60 @@ export default function CoFounder() {
                     </label>
                   ))
                 ) : field.type === "multiselect" ? (
-                  <select
-                    name={field.name}
-                    multiple
-                    value={formData[field.name] || []}
-                    onChange={handleMultiSelect}
-                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
-                  >
-                    {field.options.map((option, idx) => (
-                      <option key={idx} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                ) : field.type === "file" ? (
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setFormData((prev) => ({ ...prev, [`${field.name}DropdownOpen`]: !prev[`${field.name}DropdownOpen`] }))}
+                      className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none text-left"
+                    >
+                      {(formData[field.name] && formData[field.name].length > 0)
+                        ? formData[field.name].join(", ")
+                        : `Select ${field.label}`}
+                    </button>
+
+                    {formData[`${field.name}DropdownOpen`] && (
+                      <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        {field.options.map((option, idx) => (
+                          <label key={idx} className="flex items-center p-3 hover:bg-gray-100 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              value={option}
+                              checked={formData[field.name]?.includes(option) || false}
+                              onChange={(e) => {
+                                const selectedOptions = formData[field.name] || [];
+                                if (e.target.checked) {
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    [field.name]: [...selectedOptions, option],
+                                  }));
+                                } else {
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    [field.name]: selectedOptions.filter((item) => item !== option),
+                                  }));
+                                }
+                              }}
+                              className="mr-2"
+                            />
+                            {option}
+                          </label>
+                        ))}
+                      </div>
+                    )}
+                  </div>) : field.type === "file" ? (
+                  
                   <input
                     type="file"
                     name={field.name}
                     onChange={handleChange}
-                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
+                    className="p-2 border border-gray-300 rounded-xl shadow-sm text-sm"
                   />
                 ) : field.type === "textarea" ? (
                   <textarea
                     name={field.name}
                     value={formData[field.name] || ""}
                     onChange={handleChange}
-                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
+                    className="p-2 border border-gray-300 rounded-xl shadow-sm text-sm"
                   />
                 ) : (
                   <input
@@ -301,32 +342,40 @@ export default function CoFounder() {
                     name={field.name}
                     value={formData[field.name] || ""}
                     onChange={handleChange}
-                    className="p-3 border border-gray-300 rounded-xl shadow-sm"
+                    className="p-2 border border-gray-300 rounded-xl shadow-sm text-sm"
                   />
                 )}
               </div>
             ))}
 
-            <div className="flex justify-between pt-4">
-              {step > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setStep(step - 1)}
-                  className="px-4 py-2 bg-gray-300 rounded-full"
-                >
-                  Back
-                </button>
-              )}
-              {step < sections.length - 1 ? (
-                <button type="button" onClick={handleNext} className="px-4 py-2 bg-blue-500 text-white rounded-full">
-                  Next
-                </button>
-              ) : (
-                <button type="submit" disabled={loading} className="px-4 py-2 bg-green-500 text-white rounded-full">
-                  {loading ? "Submitting..." : "Submit"}
-                </button>
-              )}
-            </div>
+<div className="flex justify-between mt-3">
+                {step > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setStep(step - 1)}
+                    className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                  >
+                    Back
+                  </button>
+                )}
+                {step < sections.length - 1 ? (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="px-4 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                  >
+                    {loading ? "Submitting..." : "Submit"}
+                  </button>
+                )}
+              </div>
           </form>
         )}
       </motion.div>
