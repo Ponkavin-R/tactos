@@ -116,7 +116,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 initial={{ opacity: 0, y: -10 }}
 animate={{ opacity: 1, y: 0 }}
 transition={{ duration: 0.5, ease: "easeOut" }}
-className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-6 mr-8 py-3 flex items-center mt-4 justify-center space-x-12"
+className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 flex items-center mt-4 justify-center space-x-12"
 >
     <nav className="flex space-x-10 text-black font-medium">
       {/* Home */}
@@ -261,7 +261,7 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-6 mr-8 py-3 fl
     ) : (
       <Link
         to="/login"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 h-12 w-24 items-center text-center px-4 rounded-full transition duration-300"
       >
         Login
       </Link>
@@ -302,7 +302,10 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-6 mr-8 py-3 fl
               <NavItem to="/business-idea-hub" icon={<AiOutlineBulb />} label="Business Ideation Hub" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/business-consultation" icon={<MdBusinessCenter />} label="Business Consultation" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/career" icon={<AiOutlineSolution />} label="Career" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/startups" icon={<FaRegCalendarAlt />} label="Start-Ups" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/login" icon={<FaRegCalendarAlt />} label="Login" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/contact" icon={<FaRegCalendarAlt />} label="Contact" activeTab={activeTab} setActiveTab={setActiveTab} />
+             
             </motion.div>
           )}
         </AnimatePresence>

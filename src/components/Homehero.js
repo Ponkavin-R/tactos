@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaPlay } from "react-icons/fa";
-import Logo from "../assest/l2.svg";
+import WL from "../assest/wl.png";
+import Wr from "../assest/wr.png";
 
 const HeroSection = () => {
   const [scale, setScale] = useState(1);
@@ -31,9 +31,27 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center px-6 min-h-[80vh] overflow-hidden py-10"> {/* ⬅ reduced height & padding */}
+    <section className="relative flex flex-col items-center justify-center text-center px-6 min-h-screen py-10">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#fdf6f8] to-[#eef3fd] z-[-1]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#fdf6f8] to-[#eef3fd] bg-opacity-100 opacity-100 z-[-2]" />
+
+      {/* Left and Right Wings Background (Falcon Images) */}
+      <div
+        className="absolute left-0 top-0 w-[50vw] h-full bg-cover bg-no-repeat bg-left z-[-1] md:block hidden"
+        style={{
+          backgroundImage: `url(${WL})`,
+          transform: `scale(${scale})`,
+          transition: "transform 0.2s ease-out",
+        }}
+      />
+      <div
+        className="absolute right-0 -top-14 w-[50vw] h-full bg-cover bg-no-repeat bg-right z-[-1] md:block hidden"
+        style={{
+          backgroundImage: `url(${Wr})`,
+          transform: `scale(${scale})`,
+          transition: "transform 0.2s ease-out",
+        }}
+      />
 
       {/* Title */}
       <h1
@@ -41,8 +59,7 @@ const HeroSection = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
         }`}
       >
-        At TACTOS, we safeguard startups and entrepreneurs from unreliable tech
-        solution providers
+        At TACTOS, we safeguard startups and entrepreneurs from unreliable tech solution providers
       </h1>
 
       {/* Description */}
@@ -51,13 +68,11 @@ const HeroSection = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        Acting as a trusted intermediary, we connect you with vetted and
-        reliable tech partners. Just share your budget—we’ll ensure your project
-        is delivered on time, within budget, and without compromise.
+        Acting as a trusted intermediary, we connect you with vetted and reliable tech partners. Just share your budget—we’ll ensure your project is delivered on time, within budget, and without compromise.
       </p>
 
       {/* Cards Section */}
-      <div className="flex flex-wrap w-screen justify-center gap-6 mt-8">
+      <div className="flex flex-wrap w-full justify-center gap-6 mt-8">
         {[
           {
             title: "Mentorship",
@@ -83,7 +98,6 @@ const HeroSection = () => {
               "https://cdni.iconscout.com/illustration/premium/thumb/market-research-and-analysis-illustration-download-in-svg-png-gif-file-formats--analytics-logo-graph-pack-business-illustrations-7249462.png?f=webp",
             alt: "Market Analysis Icon",
           },
-
           {
             title: "Incubation",
             imgSrc:
@@ -115,9 +129,7 @@ const HeroSection = () => {
               alt={card.alt}
               className="w-14 h-14 mb-2 rounded-lg hover:scale-90 duration-300"
             />
-            <p className="text-xs font-medium text-gray-800 text-center">
-              {card.title}
-            </p>
+            <p className="text-xs font-medium text-gray-800 text-center">{card.title}</p>
           </div>
         ))}
       </div>
