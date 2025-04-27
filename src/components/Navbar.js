@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { ReactComponent as Logo } from "../assest/l2.svg";
+import Falcon from "../assest/l.png";
 
 const Navbar = ({ isLoggedIn, handleLogout }) => {
   const [isClient, setIsClient] = useState(false);
@@ -100,40 +101,41 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 
       {/* 🔹 Desktop Navbar */}
 {/* 🔹 Desktop Navbar */}
-<div className="hidden md:flex fixed top-0 left-0 w-full h-24 items-center z-30">
-  <Link to="/" className="flex items-start justify-start">
+<div className="hidden md:flex fixed top-0 left-0 w-full h-24 items-center justify-between px-4 z-30 bg-transparent backdrop-blur-lg ">
+  {/* Logo on the left */}
+  <Link to="/" className="flex items-center justify-start">
     <img
-      src="/l2.jpeg"
+      src={Falcon}
       alt="logo"
-      className="object-contain h-16 w-fit mix-blend-multiply filter brightness-200 -mt-3 invert"
+      className="object-contain h-24 w-fit "
     />
   </Link>
-  <motion.header
-    initial={{ opacity: 0, y: -10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, ease: "easeOut" }}
-    className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 py-3 flex items-center justify-evenly space-x-12 w-fit"
-  >
-    {/* Logo */}
-    {/* <div className="flex items-start justify-start">
-      <img
-        src="/l2.jpeg"
-        alt="logo"
-        className="object-contain h-16 w-fit mix-blend-multiply filter brightness-200 -mt-3 invert"
-      />
-    </div> */}
 
-    {/* Nav Links */}
-    <nav className="flex space-x-10 text-black font-medium mt-3 flex-grow justify-center">
+  {/* Centered Nav inside motion */}
+  <motion.header
+initial={{ opacity: 0, y: -10 }}
+animate={{ opacity: 1, y: 0 }}
+transition={{ duration: 0.5, ease: "easeOut" }}
+className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-6 mr-8 py-3 flex items-center mt-4 justify-center space-x-12"
+>
+    <nav className="flex space-x-10 text-black font-medium">
+      {/* Home */}
       <Link
         to="/"
-        className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col  items-center ${
+        className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
           location.pathname === "/" ? "text-blue-700" : ""
         }`}
         onClick={() => setActiveItem("Home")}
       >
         Home
+        <Logo
+          className={`mt-0.5 w-6 h-6 transition-opacity duration-300 ${
+            location.pathname === "/" ? "text-blue-700 opacity-100" : "opacity-0"
+          }`}
+        />
       </Link>
+
+      {/* Solutions */}
       <Link
         to="/solutions"
         className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
@@ -142,6 +144,9 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Solutions")}
       >
         IT Solutions
+        {location.pathname === "/solutions" && (
+          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+        )}
       </Link>
 
       {/* Registration Dropdown */}
@@ -163,6 +168,10 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
             </span>
             <ChevronDown size={18} />
           </div>
+          {(location.pathname === "/startup-reg" ||
+            location.pathname === "/cofounder-reg") && (
+            <Logo className="text-blue-700 w-6 h-6 mt-1" />
+          )}
         </button>
 
         {isDropdownOpen && (
@@ -185,6 +194,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         )}
       </div>
 
+      {/* Other Nav Items */}
       <Link
         to="/events"
         className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
@@ -193,6 +203,9 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Events")}
       >
         Events
+        {location.pathname === "/events" && (
+          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+        )}
       </Link>
 
       <Link
@@ -203,6 +216,9 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Start-Ups")}
       >
         Start-Ups
+        {location.pathname === "/startups" && (
+          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+        )}
       </Link>
 
       <Link
@@ -213,6 +229,9 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Career")}
       >
         Career
+        {location.pathname === "/career" && (
+          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+        )}
       </Link>
 
       <Link
@@ -223,29 +242,31 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         onClick={() => setActiveItem("Contact")}
       >
         Contact
+        {location.pathname === "/contact" && (
+          <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
+        )}
       </Link>
     </nav>
-
-    {/* Login Button */}
-    
   </motion.header>
+
+  {/* Login / Logout Button on the right */}
   <div className="flex items-center justify-end">
-      {isLoggedIn ? (
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
-        >
-          Logout
-        </button>
-      ) : (
-        <Link
-          to="/login"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
-        >
-          Login
-        </Link>
-      )}
-    </div>
+    {isLoggedIn ? (
+      <button
+        onClick={handleLogout}
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+      >
+        Logout
+      </button>
+    ) : (
+      <Link
+        to="/login"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+      >
+        Login
+      </Link>
+    )}
+  </div>
 </div>
 
 
