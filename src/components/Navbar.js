@@ -215,7 +215,7 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 f
         }`}
         onClick={() => setActiveItem("Start-Ups")}
       >
-        Start-Ups
+       Invest in Start-Ups
         {location.pathname === "/startups" && (
           <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
         )}
@@ -224,12 +224,12 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 f
       <Link
         to="/jobs"
         className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
-          location.pathname === "/career" ? "text-blue-700" : ""
+          location.pathname === "/jobs" ? "text-blue-700" : ""
         }`}
         onClick={() => setActiveItem("Career")}
       >
        Jobs
-        {location.pathname === "/career" && (
+        {location.pathname === "/jobs" && (
           <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
         )}
       </Link>
@@ -295,11 +295,11 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 f
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 150, damping: 20 }}
-              className="w-full bg-white shadow-lg rounded-xl p-2 grid grid-cols-2 gap-2"
+              className="w-full bg-white shadow-lg rounded-xl p-2 grid grid-cols-4 gap-2"
             >
-              <NavItem to="/startup-reg" icon={<AiOutlineTeam />} label="Startup Registration" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/cofounder-reg" icon={<FaRegUser />} label="Cofounder Registration" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/business-idea-hub" icon={<AiOutlineBulb />} label="Business Ideation Hub" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/startup-reg" icon={<AiOutlineTeam />} label="Startup" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/cofounder-reg" icon={<FaRegUser />} label="Cofounder" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/business-idea-hub" icon={<AiOutlineBulb />} label="Business Hub" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/business-consultation" icon={<MdBusinessCenter />} label="Business Consultation" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/jobs" icon={<AiOutlineSolution />} label="Jobs" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/startups" icon={<FaRegCalendarAlt />} label="Start-Ups" activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -333,9 +333,14 @@ const NavItem = ({ to, onClick, icon, label, activeTab, setActiveTab }) => {
         </Link>
       ) : (
         <button onClick={onClick} className="relative flex flex-col items-center">
-          <div className="w-10 h-8 flex items-center justify-center rounded-lg text-gray-700">{icon}</div>
-          <span className="mt-1 text-xs font-medium">{label}</span>
-        </button>
+        <div className="w-10 h-8 flex items-center justify-center rounded-lg text-gray-700">
+          {icon}
+        </div>
+        <span className="mt-1 text-xs font-medium text-center w-full">
+          {label}
+        </span>
+      </button>
+      
       )}
     </motion.div>
   );

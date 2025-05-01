@@ -21,6 +21,9 @@ import JobPortal from "./startupdashboard/JobPortal";
 import Funding from "./startupdashboard/Funding";
 import Login from "./startupdashboard/Login";
 import StartUps from "./components/StartUps";
+import ScrollToTop from "./components/ScrollToTop";
+import Jobs from "./pages/Jobs";
+import Jobdetail from "./components/Jobdetail";
 
 function App() {
   const location = useLocation();
@@ -32,14 +35,15 @@ function App() {
       {!isStartupDashboardRoute && <Navbar />}
       
       <div className="md:mt-10">
+        <ScrollToTop/>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/solutions" element={<Solution />} />
           <Route path="/events" element={<Event />} />
           <Route path="/event-description/:id" element={<EventDescription />} />
-          <Route path="/career" element={<JobList />} />
-          <Route path="/jd/:id" element={<JobDescription />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/jd/:id" element={<Jobdetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/startup-reg" element={<StartupReg />} />
           <Route path="/startups" element={<StartUps/>} />
