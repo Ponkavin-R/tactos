@@ -34,7 +34,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
       "/login": "Login",
       "/business-idea-hub": "Business Ideation Hub",
       "/business-consultation": "Business Consultation",
-      "/career": "Career",
+      "/jobs": "Job",
       "/contact": "Contact"
     };
     setActiveItem(pathToLabel[location.pathname] || "");
@@ -88,11 +88,11 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="lg:hidden top-0 h-fit left-0 w-screen -translate-x-1/2 bg-gradient-to-r from-[#0a192f] to-[#1c3b57] shadow-xl p-1 flex justify-between items-center rounded-xl border border-gray-200 backdrop-blur-xl z-50"
+        className="lg:hidden top-0 h-fit left-0 w-screen -translate-x-1/2 bg-white shadow-xl p-1 flex justify-between items-center rounded-xl border border-gray-200 backdrop-blur-xl z-50"
       >
         <Link to="/" className="flex flex-row items-center">
           <img
-            src="/l1.png"
+            src={Falcon}
             alt="logo"
             className="object-contain h-16 w-fit"
           />
@@ -222,13 +222,13 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 f
       </Link>
 
       <Link
-        to="/career"
+        to="/jobs"
         className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
           location.pathname === "/career" ? "text-blue-700" : ""
         }`}
         onClick={() => setActiveItem("Career")}
       >
-        Career
+       Jobs
         {location.pathname === "/career" && (
           <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
         )}
@@ -301,7 +301,7 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 f
               <NavItem to="/cofounder-reg" icon={<FaRegUser />} label="Cofounder Registration" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/business-idea-hub" icon={<AiOutlineBulb />} label="Business Ideation Hub" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/business-consultation" icon={<MdBusinessCenter />} label="Business Consultation" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/career" icon={<AiOutlineSolution />} label="Career" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/jobs" icon={<AiOutlineSolution />} label="Jobs" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/startups" icon={<FaRegCalendarAlt />} label="Start-Ups" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/login" icon={<FaRegCalendarAlt />} label="Login" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/contact" icon={<FaRegCalendarAlt />} label="Contact" activeTab={activeTab} setActiveTab={setActiveTab} />
