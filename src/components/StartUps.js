@@ -73,6 +73,32 @@ const [phone, setPhone] = useState('');
 
   return (
     <div className="p-4">
+      <section class="bg-white">
+    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div class="mr-auto place-self-center lg:col-span-7">
+            <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-4xl xl:text-3xl ">Invest in Start-Ups with TACTOS</h1>
+            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl ">At TACTOS, we connect visionary investors with high-potential startups poised to shape the future. By investing through our platform, you gain early access to disruptive ideas, diverse portfolios, and the opportunity to be part of the next big success story.</p>
+           
+        </div>
+        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+        <div className="reasons grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+  <div className="reason-card bg-white rounded-xl shadow-lg transform transition-transform duration-300 hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-3 hover:shadow-2xl">
+    <div className="icon text-4xl text-center pt-6">🎯</div>
+    <h2 className="text-center text-lg font-semibold text-gray-800 p-4">High Growth Potential</h2>
+  </div>
+  <div className="reason-card bg-white rounded-xl shadow-lg transform transition-transform duration-300 hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-3 hover:shadow-2xl">
+    <div className="icon text-4xl text-center pt-6">📈</div>
+    <h2 className="text-center text-lg font-semibold text-gray-800 p-4">Portfolio Diversification</h2>
+  </div>
+  <div className="reason-card bg-white rounded-xl shadow-lg transform transition-transform duration-300 hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-3 hover:shadow-2xl">
+    <div className="icon text-4xl text-center pt-6">💰</div>
+    <h2 className="text-center text-lg font-semibold text-gray-800 p-4">Wealth Creation</h2>
+  </div>
+</div>
+
+        </div>                
+    </div>
+</section>
       {/* Filters */}
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         <select
@@ -132,78 +158,92 @@ const [phone, setPhone] = useState('');
         )}
       </div>
 
-      {/* Detailed View */}
       {selectedStartup && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4 overflow-auto">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-full h-screen relative flex p-8 gap-10">
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedStartup(null)}
-              className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-900"
-            >
-              <FaTimes />
-            </button>
+  <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center p-4">
+    <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl h-[90vh] relative flex flex-col md:flex-row overflow-hidden">
+      
+      {/* Close Button */}
+      <button
+        onClick={() => setSelectedStartup(null)}
+        className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-900 z-10"
+      >
+        <FaTimes />
+      </button>
 
-            {/* Left Side */}
-            <div className="w-2/3">
-            <iframe 
-  width="560" 
-  height="315" 
-  src={selectedStartup.youtube}
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-  allowfullscreen>
-</iframe>
+      {/* Right Side (on top for mobile) */}
+      <div className="w-full md:w-1/3 order-1 md:order-none border-b md:border-b-0 md:border-l border-gray-200 p-6 flex flex-col items-center text-center overflow-y-auto">
+        <img
+          src={selectedStartup.logoUrl}
+          alt="Logo"
+          className="w-28 h-28 md:w-32 md:h-32 object-cover rounded-full shadow-md"
+        />
+        <h2 className="text-xl md:text-2xl font-bold mt-4">{selectedStartup.companyName}</h2>
+        <p className="text-blue-600 text-base md:text-lg mt-1">{selectedStartup.sector}</p>
+        <p className="text-gray-600 text-sm mt-2">{selectedStartup.shortDescription}</p>
+        <p className="text-gray-500 text-sm mt-1">{selectedStartup.location} | {selectedStartup.stage}</p>
+        <p className="text-gray-400 text-xs mt-1">Created: {new Date(selectedStartup.createdAt).toLocaleDateString()}</p>
 
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <p className="text-gray-700 text-lg">{selectedStartup.longDescription}</p>
-                <button
-                  onClick={() => setShowForm(true)}
-                  className="px-6 py-3 bg-blue-900 text-white rounded-md font-semibold whitespace-nowrap"
-                >
-                  I'm Interested
-                </button>
-              </div>
-            </div>
-
-            {/* Right Side */}
-            <div className="w-1/3 flex flex-col gap-4 items-center text-center">
-              <img src={selectedStartup.logoUrl} alt="Logo" className="w-40 h-40 object-cover rounded-full shadow-md" />
-              <h2 className="text-2xl font-bold">{selectedStartup.companyName}</h2>
-              <p className="text-blue-600 text-lg">{selectedStartup.sector}</p>
-              <p className="text-gray-600">{selectedStartup.shortDescription}</p>
-              <p className="text-gray-500">{selectedStartup.location} | {selectedStartup.stage}</p>
-              <p className="text-gray-400 text-sm">Created: {new Date(selectedStartup.createdAt).toLocaleDateString()}</p>
-
-              {/* Social Share */}
-              <div className="flex gap-6 mt-6">
-                <a
-                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-500 text-2xl"
-                >
-                  <FaWhatsapp />
-                </a>
-                <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 text-2xl"
-                >
-                  <FaFacebookF />
-                </a>
-                <button
-                  onClick={() => navigator.clipboard.writeText(window.location.href)}
-                  className="text-gray-700 text-2xl"
-                >
-                  <FaLink />
-                </button>
-              </div>
-            </div>
-          </div>
+        {/* Social Share */}
+        <div className="flex gap-6 mt-6">
+          <a
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-500 text-xl hover:scale-110 transition-transform"
+          >
+            <FaWhatsapp />
+          </a>
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 text-xl hover:scale-110 transition-transform"
+          >
+            <FaFacebookF />
+          </a>
+          <button
+            onClick={() => navigator.clipboard.writeText(window.location.href)}
+            className="text-gray-700 text-xl hover:scale-110 transition-transform"
+          >
+            <FaLink />
+          </button>
         </div>
-      )}
+      </div>
+
+      {/* Left Side (below on mobile) */}
+      <div className="w-full md:w-2/3 order-2 md:order-none flex flex-col gap-4 p-6 overflow-y-auto">
+        
+        {/* Video Embed */}
+        <div className="w-full h-64 md:h-96">
+          <iframe
+            src={selectedStartup.youtube}
+            className="w-full h-full rounded-md"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Startup Video"
+          />
+        </div>
+
+        {/* Long Description */}
+        <div className="text-gray-700 text-base whitespace-pre-wrap">
+          {selectedStartup.longDescription}
+        </div>
+
+        {/* Interest Button */}
+        <div className="mt-4">
+          <button
+            onClick={() => setShowForm(true)}
+            className="px-5 py-3 bg-blue-900 text-white rounded-md font-medium hover:bg-blue-800 transition"
+          >
+            I'm Interested
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
 
       {/* Interested Form Popup */}
       {showForm && (

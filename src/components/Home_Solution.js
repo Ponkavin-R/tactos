@@ -55,7 +55,7 @@ export default function Home_Solution() {
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-snug">
                 Empowering{" "}
                 <span className="block text-indigo-600 mt-1">
-                  Tier 3 Students & Businesses
+                Empowering Tier 3 Entrepreneurs
                 </span>
               </h1>
             </motion.div>
@@ -64,7 +64,7 @@ export default function Home_Solution() {
               variants={itemVariants}
               className="text-sm md:text-base text-gray-700 leading-relaxed"
             >
-              At Tactos Strategic Solutions, we empower Tier 3 students and businesses with strategic insights and innovative solutions that fuel long-term growth. From ideation to exit, we mentor students and guide enterprises through every stage of their journey.
+            At TACTOS, we empower aspiring entrepreneurs from Tier 3 regions with strategic insights and innovative solutions that drive sustainable growth. From ideation to exit, we provide mentorship and guidance through every stage of their entrepreneurial journey.
             </motion.p>
 
             <motion.ul variants={itemVariants} className="space-y-6">
@@ -78,31 +78,15 @@ export default function Home_Solution() {
                 </div>
                 <div>
                   <h3 className="text-base font-semibold text-indigo-600 mb-1">
-                    Tailored Mentorship
+                  Tailored Mentorship
                   </h3>
                   <p className="text-sm text-gray-700 leading-snug">
-                    We provide Tier 3 students with the exposure and skills to become successful entrepreneurs, from ideation to exit.
+                  We equip Tier 3 entrepreneurs with the exposure, skills, and confidence to turn ideas into impactful ventures in par with Tier 1 cities. 
+
                   </p>
                 </div>
               </motion.li>
 
-              {/* Feature 2 */}
-              <motion.li
-                variants={featureVariants}
-                className="flex items-start gap-4"
-              >
-                <div className="p-3 bg-indigo-600 rounded-lg text-white">
-                  <FaHeartbeat className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold text-indigo-600 mb-1">
-                    Strategic Guidance
-                  </h3>
-                  <p className="text-sm text-gray-700 leading-snug">
-                    Whether you’re a startup or an enterprise, we help you navigate business challenges with data-driven strategies.
-                  </p>
-                </div>
-              </motion.li>
             </motion.ul>
           </motion.div>
 

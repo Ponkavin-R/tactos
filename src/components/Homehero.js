@@ -37,7 +37,7 @@ const HeroSection = () => {
 
       {/* Left and Right Wings Background (Falcon Images) */}
       <div
-        className="absolute left-0 top-0 w-[50vw] h-full bg-cover bg-no-repeat bg-left z-[-1] md:block hidden"
+        className="absolute left-0 top-0 w-[50vw] h-full bg-cover bg-no-repeat bg-left z-[-1] md:block hidden opacity-75"
         style={{
           backgroundImage: `url(${WL})`,
           transform: `scale(${scale})`,
@@ -45,7 +45,7 @@ const HeroSection = () => {
         }}
       />
       <div
-        className="absolute right-0 -top-14 w-[50vw] h-full bg-cover bg-no-repeat bg-right z-[-1] md:block hidden"
+        className="absolute right-0 -top-14 w-[50vw] h-full bg-cover bg-no-repeat bg-right z-[-1] md:block hidden opacity-75"
         style={{
           backgroundImage: `url(${Wr})`,
           transform: `scale(${scale})`,
@@ -59,7 +59,7 @@ const HeroSection = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
         }`}
       >
-        At TACTOS, we safeguard startups and entrepreneurs from unreliable tech solution providers
+        Tactos - The World for Entrepreneurs
       </h1>
 
       {/* Description */}
@@ -68,7 +68,7 @@ const HeroSection = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        Acting as a trusted intermediary, we connect you with vetted and reliable tech partners. Just share your budget—we’ll ensure your project is delivered on time, within budget, and without compromise.
+       Acting as a Trusted Intermediary we Empowering Ideas, and Navigating Risks Safeguarding Entrepreneurs Every Step of the Way
       </p>
 
       {/* Cards Section */}
@@ -87,6 +87,12 @@ const HeroSection = () => {
             alt: "Funding Icon",
           },
           {
+            title: "Incubation",
+            imgSrc:
+              "https://cdni.iconscout.com/illustration/premium/thumb/boy-is-explaining-business-incubation-center-illustration-download-in-svg-png-gif-file-formats--startup-support-mentorship-programs-ethics-laws-pack-illustrations-10269632.png",
+            alt: "Planning Icon",
+          },
+          {
             title: "Business Consulting",
             imgSrc:
               "https://cdni.iconscout.com/illustration/premium/thumb/online-consultant-illustration-download-in-svg-png-gif-file-formats--financial-meeting-advice-pack-business-illustrations-4694342.png?f=webp",
@@ -99,19 +105,13 @@ const HeroSection = () => {
             alt: "Market Analysis Icon",
           },
           {
-            title: "Incubation",
+            title: "Acellerator",
             imgSrc:
-              "https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg",
+              "https://cdni.iconscout.com/illustration/premium/thumb/advanced-ai-technology-with-human-interaction-illustration-download-in-svg-png-gif-file-formats--robotic-brain-digital-transformation-pack-science-illustrations-10841335.png?f=webp",
             alt: "Planning Icon",
           },
           {
             title: "IT Solutions",
-            imgSrc:
-              "https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg",
-            alt: "Planning Icon",
-          },
-          {
-            title: "Auxiliation",
             imgSrc:
               "https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg",
             alt: "Planning Icon",

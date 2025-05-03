@@ -6,15 +6,15 @@ const services = [
   {
     title: "Business Ideation Hub",
     description:
-      "Transform your ideas into scalable business models with expert guidance, research tools, and creative brainstorming sessions.",
+      "Want to be an entrepreneur but don’t know where to start? No idea to execute? Don’t worry! We provide you with ideas, and the right guidance to help you turn your entrepreneurial dreams into reality.",
     image:
-      "https://images.unsplash.com/photo-1581090700227-1b9db9cfd9a2?auto=format&fit=crop&w=1000&q=80",
+      "https://steelcase-res.cloudinary.com/image/upload/c_fill,q_auto,f_auto,h_600,w_1200/v1488662618/www.steelcase.com/2017/03/04/Ideation-Hub_17-0079005.jpg",
     route: "/business-idea-hub",
   },
   {
     title: "Business Consultation",
     description:
-      "Get expert advice and strategies to enhance your operations, optimize performance, and scale your business effectively.",
+      "Unlock the full potential of your business with personalized insights and strategic guidance. Our expert consultants work closely with you to understand your unique needs, refine your business strategies, and drive maximum ROI in today’s market.",
     image:
       "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=80",
     route: "/business-consultation",

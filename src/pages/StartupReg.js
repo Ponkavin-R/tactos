@@ -138,7 +138,7 @@ export default function StartupReg() {
         { label: "Full Name", name: "fullName", type: "text" },
         { label: "Email Address", name: "email", type: "email" },
         { label: "Phone Number", name: "phone", type: "tel" },
-        { label: "LinkedIn Profile (optional)", name: "linkedin", type: "url", optional: true },
+        { label: "LinkedIn Profile", name: "linkedin", type: "url", },
       ],
     },
     {
@@ -196,13 +196,13 @@ export default function StartupReg() {
           transition={{ duration: 1 }}
           className="md:w-1/2 text-center md:text-left p-4 sm:p-6"
         >
-          <img src={cr} alt="cofounder" className="w-3/4 h-auto mx-auto animate-[bounce_3s_infinite]" />
+          <img src="https://img.freepik.com/free-vector/startup-construction-development-3d-thin-line-art-style-design-concept-isometric-illustration_1284-61110.jpg" alt="cofounder" className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_3] motion-safe:transition-transform" />
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mt-4">
-            {displayText}
-            <span className="text-indigo-600 font-extrabold">|</span>
+          Join the TACTOS Startup Ecosystem
+            
           </h1>
           <p className="text-sm sm:text-base text-gray-600 mt-2 max-w-sm mx-auto md:mx-0">
-            Join a network of passionate individuals and connect with the right co-founder to build something amazing!
+          Register now to access expert guidance, resources, and opportunities that accelerate your startup’s growth such as job portal, investment opportunities and incubation. 
           </p>
         </motion.div>
 

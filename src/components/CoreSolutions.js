@@ -96,7 +96,7 @@ const features = [
     icon: Code,
     title: "Web Development",
     description:
-      "We build responsive, high-performance websites that deliver great user experiences and support your business goals.",
+      "Create responsive, high-performance websites that don’t just look great but also deliver results. ",
     backgroundColor: "dark",
   },
   {
@@ -105,7 +105,7 @@ const features = [
     icon: Smartphone,
     title: "App Development",
     description:
-      "Get seamless mobile applications for Android and iOS designed for performance, scalability, and user engagement.",
+      "Build smooth, scalable mobile applications for Android and iOS that offer intuitive interfaces and seamless performance, scalability and engagement.",
     backgroundColor: "light",
   },
   {
@@ -114,7 +114,7 @@ const features = [
     icon: Megaphone,
     title: "Digital Marketing",
     description:
-      "Promote your brand and grow your audience with results-driven digital strategies including SEO, PPC, and social media.",
+      "Increase your brand's visibility and customer engagement through data-driven digital marketing strategies. From SEO and social media to content creation and ad campaigns.",
     backgroundColor: "dark",
   },
   {
@@ -123,7 +123,7 @@ const features = [
     icon: Settings,
     title: "Automation",
     description:
-      "Automate repetitive processes and tasks to save time, reduce human error, and boost operational efficiency.",
+      "Simplify and optimize your business processes with custom automation solutions. From lead tracking to workflow management.",
     backgroundColor: "light",
   },
   {
@@ -132,7 +132,7 @@ const features = [
     icon: Briefcase,
     title: "AI Solution",
     description:
-      "Custom AI solutions crafted to empower startups and enterprises in achieving their goals, optimizing operations, and scaling intelligently.",
+      "Leverage the power of artificial intelligence to gain deeper insights, personalize customer experiences, and make smarter business decisions. ",
     backgroundColor: "dark",
   },
   {
@@ -141,7 +141,7 @@ const features = [
     icon: Workflow,
     title: "ERP Solution",
     description:
-      "Tactos offers tailored ERP solutions to unify your business operations. Streamline finance, HR, inventory, and more—all in one platform.",
+      "Implement powerful, integrated ERP systems to manage your teams, operations, and resources efficiently, from inventory to HR.",
     backgroundColor: "dark",
   },
 ];

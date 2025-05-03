@@ -36,8 +36,7 @@ const TestimonialCarousel = () => {
           What Our Clients Say
         </h2>
         <p className="text-center text-sm sm:text-base text-gray-600 mb-8 sm:mb-12">
-          Hear from our valued clients who have experienced the transformative
-          impact of our platform. We are proud to be part of their journey!
+        Hear from our valued clients who have experienced the transformative impact of our platform. We are proud to be part of their journey!
         </p>
 
         <div

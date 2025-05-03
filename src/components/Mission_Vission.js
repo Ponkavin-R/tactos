@@ -29,7 +29,7 @@ const Mission_Vision = () => {
             <Eye className="w-14 h-14 text-blue-700 mb-3" />
             <h3 className="text-xl font-semibold text-gray-800">Our Vision</h3>
             <p className="text-sm text-gray-600 mt-2">
-              Empowering Tier 2 & Tier 3 cities by creating vibrant startup ecosystems and transforming them into economic hubs.
+            To build a robust startup ecosystem in Tier 2 and Tier 3 cities, fostering entrepreneurial growth and enabling startups to thrive within these regions
             </p>
           </motion.div>
         </motion.div>
@@ -55,9 +55,7 @@ const Mission_Vision = () => {
             variants={fadeInUp}
             transition={{ duration: 0.8 }}
           >
-            At <strong className="text-blue-700">TACTOS</strong>, we envision a world where every aspiring entrepreneur
-            has the tools and opportunities to innovate and succeed — regardless of their location.
-            By breaking down barriers and uplifting regional talent, we’re shaping a more inclusive economy.
+            At <strong className="text-blue-700">TACTOS</strong>,  we believe every aspiring entrepreneur deserves the chance to innovate and thrive — regardless of their geography. By unlocking access to tools, opportunities, and support, we’re not just empowering individuals — we’re cultivating a more inclusive and dynamic economic future.
           </motion.p>
         </motion.div>
       </div>

@@ -134,19 +134,17 @@ export default function Solution() {
 >
   <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f680_1px,transparent_1px)] [background-size:18px_18px] pointer-events-none rounded-3xl" />
   
-  <h2 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest uppercase mb-3 z-10 relative">
-    Empowering Innovation & Growth
+  <h2 className=" text-2xl sm:text-3xl font-bold leading-snug tracking-tight text-gray-900 z-10 relative mb-4">
+  At TACTOS, we safeguard startups and entrepreneurs from unreliable tech solution providers.
   </h2>
   
-  <h1 className="text-2xl sm:text-3xl font-bold leading-snug tracking-tight text-gray-900 z-10 relative">
-    Transform Your Business with
+  <h1 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest uppercase mb-3 z-10 relative">
+  Acting as a trusted intermediary, we connect you with vetted and reliable tech partners. Just share your budget—we’ll ensure your project is delivered on time, within budget, and without compromise.
     <br />
-    <span className="text-blue-700">Tactos IT Solutions</span>
   </h1>
   
   <p className="text-gray-600 mt-3 sm:mt-4 max-w-xl mx-auto text-xs sm:text-sm z-10 relative">
-    Discover innovative strategies and tailor-made services that elevate
-    your brand and drive success in the digital era.
+  No hidden fees. No commissions. Just dependable support to help your startup thrive.
   </p>
 </motion.header>
 
@@ -161,6 +159,10 @@ export default function Solution() {
         <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center text-blue-800 tracking-tight">
           Project Details
         </h2>
+        <h1 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest text-center mb-3 z-10 relative">
+        Provide your budget for your build and we will connect you with the right partners providing services right on time. 
+    <br />
+  </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {["startupName", "founderName", "email", "phoneNumber"].map((field, index) => (

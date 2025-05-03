@@ -37,7 +37,7 @@ const Investors = () => {
           Our Network
         </h2>
         <p className="text-sm sm:text-base text-center text-gray-600 mb-8 sm:mb-12">
-          We proudly partner with industry leaders, investors, and key collaborators to drive success and growth.
+        We proudly collaborate with industry leaders, visionary investors, and strategic partners to accelerate growth and deliver impactful results.
         </p>
 
         <div className="relative w-full overflow-hidden">

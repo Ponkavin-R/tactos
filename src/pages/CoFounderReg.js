@@ -113,7 +113,7 @@ export default function CoFounder() {
         { label: "Full Name", name: "fullName", type: "text" },
         { label: "Email Address", name: "email", type: "email" },
         { label: "Phone Number", name: "phone", type: "tel" },
-        { label: "LinkedIn Profile (optional)", name: "linkedin", type: "url", optional: true },
+        { label: "LinkedIn Profile", name: "linkedin", type: "url", },
         { label: "Location (City, State)", name: "location", type: "text" },
       ],
     },
@@ -198,18 +198,10 @@ export default function CoFounder() {
         <img
           src={cr}
           alt="cofounder illustration"
-          className="w-3/4 h-auto mb-2 animate-[bounce_3s_infinite]"
+          className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_3] motion-safe:transition-transform"
         />
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mt-6">
-          <Typewriter
-            words={["Find Your Dream Co-Founder", "Build Ideas Together", "Start Something Big!"]}
-            loop={true}
-            cursor
-            cursorStyle="|"
-            typeSpeed={60}
-            deleteSpeed={40}
-            delaySpeed={2000}
-          />
+        Find Your Dream Co-Founder <span className="text-yellow-300">Through TACTOS</span>
         </h1>
         <p className="text-gray-600 mt-4 max-w-md">
           Join a network of passionate individuals and connect with the right co-founder to build something amazing!

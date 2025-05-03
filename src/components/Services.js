@@ -47,34 +47,34 @@ const Services = () => {
   const services = [
     {
       name: "Web Development",
-      description: "We build responsive, high-performance websites.",
+      description: "Responsive, high-performance websites tailored for impact.",
       logo: <FaLaptopCode />,
     },
     {
       name: "App Development",
-      description: "Get seamless mobile applications for Android and iOS.",
+      description: "Smooth, scalable mobile apps for Android & iOS",
       logo: <FaMobileAlt />,
     },
     {
       name: "Digital Marketing",
-      description: "Promote your brand through digital strategies.",
+      description: "Boost visibility and engagement across digital platforms with smart solutions",
       logo: <FaBullhorn />,
     },
     {
       name: "Automation",
-      description: "Automate processes to save time and resources.",
+      description: "Streamline operations with smart automated workflows ",
       logo: <FaRobot />,
     },
     {
       name: "AI Solution",
       description:
-        "Custom AI solutions crafted to empower startups and enterprises in achieving their goals, optimizing operations, and scaling intelligently.",
+        "Intelligent solutions to enhance business growth",
       logo: <FaBriefcase />,
     },
     {
       name: "ERP Solution",
       description:
-        "Tactos offers tailored ERP solutions to unify your business operations. Streamline finance, HR, inventory, and more—all in one platform.",
+        "Integrated systems to manage teams and growth efficiently.",
       logo: <FaProjectDiagram />,
     },
   ];
