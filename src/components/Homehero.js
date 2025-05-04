@@ -37,7 +37,7 @@ const HeroSection = () => {
 
       {/* Left and Right Wings Background (Falcon Images) */}
       <div
-        className="absolute left-0 top-0 w-[50vw] h-full bg-cover bg-no-repeat bg-left z-[-1] md:block hidden opacity-75"
+        className="absolute -left-16 top-0 w-[40vw] h-full bg-cover bg-no-repeat bg-left z-[-1] md:block hidden opacity-75"
         style={{
           backgroundImage: `url(${WL})`,
           transform: `scale(${scale})`,
@@ -45,7 +45,7 @@ const HeroSection = () => {
         }}
       />
       <div
-        className="absolute right-0 -top-14 w-[50vw] h-full bg-cover bg-no-repeat bg-right z-[-1] md:block hidden opacity-75"
+        className="absolute -right-16 -top-14 w-[35vw] h-full bg-cover bg-no-repeat bg-right z-[-1] md:block hidden opacity-75"
         style={{
           backgroundImage: `url(${Wr})`,
           transform: `scale(${scale})`,
@@ -55,18 +55,17 @@ const HeroSection = () => {
 
       {/* Title */}
       <h1
-        className={`text-lg md:text-xl px-4 font-semibold leading-snug text-blue-950 transition-opacity duration-1000 ease-in-out ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-        }`}
+        className="text-5xl md:-mt-32 lg:-mt-32 md:text-5xl mb-5 px-4 font-semibold text-blue-950 "
+        style={{
+          textShadow: '0 0 10px rgba(0, 0, 0, 0.8)',
+        }}
       >
         Tactos - The World for Entrepreneurs
       </h1>
 
       {/* Description */}
       <p
-        className={`text-gray-700 mt-2 max-w-xl text-sm md:text-base transition-opacity duration-1000 ease-in-out delay-300 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}
+        className={`text-gray-700 mt-2 max-w-xl text-sm md:text-base transition-opacity duration-1000 ease-in-out delay-300`}
       >
        Acting as a Trusted Intermediary we Empowering Ideas, and Navigating Risks Safeguarding Entrepreneurs Every Step of the Way
       </p>
@@ -105,7 +104,7 @@ const HeroSection = () => {
             alt: "Market Analysis Icon",
           },
           {
-            title: "Acellerator",
+            title: "Accelerator",
             imgSrc:
               "https://cdni.iconscout.com/illustration/premium/thumb/advanced-ai-technology-with-human-interaction-illustration-download-in-svg-png-gif-file-formats--robotic-brain-digital-transformation-pack-science-illustrations-10841335.png?f=webp",
             alt: "Planning Icon",

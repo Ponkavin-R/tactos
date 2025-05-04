@@ -146,7 +146,7 @@ const Job = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto my-10 md:mt-24 lg:mt-24 px-4">
+    <div className="max-w-6xl mx-auto md:mt-36 lg:mt-40 px-4">
       <section className="text-center mb-10">
         <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 leading-tight">
           Find Your Suitable Jobs <br />

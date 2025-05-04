@@ -113,7 +113,7 @@ const Jobdetail = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 bg-white rounded-3xl shadow-lg p-6 md:p-10 lg:mt-10 h-full">
+    <div className="max-w-4xl mx-auto mt-10 md:mt-32 lg:mt-40 bg-white rounded-3xl shadow-lg p-6 md:p-10 h-full">
       {/* Company Header */}
       <div className="flex items-center gap-5 mb-8">
         <img

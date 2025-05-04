@@ -34,7 +34,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
       "/login": "Login",
       "/business-idea-hub": "Business Ideation Hub",
       "/business-consultation": "Business Consultation",
-      "/jobs": "Job",
+      "/jobs": "Job Portal",
       "/contact": "Contact"
     };
     setActiveItem(pathToLabel[location.pathname] || "");
@@ -116,7 +116,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 initial={{ opacity: 0, y: -10 }}
 animate={{ opacity: 1, y: 0 }}
 transition={{ duration: 0.5, ease: "easeOut" }}
-className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 flex items-center mt-4 justify-center space-x-12"
+className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-4 mr-8 py-3 flex items-center mt-4 justify-center space-x-12"
 >
     <nav className="flex space-x-10 text-black font-medium">
       {/* Home */}
@@ -228,7 +228,7 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 f
         }`}
         onClick={() => setActiveItem("Career")}
       >
-       Jobs
+       Job Portal
         {location.pathname === "/jobs" && (
           <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
         )}
@@ -250,23 +250,24 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-10 mr-8 py-3 f
   </motion.header>
 
   {/* Login / Logout Button on the right */}
-  <div className="flex items-center justify-end">
-    {isLoggedIn ? (
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
-      >
-        Logout
-      </button>
-    ) : (
-      <Link
-        to="/login"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 h-12 w-24 items-center text-center px-4 rounded-full transition duration-300"
-      >
-        Login
-      </Link>
-    )}
-  </div>
+  <div className="flex items-center justify-end mt-2 mr-6">
+  {isLoggedIn ? (
+    <button
+      onClick={handleLogout}
+      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+    >
+      Logout
+    </button>
+  ) : (
+    <Link
+      to="/login"
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-12 w-24 flex items-center justify-center rounded-full transition duration-300"
+    >
+      Login
+    </Link>
+  )}
+</div>
+
 </div>
 
 

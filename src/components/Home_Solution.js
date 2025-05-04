@@ -55,7 +55,7 @@ export default function Home_Solution() {
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-snug">
                 Empowering{" "}
                 <span className="block text-indigo-600 mt-1">
-                Empowering Tier 3 Entrepreneurs
+                Tier 3 Entrepreneurs
                 </span>
               </h1>
             </motion.div>

@@ -127,7 +127,7 @@ const EventDescription = () => {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto mt-10 bg-white rounded-3xl shadow-xl p-6 md:p-10"
+      className=" bg-white rounded-3xl shadow-xl max-w-4xl mx-auto mt-10 md:mt-32 lg:mt-40 p-6 md:p-10 h-full"
     >
       {/* Header */}
       <div className="flex items-center gap-5 mb-8">

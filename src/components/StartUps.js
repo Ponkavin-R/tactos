@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaTimes, FaFacebookF, FaWhatsapp, FaLink } from 'react-icons/fa';
-
+import { motion, AnimatePresence } from "framer-motion";
 const districts = [
   "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode",
   "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam",
@@ -73,32 +73,49 @@ const [phone, setPhone] = useState('');
 
   return (
     <div className="p-4">
-      <section class="bg-white">
-    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-        <div class="mr-auto place-self-center lg:col-span-7">
-            <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-4xl xl:text-3xl ">Invest in Start-Ups with TACTOS</h1>
-            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl ">At TACTOS, we connect visionary investors with high-potential startups poised to shape the future. By investing through our platform, you gain early access to disruptive ideas, diverse portfolios, and the opportunity to be part of the next big success story.</p>
-           
-        </div>
-        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-        <div className="reasons grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
-  <div className="reason-card bg-white rounded-xl shadow-lg transform transition-transform duration-300 hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-3 hover:shadow-2xl">
-    <div className="icon text-4xl text-center pt-6">🎯</div>
-    <h2 className="text-center text-lg font-semibold text-gray-800 p-4">High Growth Potential</h2>
-  </div>
-  <div className="reason-card bg-white rounded-xl shadow-lg transform transition-transform duration-300 hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-3 hover:shadow-2xl">
-    <div className="icon text-4xl text-center pt-6">📈</div>
-    <h2 className="text-center text-lg font-semibold text-gray-800 p-4">Portfolio Diversification</h2>
-  </div>
-  <div className="reason-card bg-white rounded-xl shadow-lg transform transition-transform duration-300 hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-3 hover:shadow-2xl">
-    <div className="icon text-4xl text-center pt-6">💰</div>
-    <h2 className="text-center text-lg font-semibold text-gray-800 p-4">Wealth Creation</h2>
-  </div>
-</div>
+<section className="bg-white">
+      <div className="max-w-screen-xl px-4 py-12 mx-auto grid lg:grid-cols-12 gap-8 items-center">
+        {/* Left Text Section */}
+        <motion.div
+          className="lg:col-span-7"
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight mb-6">
+            <span className="block">Invest in Start-Ups</span>
+            <span className="block text-blue-600">with TACTOS</span>
+          </h1>
+          <p className="text-gray-600 text-base sm:text-lg lg:text-xl max-w-2xl mb-8">
+            At TACTOS, we connect visionary investors with high-potential startups poised to shape the future.
+            Gain early access to disruptive ideas, diversify your portfolio, and be part of the next big success story.
+          </p>
+        </motion.div>
 
-        </div>                
-    </div>
-</section>
+        {/* Reason Cards - Right Section */}
+        <motion.div
+          className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 pt-16 gap-6"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2 }}
+        >
+          {[
+            { icon: "🎯", title: "High Growth Potential" },
+            { icon: "📈", title: "Portfolio Diversification" },
+            { icon: "💰", title: "Wealth Creation" },
+          ].map((item, index) => (
+            <motion.div
+            key={index}
+            whileHover={{ scale: 1.05 }}
+            className="w-64 bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl shadow-md px-6 py-5 text-center transition duration-300 hover:shadow-lg"
+          >
+              <div className="text-3xl mb-3">{item.icon}</div>
+              <h2 className="text-base font-semibold text-gray-800">{item.title}</h2>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
       {/* Filters */}
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         <select
@@ -138,25 +155,43 @@ const [phone, setPhone] = useState('');
 
       {/* Startup Cards */}
       <div className="flex flex-wrap justify-center gap-8 px-4">
-        {filteredStartups.length > 0 ? (
-          filteredStartups.map((startup, idx) => (
-            <div
-              key={idx}
-              className="bg-white w-80 rounded-lg shadow-lg overflow-hidden cursor-pointer hover:shadow-2xl transition"
-              onClick={() => setSelectedStartup(startup)}
-            >
-              <img src={startup.logoUrl} alt="Logo" className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{startup.sector}</h3>
-                <p className="text-gray-600">{startup.location} | {startup.stage}</p>
-                <p className="text-gray-500 mt-2">{startup.shortDescription}</p>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="text-gray-500 text-lg">No startups match your filters.</div>
-        )}
+  {filteredStartups.length > 0 ? (
+    filteredStartups.map((startup, idx) => (
+      <div
+        key={idx}
+        className="w-80 bg-white rounded-xl shadow-md hover:shadow-2xl transition duration-300 cursor-pointer border border-gray-200"
+        onClick={() => setSelectedStartup(startup)}
+      >
+        {/* Full-width logo image */}
+        <motion.img
+          src={`${process.env.REACT_APP_API_URL}${startup.logoUrl}`}
+          alt="Startup Logo"
+          className="w-full h-40 object-cover"
+        />
+
+        {/* Card content */}
+        <div className="p-4">
+          <h3 className="text-lg font-bold text-gray-800 hover:text-indigo-600 transition text-center">
+            {startup.sector}
+          </h3>
+
+          <p className="text-sm text-gray-500 text-center mt-1">
+            <span className="font-medium text-purple-600">{startup.location}</span> |{" "}
+            <span className="font-medium text-blue-600">{startup.stage}</span>
+          </p>
+
+          <p className="mt-3 text-sm text-gray-700 text-justify leading-relaxed font-medium">
+            {startup.shortDescription}
+          </p>
+        </div>
       </div>
+    ))
+  ) : (
+    <div className="text-gray-500 text-lg">No startups match your filters.</div>
+  )}
+</div>
+
+
 
       {selectedStartup && (
   <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center p-4">
@@ -172,11 +207,13 @@ const [phone, setPhone] = useState('');
 
       {/* Right Side (on top for mobile) */}
       <div className="w-full md:w-1/3 order-1 md:order-none border-b md:border-b-0 md:border-l border-gray-200 p-6 flex flex-col items-center text-center overflow-y-auto">
-        <img
-          src={selectedStartup.logoUrl}
-          alt="Logo"
-          className="w-28 h-28 md:w-32 md:h-32 object-cover rounded-full shadow-md"
-        />
+      <motion.img
+                src={`${process.env.REACT_APP_API_URL}${selectedStartup.logoUrl}`}
+                alt="Logo"
+                className="w-16 h-16 object-cover rounded-full transition-transform transform hover:scale-110"
+              />
+
+
         <h2 className="text-xl md:text-2xl font-bold mt-4">{selectedStartup.companyName}</h2>
         <p className="text-blue-600 text-base md:text-lg mt-1">{selectedStartup.sector}</p>
         <p className="text-gray-600 text-sm mt-2">{selectedStartup.shortDescription}</p>

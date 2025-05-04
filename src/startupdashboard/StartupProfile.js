@@ -57,8 +57,15 @@ const StartupProfile = () => {
   };
 
   const handleSave = async () => {
+    const payload = { ...formData };
+  
+    // Clean and format support
+    if (typeof payload.support === 'string') {
+      payload.support = payload.support.split(",").map(item => item.trim()).filter(Boolean);
+    }
+  
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/startups/${startupId}`, formData);
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/startups/${startupId}`, payload);
       alert("Data saved successfully!");
       setEditMode(false);
     } catch (err) {
@@ -66,6 +73,7 @@ const StartupProfile = () => {
       alert("Failed to save data.");
     }
   };
+  
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">

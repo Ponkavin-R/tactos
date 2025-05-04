@@ -61,20 +61,35 @@ const Funding = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = new FormData();
-    payload.append('userId', userId);
-
+    payload.append("userId", userId);
+  
     for (let key in formData) {
       payload.append(key, formData[key]);
     }
-
+  
     try {
-      const res = await axios.post(`${apiUrl}/api/fundings`, payload, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      setFundings([res.data, ...fundings]);
+      let res;
+      if (editId) {
+        res = await axios.put(`${apiUrl}/api/fundings/${editId}`, payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+  
+        // Update the fundings array with the edited item
+        setFundings((prev) =>
+          prev.map((item) => (item._id === editId ? res.data : item))
+        );
+      } else {
+        res = await axios.post(`${apiUrl}/api/fundings`, payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+  
+        setFundings([res.data, ...fundings]);
+      }
+  
       setShowForm(false);
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 2000);
@@ -94,6 +109,7 @@ const Funding = () => {
       console.error("Submission failed", err.response || err.message);
     }
   };
+  
 
   const handleDelete = async () => {
     try {
@@ -294,7 +310,7 @@ const Funding = () => {
 
             <div className="flex justify-center mb-4">
               <motion.img
-                src={`${apiUrl}${funding.logoUrl}`}
+                src={`${process.env.REACT_APP_API_URL}${funding.logoUrl}`}
                 alt="Logo"
                 className="w-16 h-16 object-cover rounded-full transition-transform transform hover:scale-110"
               />

@@ -130,7 +130,7 @@ export default function Solution() {
   initial={{ opacity: 0, y: -30 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.8, ease: "easeOut" }}
-  className="relative bg-gradient-to-br from-white via-blue-50 to-white rounded-3xl px-4 py-10 sm:px-8 text-center mb-8 shadow-xl overflow-hidden"
+  className="relative bg-gradient-to-br from-white via-blue-50 to-white rounded-3xl px-4 py-10 sm:px-8 mt-10 text-center mb-8 shadow-xl overflow-hidden"
 >
   <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f680_1px,transparent_1px)] [background-size:18px_18px] pointer-events-none rounded-3xl" />
   
@@ -138,7 +138,7 @@ export default function Solution() {
   At TACTOS, we safeguard startups and entrepreneurs from unreliable tech solution providers.
   </h2>
   
-  <h1 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest uppercase mb-3 z-10 relative">
+  <h1 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest mb-3 z-10 relative">
   Acting as a trusted intermediary, we connect you with vetted and reliable tech partners. Just share your budget—we’ll ensure your project is delivered on time, within budget, and without compromise.
     <br />
   </h1>

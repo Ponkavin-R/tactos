@@ -120,7 +120,7 @@ const Event = () => {
   const paidEvents = filteredEvents.filter((e) => e.type === 'Paid' && e.status !== 'Completed');
 
   return (
-    <div className="min-h-screen bg-gray-50 p-3 md:mt-16 lg:mt-16 sm:p-6">
+    <div className="min-h-screen bg-gray-50 p-3 md:mt-16 lg:mt-28 sm:p-6">
       <section className="text-center mb-10">
         <div className="flex justify-center mb-3">
           <div className="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center">
