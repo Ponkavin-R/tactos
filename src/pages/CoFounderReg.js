@@ -106,6 +106,15 @@ export default function CoFounder() {
     setStep((prevStep) => prevStep + 1);
   };
 
+  const tamilNaduDistricts = [
+    "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri",
+    "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri",
+    "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur",
+    "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur",
+    "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur",
+    "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"
+  ];
+
   const sections = [
     {
       title: "Personal Information",
@@ -114,7 +123,12 @@ export default function CoFounder() {
         { label: "Email Address", name: "email", type: "email" },
         { label: "Phone Number", name: "phone", type: "tel" },
         { label: "LinkedIn Profile", name: "linkedin", type: "url", },
-        { label: "Location (City, State)", name: "location", type: "text" },
+        {
+          label: "Location",
+          name: "location",
+          type: "select",
+          options: tamilNaduDistricts,
+        },
       ],
     },
     {
@@ -328,6 +342,18 @@ export default function CoFounder() {
                     onChange={handleChange}
                     className="p-2 border border-gray-300 rounded-xl shadow-sm text-sm"
                   />
+                ): field.type === "select" ? (
+                  <select
+                    name={field.name}
+                    value={formData[field.name] || ""}
+                    onChange={handleChange}
+                    className="p-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="">-- Select --</option>
+                    {field.options.map((option, idx) => (
+                      <option key={idx} value={option}>{option}</option>
+                    ))}
+                  </select>
                 ) : (
                   <input
                     type={field.type}

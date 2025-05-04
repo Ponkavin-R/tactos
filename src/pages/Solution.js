@@ -135,16 +135,16 @@ export default function Solution() {
   <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f680_1px,transparent_1px)] [background-size:18px_18px] pointer-events-none rounded-3xl" />
   
   <h2 className=" text-2xl sm:text-3xl font-bold leading-snug tracking-tight text-gray-900 z-10 relative mb-4">
-  At TACTOS, we safeguard startups and entrepreneurs from unreliable tech solution providers.
+  At TACTOS, we safeguard startups and entrepreneurs from unreliable tech solution providers
   </h2>
   
   <h1 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest mb-3 z-10 relative">
-  Acting as a trusted intermediary, we connect you with vetted and reliable tech partners. Just share your budget—we’ll ensure your project is delivered on time, within budget, and without compromise.
+  Acting as a Trusted Intermediary we support startups in finding the right service providers who deliver results right on time leading to their growth additionally safeguarding them from scams and fake quotes
     <br />
   </h1>
   
-  <p className="text-gray-600 mt-3 sm:mt-4 max-w-xl mx-auto text-xs sm:text-sm z-10 relative">
-  No hidden fees. No commissions. Just dependable support to help your startup thrive.
+  <p className="text-gray-600 mt-3 sm:mt-4 max-w-xl mx-auto text-xs sm:text-sm font-bold z-10 relative">
+  No hidden fees. No commissions. Just dependable support to help your startup thrive
   </p>
 </motion.header>
 
@@ -160,7 +160,7 @@ export default function Solution() {
           Project Details
         </h2>
         <h1 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest text-center mb-3 z-10 relative">
-        Provide your budget for your build and we will connect you with the right partners providing services right on time. 
+        Provide your budget for your build and we will connect you with the right partners providing services right on time
     <br />
   </h1>
 

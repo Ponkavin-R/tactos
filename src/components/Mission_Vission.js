@@ -29,7 +29,7 @@ const Mission_Vision = () => {
             <Eye className="w-14 h-14 text-blue-700 mb-3" />
             <h3 className="text-xl font-semibold text-gray-800">Our Vision</h3>
             <p className="text-sm text-gray-600 mt-2">
-            To build a robust startup ecosystem in Tier 2 and Tier 3 cities, fostering entrepreneurial growth and enabling startups to thrive within these regions
+            To build a robust and inclusive startup ecosystem that fosters entrepreneurial growth, empowers innovators, and enables startups to thrive through collaborative support, strategic mentorship, and sustainable innovation
             </p>
           </motion.div>
         </motion.div>

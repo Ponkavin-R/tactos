@@ -130,6 +130,14 @@ export default function StartupReg() {
     if (type === "text" && /\d/.test(value)) e.preventDefault();
     if (type === "tel" && /\D/.test(value)) e.preventDefault();
   };
+  const tamilNaduDistricts = [
+    "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri",
+    "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri",
+    "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur",
+    "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur",
+    "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur",
+    "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"
+  ];
 
   const sections = [
     {
@@ -158,7 +166,12 @@ export default function StartupReg() {
           options: ["Idea", "MVP", "Early Revenue", "Scaling"],
         },
         { label: "Website (optional)", name: "website", type: "url", optional: true },
-        { label: "Location", name: "location", type: "text" },
+        {
+          label: "Location",
+          name: "location",
+          type: "select",
+          options: tamilNaduDistricts,
+        },
         {
           label: "Are you looking for an Incubation Centre?",
           name: "incubation",
@@ -188,7 +201,7 @@ export default function StartupReg() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-red-100 via-white to-orange-200 flex items-center justify-center py-2 px-2 md:mt-20 lg:mt-20">
+    <div className="w-full min-h-screen bg-gradient-to-br from-red-100 via-white to-orange-200 flex items-center justify-center py-2 px-2 md:mt-20 lg:mt-4">
       <div className="w-full max-w-6xl rounded-2xl shadow-xl flex flex-col md:flex-row overflow-hidden">
         <motion.div
           initial={{ x: -80, opacity: 0 }}

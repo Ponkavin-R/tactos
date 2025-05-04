@@ -7,6 +7,8 @@ import Logo from "../assest/l2.svg";
 import TestimonialCarousel from "../components/Testimonial";
 import BusinessServices from "../components/BusinessServices";
 import Services from "../components/Services";
+import TactosIntro from "../components/TactosIntro";
+import HeroSection from "../components/HomeInvestInStartups";
 
 export default function Home() {
   const [scale, setScale] = useState(1);
@@ -21,6 +23,8 @@ export default function Home() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  
 
   return (
     <div className="overflow-x-hidden relative">
@@ -37,10 +41,12 @@ export default function Home() {
       />
 
       <Homehero />
+      <TactosIntro/>
       <Mission_Vission />
       <Home_Solution />
       <Services />
       <BusinessServices />
+      <HeroSection/>
       <Investors />
       <TestimonialCarousel />
     </div>

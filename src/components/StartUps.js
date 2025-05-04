@@ -84,12 +84,16 @@ const [phone, setPhone] = useState('');
         >
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight mb-6">
             <span className="block">Invest in Start-Ups</span>
-            <span className="block text-blue-600">with TACTOS</span>
+            <span className="block text-blue-600">with TACTOS Locally</span>
           </h1>
           <p className="text-gray-600 text-base sm:text-lg lg:text-xl max-w-2xl mb-8">
-            At TACTOS, we connect visionary investors with high-potential startups poised to shape the future.
-            Gain early access to disruptive ideas, diversify your portfolio, and be part of the next big success story.
+          At TACTOS Strategic Solutions, we connect local investors with high-potential startups from your own region—startups that are ready to scale, innovate, and create lasting impact
           </p>
+          <p className="text-gray-600 text-base sm:text-lg lg:text-xl max-w-2xl mb-8">
+          By investing locally, you’re not just growing your portfolio—you’re fueling the next generation of entrepreneurs and helping shape the economic future of your community.
+Discover, support, and grow—locally
+</p>
+
         </motion.div>
 
         {/* Reason Cards - Right Section */}
@@ -122,7 +126,7 @@ const [phone, setPhone] = useState('');
           name="district"
           value={filters.district}
           onChange={handleFilterChange}
-          className="p-3 border rounded-md w-40"
+          className="p-3 border border-gray-300 rounded-xl shadow-sm text-sm"
         >
           <option value="">District</option>
           {districts.map((district, idx) => (
@@ -133,7 +137,7 @@ const [phone, setPhone] = useState('');
           name="sector"
           value={filters.sector}
           onChange={handleFilterChange}
-          className="p-3 border rounded-md w-40"
+          className="p-3 border border-gray-300 rounded-xl shadow-sm text-sm"
         >
           <option value="">Sector</option>
           <option value="Tech">Tech</option>
@@ -144,7 +148,7 @@ const [phone, setPhone] = useState('');
           name="stage"
           value={filters.stage}
           onChange={handleFilterChange}
-          className="p-3 border rounded-md w-40"
+          className="p-3 border border-gray-300 rounded-xl shadow-sm pr-8"
         >
           <option value="">Startup Stage</option>
           <option value="Seed">Seed</option>

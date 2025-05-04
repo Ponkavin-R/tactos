@@ -8,6 +8,10 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { ReactComponent as Logo } from "../assest/l2.svg";
 import Falcon from "../assest/l.png";
+import { RiTeamLine, RiLoginCircleLine } from "react-icons/ri";
+import { MdWorkOutline, MdContactPhone } from "react-icons/md";
+import { GiRocket } from "react-icons/gi";
+
 
 const Navbar = ({ isLoggedIn, handleLogout }) => {
   const [isClient, setIsClient] = useState(false);
@@ -26,9 +30,9 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
   useEffect(() => {
     const pathToLabel = {
       "/": "Home",
-      "/solutions": "Solutions",
+      "/solutions": "Tech Support",
       "/startup-reg": "Startup Registration",
-      "/cofounder-reg": "Cofounder Registration",
+      "/cofounder-reg": "Co-Founder Registration",
       "/events": "Events",
       "/startups": "Start-Ups",
       "/login": "Login",
@@ -141,9 +145,9 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-4 mr-8 py-3 fl
         className={`hover:text-blue-700 transition duration-300 transform hover:scale-105 flex flex-col items-center ${
           location.pathname === "/solutions" ? "text-blue-700" : ""
         }`}
-        onClick={() => setActiveItem("Solutions")}
+        onClick={() => setActiveItem("Tech Support")}
       >
-        IT Solutions
+        Tech Support
         {location.pathname === "/solutions" && (
           <Logo className="text-blue-700 mt-0.5 w-6 h-6" />
         )}
@@ -188,7 +192,7 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-4 mr-8 py-3 fl
               className="block px-4 py-2 text-black hover:bg-blue-950 hover:text-white transition duration-300"
               onClick={() => setIsDropdownOpen(false)}
             >
-              Cofounder Registration
+              Co-Founder Registration
             </Link>
           </div>
         )}
@@ -284,7 +288,7 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-4 mr-8 py-3 fl
       >
         <div className="flex justify-between  w-full">
           <NavItem to="/" icon={<FiHome />} label="Home" activeTab={activeTab} setActiveTab={setActiveTab} />
-          <NavItem to="/solutions" icon={<AiOutlineSolution />} label="Solutions" activeTab={activeTab} setActiveTab={setActiveTab} />
+          <NavItem to="/solutions" icon={<AiOutlineSolution />} label="Tech Support" activeTab={activeTab} setActiveTab={setActiveTab} />
           <NavItem to="/events" icon={<FaRegCalendarAlt />} label="Events" activeTab={activeTab} setActiveTab={setActiveTab} />
           <NavItem onClick={() => setIsMoreOpen(!isMoreOpen)} icon={<MdMoreHoriz />} label="More" />
         </div>
@@ -299,13 +303,13 @@ className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-4 mr-8 py-3 fl
               className="w-full bg-white shadow-lg rounded-xl p-2 grid grid-cols-4 gap-2"
             >
               <NavItem to="/startup-reg" icon={<AiOutlineTeam />} label="Startup" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/cofounder-reg" icon={<FaRegUser />} label="Cofounder" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/cofounder-reg" icon={<FaRegUser />} label="Co-Founder" activeTab={activeTab} setActiveTab={setActiveTab} />
               <NavItem to="/business-idea-hub" icon={<AiOutlineBulb />} label="Business Hub" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/business-consultation" icon={<MdBusinessCenter />} label="Business Consultation" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/jobs" icon={<AiOutlineSolution />} label="Jobs" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/startups" icon={<FaRegCalendarAlt />} label="Start-Ups" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/login" icon={<FaRegCalendarAlt />} label="Login" activeTab={activeTab} setActiveTab={setActiveTab} />
-              <NavItem to="/contact" icon={<FaRegCalendarAlt />} label="Contact" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/business-consultation" icon={<RiTeamLine />} label="Business Consultation" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/jobs" icon={<MdWorkOutline />} label="Jobs" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/startups" icon={<GiRocket />} label="Start-Ups" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/login" icon={<RiLoginCircleLine />} label="Login" activeTab={activeTab} setActiveTab={setActiveTab} />
+              <NavItem to="/contact" icon={<MdContactPhone />} label="Contact" activeTab={activeTab} setActiveTab={setActiveTab} />
              
             </motion.div>
           )}
