@@ -10,4 +10,10 @@
     mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
     mask-repeat: no-repeat;
   }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
   

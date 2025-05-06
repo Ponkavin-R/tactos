@@ -9,7 +9,7 @@ export default function HeroSection() {
   return (
     <motion.div 
       ref={containerRef}
-      className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-white flex items-center justify-center p-4 relative overflow-hidden"
+      className=" bg-gradient-to-br from-white via-blue-50 to-white flex items-center justify-center p-4 relative overflow-hidden"
     >
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
         

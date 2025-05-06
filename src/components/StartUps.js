@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaTimes, FaFacebookF, FaWhatsapp, FaLink } from 'react-icons/fa';
 import { motion, AnimatePresence } from "framer-motion";
+import { FaBullseye, FaChartLine, FaCoins } from "react-icons/fa";
 const districts = [
   "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode",
   "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam",
@@ -98,26 +99,27 @@ Discover, support, and grow—locally
 
         {/* Reason Cards - Right Section */}
         <motion.div
-          className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 pt-16 gap-6"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2 }}
-        >
-          {[
-            { icon: "🎯", title: "High Growth Potential" },
-            { icon: "📈", title: "Portfolio Diversification" },
-            { icon: "💰", title: "Wealth Creation" },
-          ].map((item, index) => (
-            <motion.div
-            key={index}
-            whileHover={{ scale: 1.05 }}
-            className="w-64 bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl shadow-md px-6 py-5 text-center transition duration-300 hover:shadow-lg"
-          >
-              <div className="text-3xl mb-3">{item.icon}</div>
-              <h2 className="text-base font-semibold text-gray-800">{item.title}</h2>
-            </motion.div>
-          ))}
-        </motion.div>
+  className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 pt-16 gap-6"
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1.2 }}
+>
+  {[
+    { icon: <FaBullseye className="text-4xl text-blue-600" />, title: "High Growth Potential" },
+    { icon: <FaChartLine className="text-4xl text-green-600" />, title: "Portfolio Diversification" },
+    { icon: <FaCoins className="text-4xl text-yellow-600" />, title: "Wealth Creation" },
+  ].map((item, index) => (
+    <motion.div
+      key={index}
+      whileHover={{ scale: 1.05 }}
+      className="w-64 bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl shadow-md px-6 py-6 text-center flex flex-col items-center justify-center transition duration-300 hover:shadow-lg"
+    >
+      <div className="mb-3 flex justify-center">{item.icon}</div>
+      <h2 className="text-base font-semibold text-gray-800">{item.title}</h2>
+    </motion.div>
+  ))}
+</motion.div>
+
       </div>
     </section>
       {/* Filters */}

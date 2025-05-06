@@ -27,11 +27,11 @@ const Corevalues = () => {
   return (
     <div className="text-center py-10 px-3 md:px-6 lg:px-10 bg-[#f8f9fa] mb-20">
       {/* Feature Cards */}
-      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-6 max-h-screen">
+      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-6">
         {features.map((feature, index) => (
           <motion.div
             key={index}
-            className="relative group w-full mb-4 max-h-screen max-w-xs mx-auto"
+            className="relative group w-full max-w-xs mx-auto"
             variants={cardVariants}
             initial="hidden"
             whileInView="visible"
@@ -46,7 +46,7 @@ const Corevalues = () => {
                 transition={{ duration: 0.3 }}
               />
             ) : (
-              <div className="w-full h-48 rounded-lg overflow-hidden shadow-lg transform group-hover:scale-105 transition duration-300 ease-in-out animate-[bounce_10s_infinite]">
+              <div className="w-full h-48 rounded-lg overflow-hidden shadow-lg transform group-hover:scale-105 transition duration-300 ease-in-out animate-float">
                 <img
                   src={feature.imageUrl}
                   alt={feature.title}

@@ -139,7 +139,7 @@ export default function Solution() {
   </h2>
   
   <h1 className="text-blue-600 font-semibold text-[10px] sm:text-xs tracking-widest mb-3 z-10 relative">
-  Acting as a Trusted Intermediary we support startups in finding the right service providers who deliver results right on time leading to their growth additionally safeguarding them from scams and fake quotes
+  Acting as a trusted intermediary, we connect you with vetted and reliable tech partners. Just share your budget—we’ll ensure your project is delivered on time, within budget, and without compromise
     <br />
   </h1>
   

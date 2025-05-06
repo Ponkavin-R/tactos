@@ -86,10 +86,14 @@ const Services = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="text-3xl md:text-3xl lg:text-4xl font-bold text-center mb-10 text-blue-950"
+        className="text-3xl md:text-3xl lg:text-4xl font-bold text-center mb-4 text-blue-950"
       >
         Our Tech Support
       </motion.h2>
+      <h1 className="text-blue-700 font-semibold text-[10px] text-center sm:text-xs tracking-widest mb-4 z-10 relative">
+      Acting as a Trusted Intermediary we support startups in finding the right service providers who deliver results right on time leading to their growth additionally safeguarding them from scams and fake quotes
+    <br />
+  </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {services.map((service, index) => (
