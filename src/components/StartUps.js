@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaTimes, FaFacebookF, FaWhatsapp, FaLink } from 'react-icons/fa';
+import { FaTimes, FaFacebook, FaWhatsapp, FaRegCopy } from 'react-icons/fa';
 import { motion, AnimatePresence } from "framer-motion";
 import { FaBullseye, FaChartLine, FaCoins } from "react-icons/fa";
 const districts = [
@@ -57,7 +57,10 @@ const [phone, setPhone] = useState('');
       alert('Failed to submit interest');
     }
   };
-  
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert("URL copied to clipboard!");
+  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -199,148 +202,283 @@ Discover, support, and grow—locally
 
 
 
-      {selectedStartup && (
-  <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center p-4">
-    <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl h-[90vh] relative flex flex-col md:flex-row overflow-hidden">
-      
-      {/* Close Button */}
-      <button
-        onClick={() => setSelectedStartup(null)}
-        className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-900 z-10"
+ {/* Popup Modal */}
+ <AnimatePresence>
+  {selectedStartup && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center px-4 py-8"
+    >
+      <motion.div
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 50, opacity: 0 }}
+        className="bg-white w-full max-w-7xl rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh] p-8 relative grid grid-cols-1 md:grid-cols-2 gap-8"
       >
-        <FaTimes />
-      </button>
+        <button
+          onClick={() => setSelectedStartup(null)}
+          className="absolute top-5 right-6 text-gray-600 hover:text-black text-2xl"
+        >
+          <FaTimes />
+        </button>
 
-      {/* Right Side (on top for mobile) */}
-      <div className="w-full md:w-1/3 order-1 md:order-none border-b md:border-b-0 md:border-l border-gray-200 p-6 flex flex-col items-center text-center overflow-y-auto">
-      <motion.img
-                src={`${process.env.REACT_APP_API_URL}${selectedStartup.logoUrl}`}
-                alt="Logo"
-                className="w-16 h-16 object-cover rounded-full transition-transform transform hover:scale-110"
-              />
+        {/* Left Section: Video + Long Description */}
+        <div className="space-y-6">
+          <div className="w-full h-64 md:h-[28rem] rounded-lg overflow-hidden">
+            <iframe
+              src={selectedStartup.youtube}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Startup Video"
+            />
+          </div>
 
-
-        <h2 className="text-xl md:text-2xl font-bold mt-4">{selectedStartup.companyName}</h2>
-        <p className="text-blue-600 text-base md:text-lg mt-1">{selectedStartup.sector}</p>
-        <p className="text-gray-600 text-sm mt-2">{selectedStartup.shortDescription}</p>
-        <p className="text-gray-500 text-sm mt-1">{selectedStartup.location} | {selectedStartup.stage}</p>
-        <p className="text-gray-400 text-xs mt-1">Created: {new Date(selectedStartup.createdAt).toLocaleDateString()}</p>
-
-        {/* Social Share */}
-        <div className="flex gap-6 mt-6">
-          <a
-            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-green-500 text-xl hover:scale-110 transition-transform"
-          >
-            <FaWhatsapp />
-          </a>
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 text-xl hover:scale-110 transition-transform"
-          >
-            <FaFacebookF />
-          </a>
-          <button
-            onClick={() => navigator.clipboard.writeText(window.location.href)}
-            className="text-gray-700 text-xl hover:scale-110 transition-transform"
-          >
-            <FaLink />
-          </button>
-        </div>
-      </div>
-
-      {/* Left Side (below on mobile) */}
-      <div className="w-full md:w-2/3 order-2 md:order-none flex flex-col gap-4 p-6 overflow-y-auto">
-        
-        {/* Video Embed */}
-        <div className="w-full h-64 md:h-96">
-          <iframe
-            src={selectedStartup.youtube}
-            className="w-full h-full rounded-md"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title="Startup Video"
-          />
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">About the Startup</h3>
+            <p className="text-gray-700 text-sm leading-relaxed">
+              {selectedStartup.longDescription}
+            </p>
+          </div>
         </div>
 
-        {/* Long Description */}
-        <div className="text-gray-700 text-base whitespace-pre-wrap">
-          {selectedStartup.longDescription}
-        </div>
+        {/* Right Section: Company Info + Stats + Actions */}
+        <div className="space-y-6">
+          {/* Company Info */}
+          <div className="flex flex-col items-center text-center space-y-2">
+            <img
+              src={`${process.env.REACT_APP_API_URL}${selectedStartup.logoUrl}`}
+              alt="Logo"
+              className="w-24 h-24 object-cover rounded-full border shadow"
+            />
+            <h2 className="text-2xl font-bold text-gray-800">{selectedStartup.companyName}</h2>
+            <p className="text-sm text-blue-600 font-medium">{selectedStartup.sector}</p>
+            <p className="text-sm text-gray-600">{selectedStartup.location}</p>
+            <p className="text-sm text-gray-700 italic">{selectedStartup.shortDescription}</p>
+          </div>
 
-        {/* Interest Button */}
-        <div className="mt-4">
-          <button
-            onClick={() => setShowForm(true)}
-            className="px-5 py-3 bg-blue-900 text-white rounded-md font-medium hover:bg-blue-800 transition"
-          >
-            I'm Interested
-          </button>
-        </div>
-      </div>
+          <hr className="border-t" />
+
+          <h4 className="text-2xl font-bold text-blue-950 mb-6 flex items-center gap-2">
+   <span>Funding Details</span>
+</h4>
+
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-gray-700 text-sm">
+  <div>
+    <p className="font-semibold text-gray-600">Amount Seeking</p>
+    <p className="text-lg font-medium text-green-700">
+      ₹{selectedStartup?.amountSeeking?.toLocaleString?.() || 'N/A'}
+    </p>
+  </div>
+
+  <div>
+    <p className="font-semibold text-gray-600">Equity Offered</p>
+    <p className="text-lg font-medium">{selectedStartup?.equityOffered ?? 'N/A'}%</p>
+  </div>
+
+  <div>
+    <p className="font-semibold text-gray-600">Valuation</p>
+    <p className="text-lg font-medium text-indigo-700">
+      ₹{selectedStartup?.valuation?.toLocaleString?.() || 'N/A'}
+    </p>
+  </div>
+
+  <div>
+    <p className="font-semibold text-gray-600">Fund Usage</p>
+    <p className="text-base">{selectedStartup?.fundUsage ?? 'N/A'}</p>
+  </div>
+
+  <div>
+    <p className="font-semibold text-gray-600">Min Investment</p>
+    <p className="text-lg font-medium">
+      ₹{selectedStartup?.minimumInvestment?.toLocaleString?.() || 'N/A'}
+    </p>
+  </div>
+
+  <div>
+    <p className="font-semibold text-gray-600">Ticket Size</p>
+    <p className="text-lg font-medium">
+      ₹{selectedStartup?.ticketSize?.toLocaleString?.() || 'N/A'}
+    </p>
+  </div>
+
+  <div className="col-span-1 sm:col-span-2">
+    <p className="font-semibold text-gray-600">Role for Investors</p>
+    <p className="text-base">{selectedStartup?.roleProvided ?? 'N/A'}</p>
+  </div>
+
+  {/* Amount Raised & Progress Bar */}
+  <div className="col-span-1 sm:col-span-2 mt-4">
+    <p className="font-semibold text-gray-600 mb-1">
+      Amount Raised:
+      <span className="ml-2 font-bold text-green-700">
+        ₹{selectedStartup?.amountRaised?.toLocaleString?.() || '0'}
+      </span>
+    </p>
+
+    <div className="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{
+          width: `${
+            Math.min(
+              ((selectedStartup?.amountRaised || 0) / (selectedStartup?.amountSeeking || 1)) * 100,
+              100
+            )
+          }%`,
+        }}
+        transition={{ duration: 1.2, ease: "easeInOut" }}
+        className="h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full"
+      />
+    </div>
+
+    <div className="text-right text-sm text-gray-500 mt-1">
+      {Math.min(
+        (((selectedStartup?.amountRaised || 0) / (selectedStartup?.amountSeeking || 1)) * 100).toFixed(2),
+        100
+      )}% funded
     </div>
   </div>
-)}
+</div>
 
 
 
-      {/* Interested Form Popup */}
-      {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
-            <h2 className="text-xl font-bold mb-6">Interested in Investing</h2>
+
+          <hr className="border-t" />
+
+          {/* Actions */}
+          <div>
+            <h4 className="text-lg font-semibold mb-2 text-gray-800">Share & Connect</h4>
+            <div className="flex justify-center gap-4 mb-4">
+              <a href={`https://wa.me/?text=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
+                <FaWhatsapp className="text-green-500 text-2xl hover:scale-110 transition" />
+              </a>
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
+                <FaFacebook className="text-blue-600 text-2xl hover:scale-110 transition" />
+              </a>
+              <button onClick={handleCopyUrl}>
+                <FaRegCopy className="text-gray-700 text-2xl hover:scale-110 transition" />
+              </button>
+            </div>
+            <div className="text-center">
+              <button
+                className="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-indigo-700 transition"
+                onClick={() => setShowForm(true)}
+              >
+                Interested in Investing?
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+     {/* Interest Form */}
+<AnimatePresence>
+  {showForm && (
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center px-4"
+    >
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 50, opacity: 0 }}
+        className="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative"
+      >
+        <h3 className="text-xl font-semibold text-center text-gray-800 mb-4">
+           Submit Your Interest
+        </h3>
+
+        <form
+          className="space-y-5"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmitInterest(selectedStartup._id);
+          }}
+        >
+          {/* Investor Type */}
+          <div className="space-y-1">
+            <label className="text-gray-700 font-medium text-sm">Investor Type</label>
             <select
-  value={investorType}
-  onChange={(e) => setInvestorType(e.target.value)}
-  className="w-full p-3 border rounded-md mb-4"
->
-  <option value="Individual">Individual</option>
-  <option value="Organization">Organization</option>
-</select>
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={investorType}
+              onChange={(e) => setInvestorType(e.target.value)}
+            >
+              <option value="Individual">Individual</option>
+              <option value="Institution">Institution</option>
+            </select>
+          </div>
 
-<input
-  type="text"
-  placeholder="Name / Organization Name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  className="w-full p-3 border rounded-md mb-4"
-/>
+          {/* Name */}
+          <div className="space-y-1">
+            <label className="text-gray-700 font-medium text-sm">Name</label>
+            <input
+              type="text"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-<input
-  type="email"
-  placeholder="Email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  className="w-full p-3 border rounded-md mb-4"
-/>
+          {/* Email */}
+          <div className="space-y-1">
+            <label className="text-gray-700 font-medium text-sm">Email</label>
+            <input
+              type="email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-<input
-  type="tel"
-  placeholder="Phone Number"
-  value={phone}
-  onChange={(e) => setPhone(e.target.value)}
-  className="w-full p-3 border rounded-md mb-4"
-/>
+          {/* Phone */}
+          <div className="space-y-1">
+            <label className="text-gray-700 font-medium text-sm">Phone</label>
+            <input
+              type="tel"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </div>
 
+          {/* Buttons */}
+          <div className="flex justify-between gap-3 pt-4">
             <button
-              onClick={() => handleSubmitInterest(selectedStartup._id)}
-              className="w-full py-3 bg-blue-900 text-white rounded-md font-semibold mb-4"
+              type="submit"
+              className="flex-1 bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition"
             >
               Submit
             </button>
             <button
+              type="button"
+              className="flex-1 text-red-600 border border-red-400 py-2 rounded-md hover:bg-red-100 transition"
               onClick={() => setShowForm(false)}
-              className="w-full py-3 border text-blue-900 rounded-md"
             >
-              Close
+              Cancel
             </button>
           </div>
-        </div>
-      )}
+        </form>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+    </motion.div>
+  )}
+</AnimatePresence>
+
     </div>
   );
 }

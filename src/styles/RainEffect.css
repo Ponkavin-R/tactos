@@ -109,18 +109,18 @@ body, html {
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    animation: rotateY360 10s linear infinite;
+    animation: rotateY360 30s linear infinite;
   }
   
   .image-3d-face {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: visible;
+    /* backface-visibility: visible;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15); */
   }
   
   .image-3d-face.back {
