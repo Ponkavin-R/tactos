@@ -7,7 +7,7 @@ const Header = ({ username, toggleSidebar }) => {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 120 }}
-      className="w-full top-0 z-30 bg-white shadow-sm sticky"
+      className="w-screen top-0 z-30 bg-white shadow-sm sticky"
     >
       <div className="flex items-center justify-between px-4 py-3 md:px-8">
         {/* Left side - Logo and Hamburger */}

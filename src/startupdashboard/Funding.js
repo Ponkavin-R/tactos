@@ -14,6 +14,14 @@ const Funding = () => {
     logoUrl: "",
     stage: "",
     status: "waiting",
+    amountSeeking: "",
+    equityOffered: "",
+    valuation: "",
+    fundUsage: "",
+    minimumInvestment: "",
+    ticketSize: "",
+    roleProvided: "",
+    amountRaised: 0,
   });
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -76,7 +84,6 @@ const Funding = () => {
           },
         });
   
-        // Update the fundings array with the edited item
         setFundings((prev) =>
           prev.map((item) => (item._id === editId ? res.data : item))
         );
@@ -104,12 +111,19 @@ const Funding = () => {
         logoUrl: "",
         stage: "",
         status: "waiting",
+        amountSeeking: "",
+        equityOffered: "",
+        valuation: "",
+        fundUsage: "",
+        minimumInvestment: "",
+        ticketSize: "",
+        roleProvided: "",
+        amountRaised: 0,
       });
     } catch (err) {
       console.error("Submission failed", err.response || err.message);
     }
   };
-  
 
   const handleDelete = async () => {
     try {
@@ -133,6 +147,14 @@ const Funding = () => {
       logoUrl: funding.logoUrl || "",
       stage: funding.stage,
       status: funding.status,
+      amountSeeking: funding.amountSeeking || "",
+      equityOffered: funding.equityOffered || "",
+      valuation: funding.valuation || "",
+      fundUsage: funding.fundUsage || "",
+      minimumInvestment: funding.minimumInvestment || "",
+      ticketSize: funding.ticketSize || "",
+      roleProvided: funding.roleProvided || "",
+      amountRaised: funding.amountRaised || 0,
     });
     setEditId(id);
     setShowForm(true);
@@ -156,6 +178,14 @@ const Funding = () => {
               logoUrl: "",
               stage: "",
               status: "waiting",
+              amountSeeking: "",
+              equityOffered: "",
+              valuation: "",
+              fundUsage: "",
+              minimumInvestment: "",
+              ticketSize: "",
+              roleProvided: "",
+              amountRaised: 0,
             });
           }}
           className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-5 rounded-xl shadow hover:scale-105 transition duration-300"
@@ -236,75 +266,103 @@ const Funding = () => {
                   Choose File
                 </label>
                 {formData.logoUrl && (
-                  <img
-                    src={`${process.env.REACT_APP_API_URL}${formData.logoUrl}`}
-                    alt="Logo"
-                    className="w-16 h-16 object-cover rounded-full mx-auto mt-4"
-                  />
-                )}
-              </div>
-              <textarea
-                name="longDescription"
-                value={formData.longDescription}
-                onChange={handleChange}
-                placeholder="Long Description"
-                className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition col-span-2"
-              />
-              <div className="flex justify-between items-center col-span-2">
-                <button type="submit" className="bg-blue-500 text-white py-3 px-6 rounded-xl shadow-lg hover:bg-blue-600 transition-all duration-300">
-                  {editId ? "Update" : "Create"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="bg-gray-400 text-white py-3 px-6 rounded-xl shadow-lg hover:bg-gray-500 transition-all duration-300"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                 <img
+                 src={`${process.env.REACT_APP_API_URL}${formData.logoUrl}`}
+                 alt="Logo"
+                 className="w-16 h-16 object-cover rounded-full mx-auto mt-4"
+               />
+               
+)}
+</div>
+<textarea
+name="longDescription"
+value={formData.longDescription}
+onChange={handleChange}
+placeholder="Detailed Description"
+className="md:col-span-2 p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+required
+/>
+<input
+type="text"
+name="amountSeeking"
+value={formData.amountSeeking}
+onChange={handleChange}
+placeholder="Amount Seeking"
+className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+/>
+<input
+type="text"
+name="equityOffered"
+value={formData.equityOffered}
+onChange={handleChange}
+placeholder="Equity Offered (%)"
+className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+/>
+<input
+type="text"
+name="valuation"
+value={formData.valuation}
+onChange={handleChange}
+placeholder="Valuation"
+className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+/>
+<input
+type="text"
+name="fundUsage"
+value={formData.fundUsage}
+onChange={handleChange}
+placeholder="Fund Usage"
+className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+/>
+<input
+type="text"
+name="minimumInvestment"
+value={formData.minimumInvestment}
+onChange={handleChange}
+placeholder="Minimum Investment"
+className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+/>
+<input
+type="text"
+name="ticketSize"
+value={formData.ticketSize}
+onChange={handleChange}
+placeholder="Ticket Size"
+className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+/>
+<input
+type="text"
+name="roleProvided"
+value={formData.roleProvided}
+onChange={handleChange}
+placeholder="Role Provided"
+className="p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 transition"
+/>
 
-      {showSuccess && (
-        <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-xl mb-6">
-          Successfully submitted!
-        </div>
-      )}
+<button
+type="submit"
+className="md:col-span-2 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl shadow-lg transition duration-300"
+>
+{editId ? "Update Funding" : "Submit Funding"}
+</button>
+</form>
+</motion.div>
+)}
+</AnimatePresence>
 
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg">
-            <h3 className="text-xl text-center mb-4">Are you sure you want to delete this funding?</h3>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={handleDelete}
-                className="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700"
-              >
-                Yes
-              </button>
-              <button
-                onClick={() => setShowDeleteConfirm(false)}
-                className="bg-gray-400 text-white py-2 px-6 rounded-lg hover:bg-gray-500"
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+{showSuccess && (
+<div className="mb-6 text-green-600 font-semibold text-center">
+✅ Submission successful!
+</div>
+)}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {fundings.map((funding) => (
-          <motion.div
-            key={funding._id}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            className="bg-white p-6 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:translate-y-1 relative"
-          >
-            <div className="absolute top-4 right-4 px-4 py-2 text-white text-sm font-semibold rounded-full bg-blue-500">
+{/* Funding Cards */}
+<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+{fundings.map((funding) => (
+<div key={funding._id} className="bg-white rounded-xl shadow-md p-6 space-y-4">
+<div className="flex items-center space-x-4">
+  
+<div className="absolute top-4 right-4 px-4 py-2 text-white text-sm font-semibold rounded-full bg-blue-500">
               {funding.status}
             </div>
 
@@ -315,42 +373,58 @@ const Funding = () => {
                 className="w-16 h-16 object-cover rounded-full transition-transform transform hover:scale-110"
               />
             </div>
+<div>
+<h3 className="text-lg font-semibold">{funding.sector}</h3>
+<p className="text-sm text-gray-500">{funding.stage}</p>
+</div>
+</div>
+<p className="text-gray-600">{funding.shortDescription}</p>
+<p className="text-sm text-gray-500">{funding.location}</p>
+<div className="flex justify-between mt-4">
+<button
+onClick={() => handleEdit(funding._id)}
+className="text-blue-600 hover:underline"
+>
+Edit
+</button>
+<button
+onClick={() => {
+  setFundingToDelete(funding._id);
+  setShowDeleteConfirm(true);
+}}
+className="text-red-600 hover:underline"
+>
+Delete
+</button>
+</div>
+</div>
+))}
+</div>
 
-            <h3 className="text-xl font-semibold text-center mb-2">{funding.youtube}</h3>
-
-            <div className="text-gray-600 text-center mb-2">
-              <p><strong>Location:</strong> {funding.location}</p>
-              <p><strong>Sector:</strong> {funding.sector}</p>
-              <p><strong>Short Description:</strong> {funding.shortDescription}</p>
-            </div>
-
-            <div className="text-sm text-gray-500 text-center mt-4">
-              Created on: {new Date(funding.createdAt).toLocaleDateString()}
-            </div>
-
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => handleEdit(funding._id)}
-                className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  setShowDeleteConfirm(true);
-                  setFundingToDelete(funding._id);
-                }}
-                className="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600"
-              >
-                Delete
-              </button>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
+{/* Delete Confirmation */}
+{showDeleteConfirm && (
+<div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+<div className="bg-white p-6 rounded-xl shadow-xl space-y-4">
+<p className="text-lg text-gray-700">Are you sure you want to delete this funding entry?</p>
+<div className="flex justify-end space-x-4">
+<button
+onClick={() => setShowDeleteConfirm(false)}
+className="bg-gray-200 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300"
+>
+Cancel
+</button>
+<button
+onClick={handleDelete}
+className="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700"
+>
+Delete
+</button>
+</div>
+</div>
+</div>
+)}
+</div>
+);
 };
 
 export default Funding;
-  

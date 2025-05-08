@@ -31,15 +31,28 @@ const districtsOfTamilNadu = [
   "Vellore", "Viluppuram", "Virudhunagar"
 ];
 
+
 const JobPortal = () => {
   const [careers, setCareers] = useState([]);
+  const [applications, setApplications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(initialForm);
   const [editingId, setEditingId] = useState(null);
+  const [showApplicationsModal, setShowApplicationsModal] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState(null);
+  const [selectedApplication, setSelectedApplication] = useState(null);
+  const [showResumeModal, setShowResumeModal] = useState(false);
 
   useEffect(() => {
     fetchCareers();
   }, []);
+
+  const getResumeURL = () => {
+    const url = selectedApplication.resumeUrl || "";
+    if (url.startsWith("http")) return url;
+    return `${process.env.REACT_APP_API_URL}${url.startsWith("/") ? url : "/" + url}`;
+  };
+  
 
   const fetchCareers = async () => {
     try {
@@ -71,6 +84,34 @@ const JobPortal = () => {
       setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
     }
   };
+  const downloadResume = async () => {
+    try {
+      const url = getResumeURL();
+      const fileName = url.split('/').pop() || 'resume.pdf';
+  
+      const response = await axios.get(url, {
+        responseType: 'blob', // ensure we get binary data
+      });
+  
+      // Create a blob URL
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const blobUrl = window.URL.createObjectURL(blob);
+  
+      // Create temporary <a> tag to trigger download
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Failed to download resume:', error);
+      alert('Error downloading resume. Please try again.');
+    }
+  };
+  
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,6 +138,16 @@ const JobPortal = () => {
     fetchCareers();
   };
 
+  const fetchApplications = async (jobId) => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/jobapplied/${jobId}`);
+      setApplications(res.data);
+      setShowApplicationsModal(true);
+    } catch (error) {
+      console.error("Error fetching applications:", error);
+    }
+  };
+
   const handleEdit = (career) => {
     setFormData({
       ...career,
@@ -112,10 +163,16 @@ const JobPortal = () => {
     fetchCareers();
   };
 
+  const handlePreviewResume = (application) => {
+    setSelectedApplication(application);
+    setShowResumeModal(true);
+  };
+  
+
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Admin Careers</h2>
+        <h2 className="text-2xl font-bold">Created Jobs</h2>
         <button
           onClick={() => {
             setFormData(initialForm);
@@ -155,18 +212,92 @@ const JobPortal = () => {
             </div>
             <div className="flex gap-4 mt-4">
               <button onClick={() => handleEdit(career)} className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">Edit</button>
+              <button
+                onClick={() => fetchApplications(career._id)}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded"
+              >
+                View Applications
+              </button>
               <button onClick={() => handleDelete(career._id)} className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded">Delete</button>
             </div>
           </div>
         ))}
       </div>
 
+      {showResumeModal && selectedApplication && (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]"
+    onClick={() => setShowResumeModal(false)}
+  >
+    <div
+      className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-gray-800">Download Resume</h2>
+        <button
+          onClick={() => setShowResumeModal(false)}
+          className="text-gray-600 hover:text-red-500 text-2xl font-bold leading-none"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+      </div>
+
+      <p className="mb-4 text-gray-700">Click the button below to download the applicant's resume.</p>
+
+      <button
+        onClick={downloadResume}
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+      >
+        Download PDF
+      </button>
+    </div>
+  </div>
+)}
+
+
+
+
+
+{/* Applications Modal */}
+{showApplicationsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-start pt-20 z-50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 overflow-y-auto max-h-[90vh]">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Applications for Job</h2>
+              <button onClick={() => setShowApplicationsModal(false)} className="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+
+            <div className="space-y-4">
+              {applications.length === 0 ? (
+                <p>No applications for this job yet.</p>
+              ) : (
+                applications.map((application) => (
+                  <div key={application._id} className="bg-gray-100 p-4 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold">{application.name}</h3>
+                    <p>{application.email} | {application.phone}</p>
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={() => handlePreviewResume(application.resumeUrl)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+                      >
+                        Preview Resume
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-start pt-20 z-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 overflow-y-auto max-h-[90vh]">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">{editingId ? "Edit Career" : "Add New Career"}</h2>
-              <button onClick={() => setShowModal(false)} className="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+              <button onClick={() => setShowResumeModal(false)} className="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -284,6 +415,7 @@ const JobPortal = () => {
         </div>
       )}
     </div>
+    
   );
 };
 
