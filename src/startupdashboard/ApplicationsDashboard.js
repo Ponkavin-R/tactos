@@ -34,7 +34,7 @@ const ApplicationsDashboard = () => {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 w-full max-w-screen-xl mx-auto">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
-        Job Applications Dashboard
+      Application Received
       </h2>
 
       <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white custom-scrollbar">

@@ -358,48 +358,54 @@ className="md:col-span-2 bg-green-600 hover:bg-green-700 text-white py-3 px-6 ro
 
 {/* Funding Cards */}
 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-{fundings.map((funding) => (
-<div key={funding._id} className="bg-white rounded-xl shadow-md p-6 space-y-4">
-<div className="flex items-center space-x-4">
-  
-<div className="absolute top-4 right-4 px-4 py-2 text-white text-sm font-semibold rounded-full bg-blue-500">
-              {funding.status}
-            </div>
+  {fundings.map((funding) => (
+    <div key={funding._id} className="bg-white rounded-xl shadow-md p-6 space-y-4 relative">
+      {/* Status Badge in Top Right Corner */}
+      <div className="absolute top-4 right-4 px-4 py-2 text-white text-sm font-semibold rounded-full bg-blue-500">
+        {funding.status}
+      </div>
 
-            <div className="flex justify-center mb-4">
-              <motion.img
-                src={`${process.env.REACT_APP_API_URL}${funding.logoUrl}`}
-                alt="Logo"
-                className="w-16 h-16 object-cover rounded-full transition-transform transform hover:scale-110"
-              />
-            </div>
-<div>
-<h3 className="text-lg font-semibold">{funding.sector}</h3>
-<p className="text-sm text-gray-500">{funding.stage}</p>
+      {/* Logo */}
+      <div className="flex justify-center mb-4">
+        <motion.img
+          src={`${process.env.REACT_APP_API_URL}${funding.logoUrl}`}
+          alt="Logo"
+          className="w-16 h-16 object-cover rounded-full transition-transform transform hover:scale-110"
+        />
+      </div>
+
+      {/* Title and Stage */}
+      <div>
+        <h3 className="text-lg font-semibold">{funding.sector}</h3>
+        <p className="text-sm text-gray-500">{funding.stage}</p>
+      </div>
+
+      {/* Description */}
+      <p className="text-gray-600">{funding.shortDescription}</p>
+      <p className="text-sm text-gray-500">{funding.location}</p>
+
+      {/* Action Buttons */}
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={() => handleEdit(funding._id)}
+          className="text-blue-600 hover:underline"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => {
+            setFundingToDelete(funding._id);
+            setShowDeleteConfirm(true);
+          }}
+          className="text-red-600 hover:underline"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
 </div>
-</div>
-<p className="text-gray-600">{funding.shortDescription}</p>
-<p className="text-sm text-gray-500">{funding.location}</p>
-<div className="flex justify-between mt-4">
-<button
-onClick={() => handleEdit(funding._id)}
-className="text-blue-600 hover:underline"
->
-Edit
-</button>
-<button
-onClick={() => {
-  setFundingToDelete(funding._id);
-  setShowDeleteConfirm(true);
-}}
-className="text-red-600 hover:underline"
->
-Delete
-</button>
-</div>
-</div>
-))}
-</div>
+
 
 {/* Delete Confirmation */}
 {showDeleteConfirm && (
