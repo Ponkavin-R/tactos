@@ -40,7 +40,7 @@ const BusinessServices = () => {
   return (
     <div className="min-h-screen bg-transparent py-3 px-4 sm:px-6 md:px-12 lg:px-20">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-950 mb-12">
-        Explore Our Expert Services
+      Explore Our Services 
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">

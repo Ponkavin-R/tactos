@@ -13,6 +13,7 @@ const districts = [
 
 function StartUps() {
   const [selectedStartup, setSelectedStartup] = useState(null);
+  const [selectedStartupid, setSelectedStartupid] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [filters, setFilters] = useState({ district: '', sector: '', stage: '' });
   const [startups, setStartups] = useState([]);
@@ -30,12 +31,30 @@ const [phone, setPhone] = useState('');
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/fundings`);
       const approvedFundings = response.data.filter(funding => funding.status === 'approved');
-      setStartups(approvedFundings);
+  
+      // Fetch startup details for each funding
+      const enrichedFundings = await Promise.all(approvedFundings.map(async (funding) => {
+        try {
+          const startupRes = await axios.get(`${process.env.REACT_APP_API_URL}/api/startups/${funding.userId}`);
+          return {
+            ...funding,
+            startupDetails: startupRes.data
+          };
+        } catch (err) {
+          console.error(`Error fetching startup for ID ${funding.userId}:`, err);
+          return {
+            ...funding,
+            startupDetails: null
+          };
+        }
+      }));
+  
+      setStartups(enrichedFundings);
     } catch (error) {
       console.error('Error fetching fundings:', error);
     }
   };
-
+  
   const handleSubmitInterest = async (fundingId) => {
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/interests`, {
@@ -181,16 +200,20 @@ Discover, support, and grow—locally
         {/* Card content */}
         <div className="p-4">
           <h3 className="text-lg font-bold text-gray-800 hover:text-indigo-600 transition text-center">
-            {startup.sector}
+            {startup.startupDetails?.startupName || 'Unknown Startup'}
           </h3>
 
           <p className="text-sm text-gray-500 text-center mt-1">
             <span className="font-medium text-purple-600">{startup.location}</span> |{" "}
-            <span className="font-medium text-blue-600">{startup.stage}</span>
+            <span className="font-medium text-blue-600">{startup.stage}</span>|{" "}
+            <span className="font-medium text-blue-600">{startup.sector}</span>
+
           </p>
 
           <p className="mt-3 text-sm text-gray-700 text-justify leading-relaxed font-medium">
-            {startup.shortDescription}
+          {startup.shortDescription.length > 150
+    ? `${startup.shortDescription.slice(0, 150)}...`
+    : startup.shortDescription}
           </p>
         </div>
       </div>
@@ -237,7 +260,7 @@ Discover, support, and grow—locally
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">About the Startup</h3>
+            <h3 className="text-xl font-semibold text-blue-950 mb-2">About the Startup</h3>
             <p className="text-gray-700 text-sm leading-relaxed">
               {selectedStartup.longDescription}
             </p>
@@ -253,15 +276,22 @@ Discover, support, and grow—locally
               alt="Logo"
               className="w-24 h-24 object-cover rounded-full border shadow"
             />
-            <h2 className="text-2xl font-bold text-gray-800">{selectedStartup.companyName}</h2>
-            <p className="text-sm text-blue-600 font-medium">{selectedStartup.sector}</p>
-            <p className="text-sm text-gray-600">{selectedStartup.location}</p>
-            <p className="text-sm text-gray-700 italic">{selectedStartup.shortDescription}</p>
+                      <h4 className="text-xl font-semibold text-blue-950 mb-2">
+                      {selectedStartup.startupDetails?.startupName || 'Unknown Startup'}
+</h4>
+             
+             <p className="text-sm text-gray-500 text-center mt-1">
+            <span className="font-medium text-purple-600">{selectedStartup.location}</span> |{" "}
+            <span className="font-medium text-blue-600">{selectedStartup.stage}</span>|{" "}
+            <span className="font-medium text-blue-600">{selectedStartup.sector}</span>
+            <p className="text-sm text-gray-500 text-center mt-3">{selectedStartup.shortDescription}</p>
+
+          </p>
           </div>
 
           <hr className="border-t" />
 
-          <h4 className="text-2xl font-bold text-blue-950 mb-6 flex items-center gap-2">
+          <h4 className="text-xl font-semibold text-blue-950 mb-2">
    <span>Funding Details</span>
 </h4>
 
@@ -350,7 +380,7 @@ Discover, support, and grow—locally
 
           {/* Actions */}
           <div>
-            <h4 className="text-lg font-semibold mb-2 text-gray-800">Share & Connect</h4>
+            <h4 className="text-lg font-semibold mb-2 text-blue-950">Share & Connect</h4>
             <div className="flex justify-center gap-4 mb-4">
               <a href={`https://wa.me/?text=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp className="text-green-500 text-2xl hover:scale-110 transition" />

@@ -9,7 +9,7 @@ import {
   FaProjectDiagram,
 } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-
+import { Link, useLocation } from "react-router-dom";
 const ServiceCard = ({ service, index }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.3 });
@@ -80,7 +80,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-8 md:px-12 lg:px-20 py-10 bg-gradient-to-br from-white to-blue-50">
+    <section className="px-4 sm:px-8 md:px-12 lg:px-20 py-10 bg-gradient-to-br h-screen from-white to-blue-50">
       <motion.h2
         initial={{ opacity: 0, y: -30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -100,6 +100,15 @@ const Services = () => {
           <ServiceCard key={index} service={service} index={index} />
         ))}
       </div>
+      <div className="flex items-center justify-center mt-12">
+  <Link
+    to="/solutions"
+    className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-12 w-28 flex items-center justify-center rounded-full transition duration-300"
+  >
+    Get Started
+  </Link>
+</div>
+
     </section>
   );
 };

@@ -35,6 +35,10 @@ module.exports = {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
         },
+        infiniteScroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       perspective: {
         1000: '1000px',
@@ -51,9 +55,11 @@ module.exports = {
         'metal-shine': 'metal-shine 2s infinite linear',
         'spin': 'spin 15s linear infinite',
         'background': 'gradient 15s ease infinite',
+        'infinite-scroll': 'infiniteScroll 25s linear infinite',
       },
 
     },
+    
   },
   plugins: [
     require('@tailwindcss/forms'),

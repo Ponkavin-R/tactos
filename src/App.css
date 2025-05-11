@@ -8,3 +8,179 @@
     transform-style: preserve-3d;
   }
   
+/* Tailwind Config or CSS file */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.wing {
+  position: absolute;
+  top: 0;
+  width: 40vw;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.75;
+  z-index: -1;
+  transition: transform 0.2s ease-out;
+}
+
+.left-wing {
+  left: 0;
+}
+
+.right-wing {
+  right: 0;
+  top: -4rem;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  max-width: 90%;
+  position: relative;
+  z-index: 1;
+  flex-direction: row; /* Ensures cards are in a horizontal row by default */
+}
+
+.custom-card {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  width: clamp(120px, 12vw, 160px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: 25px;  /* Added margin-top */
+  height: 130px;    /* Increased height */
+}
+
+.custom-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.card-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.custom-card:hover .card-img {
+  transform: scale(0.9);
+}
+
+/* Media Query for small screens */
+@media screen and (max-width: 600px) {
+  .cards-container {
+    flex-direction: column;  /* Stack cards vertically */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom-card {
+    width: 90%;  /* Increase card width for smaller screens */
+    height: auto; /* Adjust height automatically */
+  }
+}
+
+/* Media Query for medium screens (tablet or small laptops) */
+@media screen and (max-width: 768px) {
+  .cards-container {
+    flex-direction: row;  /* Align cards in a row */
+    justify-content: space-between;  /* Space out the cards */
+  }
+
+  .custom-card {
+    width: clamp(110px, 15vw, 150px);  /* Reduce card width on smaller tablets */
+    height: 120px;  /* Adjust card height */
+  }
+}
+
+/* Media Query for medium screens (tablet or small laptops) */
+@media screen and (max-width: 768px) {
+  .cards-container {
+    flex-direction: row;  /* Keep cards in a row */
+    justify-content: space-between;  /* Space out the cards */
+  }
+
+  .custom-card {
+    width: clamp(110px, 15vw, 150px);  /* Reduce card width on smaller tablets */
+    height: 120px;  /* Adjust card height */
+  }
+}
+
+/* Media Query for 13-inch screens */
+@media screen and (max-width: 1280px) {
+  .cards-container {
+    flex-direction: row;  /* Keep cards in a row */
+    justify-content: space-around;  /* Space cards evenly */
+  }
+
+  .custom-card {
+    width: clamp(90px, 10vw, 105px);  /* Reduce card width even further */
+    height: 120px;  /* Optionally adjust height */
+  }
+}
+
+/* Media Query for large monitors (1920px or wider) */
+@media screen and (min-width: 1920px) {
+  .cards-container {
+    flex-direction: row;  /* Keep cards in a row for large screens */
+    justify-content: space-between;  /* Spread out cards across larger screen width */
+  }
+
+  .custom-card {
+    width: clamp(10px, 8vw, 180px);  /* Increase card width for very large monitors */
+    height: 160px;  /* Increase card height for larger screens */
+  }
+}
+/* Media Query for 1024px screens (larger tablets or smaller laptops) */
+@media screen and (max-width: 1024px) {
+  .cards-container {
+    flex-direction: row;  /* Keep cards in a row */
+    justify-content: space-between;  /* Spread out the cards */
+  }
+
+  .custom-card {
+    width: clamp(100px, 12vw, 140px);  /* Adjust card width for 1024px screens */
+    height: 130px;  /* Adjust card height */
+  }
+}
+/* Media Query for 1440px screens (larger laptops or smaller desktop monitors) */
+@media screen and (max-width: 1440px) {
+  .cards-container {
+    flex-direction: row;  /* Keep cards in a row */
+    justify-content: space-between;  /* Spread out the cards */
+  }
+
+  .custom-card {
+    width: clamp(110px, 10vw, 100px);  /* Adjust card size for 1440px screens */
+    height: 130px;  /* Default card height */
+  }
+}
+
+/* Media Query for large screens (1280px and above) */
+@media screen and (min-width: 1281px) and (max-width: 1919px) {
+  .cards-container {
+    flex-direction: row;  /* Keep cards in a row for large screens */
+    justify-content: space-between;  /* Spread out cards across the screen */
+  }
+
+  .custom-card {
+    width: clamp(120px, 10vw, 190px);  /* Default card size */
+    height: 130px;  /* Default height */
+  }
+}

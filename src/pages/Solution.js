@@ -143,7 +143,7 @@ export default function Solution() {
     <br />
   </h1>
   
-  <p className="text-gray-600 mt-3 sm:mt-4 max-w-xl mx-auto text-xs sm:text-sm font-bold z-10 relative">
+  <p className="text-gray-600 mt-3 sm:mt-4 max-w-2xl mx-auto text-xs sm:text-sm font-bold z-10 relative">
   No hidden fees. No commissions. Just dependable support to help your startup thrive
   </p>
 </motion.header>

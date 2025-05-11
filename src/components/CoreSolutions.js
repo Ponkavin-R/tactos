@@ -57,30 +57,31 @@ const Corevalues = () => {
 
             {/* Floating Card */}
             <div
-              className={`absolute left-1/2 -bottom-14 transform -translate-x-1/2 w-[90%] rounded-lg shadow-lg p-4 z-20 transition-all duration-300 ease-in-out
-              ${
-                feature.backgroundColor === "dark"
-                  ? "bg-[#163560] text-white"
-                  : "bg-[#163560] text-white"
-              }`}
-            >
-              {/* Icon */}
-              <div className="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-yellow-100 rounded-full shadow">
-                {feature.icon && (
-                  <feature.icon className="w-5 h-5 text-yellow-500" />
-                )}
-              </div>
+  className={`absolute left-1/2 -bottom-14 transform -translate-x-1/2 w-[90%] h-[220px] rounded-lg shadow-lg p-4 z-20 transition-all duration-300 ease-in-out
+    ${
+      feature.backgroundColor === "dark"
+        ? "bg-[#163560] text-white"
+        : "bg-[#163560] text-white"
+    }`}
+>
+  {/* Icon */}
+  <div className="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-yellow-100 rounded-full shadow">
+    {feature.icon && (
+      <feature.icon className="w-5 h-5 text-yellow-500" />
+    )}
+  </div>
 
-              {/* Title */}
-              <h3 className="text-base font-semibold mb-1 text-yellow-500">
-                {feature.title}
-              </h3>
+  {/* Title */}
+  <h3 className="text-base font-semibold mb-1 text-yellow-500 text-center">
+    {feature.title}
+  </h3>
 
-              {/* Description */}
-              <p className="text-xs sm:text-sm leading-snug">
-                {feature.description}
-              </p>
-            </div>
+  {/* Description */}
+  <p className="text-xs sm:text-sm leading-snug text-center overflow-hidden text-ellipsis">
+    {feature.description}
+  </p>
+</div>
+
           </motion.div>
         ))}
       </div>
@@ -96,7 +97,7 @@ const features = [
     icon: Code,
     title: "Web Development",
     description:
-      "Create responsive, high-performance websites that don’t just look great but also deliver results. ",
+      "Create responsive, high-performance websites that don’t just look great but also deliver results ",
     backgroundColor: "dark",
   },
   {
@@ -105,7 +106,7 @@ const features = [
     icon: Smartphone,
     title: "App Development",
     description:
-      "Build smooth, scalable mobile applications for Android and iOS that offer intuitive interfaces and seamless performance, scalability and engagement.",
+      "Build smooth, scalable mobile applications for Android and iOS that offer intuitive interfaces and seamless performance, scalability and engagement",
     backgroundColor: "light",
   },
   {
@@ -114,7 +115,7 @@ const features = [
     icon: Megaphone,
     title: "Digital Marketing",
     description:
-      "Increase your brand's visibility and customer engagement through data-driven digital marketing strategies. From SEO and social media to content creation and ad campaigns.",
+      "Increase your brand's visibility and customer engagement through data-driven digital marketing strategies. From SEO and social media to content creation and ad campaigns",
     backgroundColor: "dark",
   },
   {
@@ -123,7 +124,7 @@ const features = [
     icon: Settings,
     title: "Automation",
     description:
-      "Simplify and optimize your business processes with custom automation solutions. From lead tracking to workflow management.",
+      "Simplify and optimize your business processes with custom automation solutions. From lead tracking to workflow management and Whatsapp Automation",
     backgroundColor: "light",
   },
   {
@@ -132,7 +133,7 @@ const features = [
     icon: Briefcase,
     title: "AI Solution",
     description:
-      "Leverage the power of artificial intelligence to gain deeper insights, personalize customer experiences, and make smarter business decisions. ",
+      "Leverage the power of artificial intelligence to gain deeper insights, personalize customer experiences, and make smarter business decisions",
     backgroundColor: "dark",
   },
   {
@@ -141,7 +142,7 @@ const features = [
     icon: Workflow,
     title: "ERP Solution",
     description:
-      "Implement powerful, integrated ERP systems to manage your teams, operations, and resources efficiently, from inventory to HR.",
+      "Implement powerful, integrated ERP systems to manage your teams, operations, and resources efficiently, from inventory to HR",
     backgroundColor: "dark",
   },
 ];

@@ -105,13 +105,13 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 
       {/* 🔹 Desktop Navbar */}
 {/* 🔹 Desktop Navbar */}
-<div className="hidden md:flex fixed top-0 left-0 w-full h-24 items-center justify-between px-4 z-30 bg-transparent backdrop-blur-lg ">
+<div className="hidden md:flex fixed top-0 left-0 w-full h-24 items-center justify-between px-2 z-30 bg-transparent backdrop-blur-lg ">
   {/* Logo on the left */}
   <Link to="/" className="flex items-center justify-start">
     <img
       src={Falcon}
       alt="logo"
-      className="object-contain h-24 w-fit "
+      className="object-contain h-20 w-fit "
     />
   </Link>
 
@@ -120,7 +120,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 initial={{ opacity: 0, y: -10 }}
 animate={{ opacity: 1, y: 0 }}
 transition={{ duration: 0.5, ease: "easeOut" }}
-className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-4 mr-8 py-3 flex items-center mt-4 justify-center space-x-12"
+className="bg-white/90 backdrop-blur-lg shadow-xl rounded-full px-4 mr-16 py-3 flex items-center mt-4 justify-center space-x-12"
 >
     <nav className="flex space-x-10 text-black font-medium">
       {/* Home */}

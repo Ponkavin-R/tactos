@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import { FiDollarSign } from "react-icons/fi";
 import { FiTrendingUp } from "react-icons/fi";
 import { useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import cash from "../assest/rupee.png";
 export default function HeroSection() {
   const containerRef = useRef(null);
-
+  const [hovered, setHovered] = useState(false);
   return (
     <motion.div 
       ref={containerRef}
@@ -57,7 +59,7 @@ export default function HeroSection() {
             className="bg-yellow-400 text-blue-950 px-6 py-2 rounded-lg border border-yellow-300 hover:bg-yellow-300 transition"
           >
            
-            Get Started
+            Invest
           </motion.button>
           </Link>
         </motion.div>
@@ -123,21 +125,43 @@ export default function HeroSection() {
             </div>
 
             {/* Main Circle */}
-            <div className="w-64 h-64 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mx-auto shadow-lg relative z-10 mb-10">
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-                className="absolute inset-0 rounded-full border border-white/10"
-              />
-              <FiDollarSign className="w-20 h-20 text-white" />
-              <motion.div 
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ amount: 0.5 }}
-                transition={{ delay: 0.2 }}
-                className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full blur-md"
-              />
-            </div>
+            <Link to="/startups">
+      <motion.div
+        className="w-60 h-60 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mx-auto shadow-lg relative z-10 mb-10 cursor-pointer"
+        whileHover={{ scale: 1.1 }}
+        onHoverStart={() => setHovered(true)}
+        onHoverEnd={() => setHovered(false)}
+      >
+        {/* Rotating Border */}
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+          className="absolute inset-0 rounded-full border border-white/10"
+        />
+
+        {/* Dollar Icon Image or "Invest" Text */}
+{hovered ? (
+  <span className="text-white text-2xl font-semibold duration-300">Invest</span>
+) : (
+  <img
+    src={cash}
+    alt="Dollar Icon"
+    className="w-20 h-20 object-contain transition-transform duration-300"
+  />
+)}
+
+
+        {/* Blurred glow circle */}
+        <motion.div 
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ amount: 0.5 }}
+          transition={{ delay: 0.2 }}
+          className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full blur-md"
+        />
+      </motion.div>
+    </Link>
+
 
             {/* Decorative dots */}
             <motion.div 
