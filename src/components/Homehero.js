@@ -110,13 +110,31 @@ const HeroSection = () => {
 
       {/* Cards positioned over wings */}
       <div className="cards-container">
+        {/* Gradient border animation */}
+        <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full"></span>
+            <span className="absolute top-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 delay-100 group-hover:w-full"></span>
+            <span className="absolute top-0 right-0 w-0.5 h-0 bg-gradient-to-b from-purple-500 via-pink-500 to-blue-500 transition-all duration-300 delay-200 group-hover:h-full"></span>
+
+
         {cards.map((card, index) => (
-          <div key={index} className="custom-card">
-            <img src={card.imgSrc} alt={card.title} className="card-img" />
-            <p className="text-xs lg:text-sm font-medium text-gray-800 text-center mt-2">
-              {card.title}
-            </p>
-          </div>
+           <div
+           key={index}
+           className="group relative flex flex-col items-center bg-white p-4 rounded-xl hover:shadow-2xl shadow-md transition-all duration-300 w-[100px] sm:w-[100px] md:w-[90px] lg:w-[100px] lg:mt-4 h-auto"
+         >
+           {/* Gradient border animation */}
+           <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full"></span>
+           <span className="absolute top-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 delay-100 group-hover:w-full"></span>
+           <span className="absolute top-0 right-0 w-0.5 h-0 bg-gradient-to-b from-purple-500 via-pink-500 to-blue-500 transition-all duration-300 delay-200 group-hover:h-full"></span>
+
+           <img
+             src={card.imgSrc}
+             alt={card.title}
+             className="w-14 h-14 mb-3 rounded-lg hover:scale-90 transition-transform duration-300"
+           />
+           <p className="text-sm font-medium text-gray-800 text-center">
+             {card.title}
+           </p>
+         </div>
         ))}
       </div>
     </section>

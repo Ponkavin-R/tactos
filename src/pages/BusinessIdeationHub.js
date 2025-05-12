@@ -67,9 +67,9 @@ export default function BusinessIdeationHub() {
       fields: [
         {
           label: "LinkedIn Profile",
-          type: "text",
+          type: "url",
           name: "linkedin",
-          required: false,
+          required: true,
           placeholder: "https://www.linkedin.com/in/yourname",
         },
         {
@@ -84,28 +84,81 @@ export default function BusinessIdeationHub() {
           type: "file",
           name: "cv",
           required: true,
-          accept: ".pdf,.doc,.docx",
+          accept: ".pdf",
         },
       ],
     },
   ];
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case "fullName":
+        if (!/^[A-Za-z\s]+$/.test(value)) {
+          return "Full Name should contain only letters and spaces.";
+        }
+        break;
+      case "email":
+        if (!/^[^\s@]+@gmail\.com$/.test(value)) {
+          return "Email must be a valid Gmail address.";
+        }
+        break;
+      case "phoneNumber":
+        if (!/^\d{10}$/.test(value)) {
+          return "Phone Number must be exactly 10 digits.";
+        }
+        break;
+      // case "linkedin":
+      //   if (value && !/^https?:\/\/.+\..+/.test(value)) {
+      //     return "LinkedIn URL must be a valid URL.";
+      //   }
+        // break;
+      default:
+        break;
+    }
+    return "";
+  };
+  
+  
   
 
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
-    if (type === "file") {
+  
+    if (type === "tel") {
+      // Allow only digits and limit to 10
+      const cleanedValue = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+    }else if (type === "file") {
       const file = files[0];
-      if (file && file.size > 10 * 1024 * 1024) {
-        setErrorMessage("File size should be less than 10MB.");
+      if (file && file.type !== "application/pdf") {
+        setErrorMessage("⚠️ Only PDF files are allowed for CV upload.");
         return;
+      } else {
+        setErrorMessage("");
+        setFormData((prev) => ({ ...prev, [name]: file }));
       }
     }
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "file" ? files[0] : value,
-    }));
+    // else if (name === "linkedin") {
+    //   const linkedinPattern = /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
+    //   if (!linkedinPattern.test(value)) {
+    //     setErrorMessage("⚠️ Please enter a valid LinkedIn profile URL.");
+    //   } else {
+    //     setErrorMessage("");
+    //     setFormData((prev) => ({ ...prev, [name]: value }));
+    //   }
+    // } 
+     else if (type === "text" && name === "fullName") {
+      // Allow only letters and spaces
+      const cleanedValue = value.replace(/[^A-Za-z\s]/g, "");
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "file" ? files[0] : value,
+      }));
+    }
   };
-
+  
 
   const handleNext = () => {
     const currentFields = sections[step].fields;
@@ -114,6 +167,11 @@ export default function BusinessIdeationHub() {
       const value = formData[field.name];
       if (!value && !isOptional) {
         setErrorMessage(`⚠️ Please fill out: ${field.label}`);
+        return;
+      }
+      const validationError = validateField(field.name, value);
+      if (validationError) {
+        setErrorMessage(`⚠️ ${validationError}`);
         return;
       }
     }
@@ -174,27 +232,32 @@ export default function BusinessIdeationHub() {
     <div className="md:w-1/2 text-center md:text-left p-4 sm:p-6">
       {/* Bulb Glow */}
       <div className="flex justify-center items-center">
-  <div className="relative z-10 w-40 h-40">
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-yellow-400 rounded-full blur-[100px] opacity-70 animate-glow-fast"></div>
-    <div className="absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-yellow-200 rounded-full blur-[60px] opacity-70 animate-glow-fast delay-200"></div>
+      <div className="flex flex-col items-center text-center">
+  {/* Enlarged Image with Glow */}
+  <div className="relative z-10 w-60 h-60 md:w-72 md:h-72">
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 md:w-72 md:h-72 bg-yellow-400 rounded-full blur-[100px] opacity-70 animate-glow-fast"></div>
+    <div className="absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-yellow-200 rounded-full blur-[60px] opacity-70 animate-glow-fast delay-200"></div>
     <img
       src={ideaImage}
       alt="Bulb"
       className="w-full h-full z-20 relative drop-shadow-[0_0_40px_rgba(255,223,0,0.85)]"
     />
   </div>
+
+  {/* Heading */}
+  <h1 className="text-2xl md:text-3xl text-left font-bold text-yellow-800 mt-6">
+    Unlock Your Next Big Idea with TACTOS
+  </h1>
+
+  {/* Description */}
+  <div className="text-sm md:text-base text-gray-700 text-center py-6 max-w-xl">
+    <p className="font-medium text-left">
+      We help you shape raw ideas into startup-ready concepts through expert guidance, real-world validation, and tailored resources — all in one place.
+    </p>
+  </div>
+</div>
 </div>
 
-
-      <h1 className="text-2xl md:text-3xl font-bold text-yellow-800 mt-4">
-      Unlock Your Next Big Idea with TACTOS
-      </h1>
-
-      <div className="text-sm md:text-base text-gray-700 text-left py-6 space-y-5">
-  <p className="font-medium">We help you shape raw ideas into startup-ready concepts through expert guidance, real-world validation, and tailored resources — all in one place.
-  </p>
-
-</div>
 
     </div>
 
@@ -249,7 +312,7 @@ export default function BusinessIdeationHub() {
             }}
             className="px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
           >
-            Submit Another Idea
+            Create Another Idea 
           </button>
         </div>
       ) : (
@@ -342,7 +405,7 @@ export default function BusinessIdeationHub() {
                 Back
               </button>
             )}
-            {step < sections.length - 1 ? (
+           {step === 0 && (
               <button
                 type="button"
                 onClick={handleNext}
@@ -350,7 +413,8 @@ export default function BusinessIdeationHub() {
               >
                 Next
               </button>
-            ) : (
+            )}
+            {step > 0 &&
               <button
                 type="submit"
                 className="px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
@@ -358,7 +422,7 @@ export default function BusinessIdeationHub() {
               >
                 {loading ? "Submitting..." : "Submit"}
               </button>
-            )}
+            }
           </div>
         </form>
       )}

@@ -21,6 +21,10 @@ export default function BusinessConsultation() {
       const phoneRegex = /^\d{10}$/;
       return phoneRegex.test(value);
     }
+    // if (field.name === "linkedin" && value) {
+    //   const linkedinPattern = /^https:\/\/(www\.)?linkedin\.com\/(in|company)\/[A-Za-z0-9_-]+\/?$/;
+    //   return linkedinPattern.test(value);
+    // }
     if (field.type === "text" && field.name === "website" && value) {
       const urlRegex = /^(https?:\/\/)?([\w.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
       return urlRegex.test(value);
@@ -35,6 +39,7 @@ export default function BusinessConsultation() {
   
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/businessconsultation`, formData);
+      setSubmitted(true);
       console.log("Response from server:", response.data);
     } catch (error) {
       if (error.response) {
@@ -80,10 +85,10 @@ export default function BusinessConsultation() {
     {
       title: "Business Information",
       fields: [
-        { label: "Company Linkedin Profile", name: "linkedinProfile", type: "text" },
-        { label: "Business Name (optional)", name: "businessName", type: "text" },
+        { label: "Company Linkedin Profile", name: "linkedin", type: "url",required: false},
+        { label: "Business Name ", name: "businessName", type: "text" },
         { label: "Describe Your Business Briefly", name: "businessDescription", type: "textarea" },
-        { label: "Website (optional)", name: "website", type: "text" },
+        { label: "Website (optional)", name: "website", type: "url" },
       ],
     },
   ];
@@ -93,24 +98,62 @@ export default function BusinessConsultation() {
     const values = Array.from(e.target.selectedOptions, (option) => option.value);
     setFormData((prev) => ({ ...prev, [e.target.name]: values }));
   };
-
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
-    if (type === "file") {
-      setFormData((prev) => ({ ...prev, [name]: files.multiple ? [...files] : files[0] }));
-    } else if (name === "phone") {
-      // Allow only digits and limit to 10 digits
-      const numericValue = value.replace(/\D/g, "").slice(0, 10);
-      setFormData((prev) => ({ ...prev, [name]: numericValue }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+  
+    if (type === "tel") {
+      // Allow only digits and limit to 10
+      const cleanedValue = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+      return;
     }
+  
+    if (type === "file") {
+      const file = files[0];
+      if (file && file.type !== "application/pdf") {
+        setErrorMessage("⚠️ Only PDF files are allowed for CV upload.");
+      } else {
+        setErrorMessage("");
+        setFormData((prev) => ({ ...prev, [name]: file }));
+      }
+      return;
+    }
+  
+    // if (name === "linkedin") {
+    //   const linkedinPattern = /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
+    
+    //   // If value is empty and not required, accept it
+    //   if (value.trim() === "") {
+    //     setErrorMessage(""); // clear error
+    //     setFormData((prev) => ({ ...prev, [name]: value }));
+    //     return;
+    //   }
+    
+    //   if (!linkedinPattern.test(value)) {
+    //     setErrorMessage("⚠️ Please enter a valid LinkedIn profile URL.");
+    //   } else {
+    //     setErrorMessage("");
+    //     setFormData((prev) => ({ ...prev, [name]: value }));
+    //   }
+    //   return;
+    // }
+    
+  
+    if (type === "text" && name === "fullName") {
+      // Allow only letters and spaces
+      const cleanedValue = value.replace(/[^A-Za-z\s]/g, "");
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+      return;
+    }
+  
+    // Default handler
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
   
   const handleNext = () => {
     const currentFields = sections[step].fields;
     for (let field of currentFields) {
-      const isOptional = field.optional || false;
+      const isOptional = field.required || false;
       const value = formData[field.name];
       if (!value && !isOptional && field.type !== "file") {
         setErrorMessage(`⚠️ Please fill out: ${field.label}`);
@@ -127,7 +170,7 @@ export default function BusinessConsultation() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-green-100 via-white to-blue-100 mt-12 p-8">
-      <div className="flex flex-col md:flex-row items-center gap-12 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row items-center gap-12 max-w-6xl rounded-2xl shadow-xl mx-auto">
         {/* Left Side Content */}
         <div className="flex-1 text-left animate-fade-in-up">
           <img src={farmerAnimation} alt="Farmer" className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_3] motion-safe:transition-transform" />
@@ -139,13 +182,13 @@ export default function BusinessConsultation() {
         </div>
 
         {/* Right Side Form */}
-    <div className="flex-1 bg-white p-6 mt-4 shadow-2xl rounded-3xl border border-gray-200 w-screen max-w-xl max-h-screen overflow-auto">
-      <div className="text-center mb-4">
+    <div className="flex-1 bg-white p-6 mt-4 shadow-2xl rounded-3xl border border-gray-200 w-screen max-w-xl max-h-fit overflow-auto">
+      <div className="text-center mb-2">
             <h2 className="text-2xl font-bold text-blue-700 text-center">Business Consultation Registration</h2>
             <p className="text-center text-gray-500">Overcome roadblocks with strategic guidance!</p>
           </div>
 
-          <div className="flex items-center justify-center space-x-2 mb-6">
+          <div className="flex items-center justify-center space-x-2 mb-3">
             {sections.map((_, index) => (
               <span
                 key={index}
@@ -177,7 +220,7 @@ export default function BusinessConsultation() {
                 }}
                 className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700"
               >
-                Register Another Startup
+                Register Another BusinessConsultation
               </button>
             </div>
           ) : (
@@ -300,23 +343,24 @@ export default function BusinessConsultation() {
                   Back
                 </button>
               )}
-              {step < sections.length - 1 ? (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="px-4 py-1 bg-green-600 text-white rounded hover:bg-indigo-700"
-                >
-                  Next
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-                >
-                  {loading ? "Submitting..." : "Submit"}
-                </button>
-              )}
+              {step === 0 && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
+              >
+                Next
+              </button>
+            )}
+            {step > 0 &&
+              <button
+                type="submit"
+                className="px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            }
             </div>
           </form>
           

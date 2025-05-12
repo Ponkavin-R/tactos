@@ -97,7 +97,7 @@ const [phone, setPhone] = useState('');
   return (
     <div className="p-4">
 <section className="bg-white">
-      <div className="max-w-screen-xl px-4 py-12 mx-auto grid lg:grid-cols-12 gap-8 items-center">
+      <div className="max-w-screen-xl px-4 py-10 mx-auto grid lg:grid-cols-12 gap-8 items-center">
         {/* Left Text Section */}
         <motion.div
           className="lg:col-span-7"
@@ -105,7 +105,7 @@ const [phone, setPhone] = useState('');
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight mb-6">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight mb-6">
             <span className="block">Invest in Start-Ups</span>
             <span className="block text-blue-600">with TACTOS Locally</span>
           </h1>

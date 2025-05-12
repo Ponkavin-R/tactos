@@ -39,14 +39,21 @@ export default function StartupReg() {
     return () => clearInterval(interval);
   }, [currentIndex]);
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.endsWith(".com");
+  const validateEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.endsWith(".com");
+  
   const validatePhone = (phone) => /^[0-9]{10}$/.test(phone);
-
+  
+  const validateLinkedIn = (url) =>
+    /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9-_%]+\/?$/.test(url);
+  
   const validateField = (field, value) => {
     if (field.type === "email") return validateEmail(value);
     if (field.type === "tel") return validatePhone(value);
+    if (field.name === "linkedin") return validateLinkedIn(value);
     return value !== "";
   };
+  
 
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
@@ -166,6 +173,24 @@ export default function StartupReg() {
           options: ["Idea", "MVP", "Early Revenue", "Scaling"],
         },
         { label: "Website (optional)", name: "website", type: "url", optional: true },
+        
+      ],
+    },
+    {
+      title: "Support Required",
+      fields: [
+        {
+          label: "Type of Support Needed",
+          name: "support",
+          type: "multiselect",
+          options: ["Mentorship", "Funding", "Market Access", "Product Development"],
+        },
+        // {
+        //   label: "Do you need a co-founder?",
+        //   name: "coFounder",
+        //   type: "radio",
+        //   options: ["Yes", "No"],
+        // },
         {
           label: "Location",
           name: "location",
@@ -178,24 +203,7 @@ export default function StartupReg() {
           type: "radio",
           options: ["Yes", "No"],
         },
-        { label: "Pitch Deck Upload", name: "pitchDeck", type: "file" },
-      ],
-    },
-    {
-      title: "Support Required",
-      fields: [
-        {
-          label: "Type of Support Needed",
-          name: "support",
-          type: "multiselect",
-          options: ["Mentorship", "Funding", "Market Access", "Product Development"],
-        },
-        {
-          label: "Do you need a co-founder?",
-          name: "coFounder",
-          type: "radio",
-          options: ["Yes", "No"],
-        },
+        { label: "Pitch Deck Upload (optional)", name: "pitchDeck", type: "file" },
       ],
     },
   ];
@@ -337,34 +345,38 @@ export default function StartupReg() {
                 </div>
               ))}
 
-              <div className="flex justify-between mt-3">
-                {step > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => setStep(step - 1)}
-                    className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                  >
-                    Back
-                  </button>
-                )}
-                {step < sections.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    className="px-4 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                  >
-                    Next
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-                  >
-                    {loading ? "Submitting..." : "Submit"}
-                  </button>
-                )}
-              </div>
+<div className="flex justify-between mt-4">
+  {step > 0 && (
+    <button
+      type="button"
+      onClick={() => setStep((prev) => prev - 1)}
+      className="px-3 py-1.5 bg-gray-200 text-sm rounded hover:bg-gray-300"
+    >
+      Back
+    </button>
+  )}
+
+  {step < 2 && (
+    <button
+      type="button"
+      onClick={handleNext}
+      className="ml-auto px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
+    >
+      Next
+    </button>
+  )}
+
+  {step === 2 && (
+    <button
+      type="submit"
+      className="ml-auto px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
+      disabled={loading}
+    >
+      {loading ? "Submitting..." : "Submit"}
+    </button>
+  )}
+</div>
+
             </form>
           )}
         </div>

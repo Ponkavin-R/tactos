@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { Typewriter } from "react-simple-typewriter";
 import cr from "../assest/cr.png";
 
 export default function CoFounder() {
@@ -11,35 +10,65 @@ export default function CoFounder() {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const validateField = (field, value) => {
-    if (field.optional) return true;
-    if (!value || value === "") return false;
-  
-    switch (field.type) {
+  const validateField = (name, value) => {
+    switch (name) {
+      case "fullName":
+        if (!value || !/^[A-Za-z\s]+$/.test(value)) {
+          return "Full Name should contain only letters and spaces.";
+        }
+        break;
       case "email":
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      case "tel":
-        return /^[0-9]{10}$/.test(value);
-      case "number":
-        return !isNaN(value);
-      case "file":
-        return value && typeof value === "object" && value.name; // << this is the fix
+        if (!value || !/^[^\s@]+@gmail\.com$/.test(value)) {
+          return "Email must be a valid Gmail address.";
+        }
+        break;
+      case "phoneNumber":
+        if (!value || !/^\d{10}$/.test(value)) {
+          return "Phone Number must be exactly 10 digits.";
+        }
+        break;
+      case "linkedin":
+        if (
+          !value ||
+          !/^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/.test(value)
+        ) {
+          return "Please enter a valid LinkedIn profile URL.";
+        }
+        break;
+      case "district":
+        if (!value) {
+          return "Please select a district.";
+        }
+        break;
+      case "employmentStatus":
+        if (!value) {
+          return "Please select your employment status.";
+        }
+        break;
+      case "industries":
+        if (!value) {
+          return "Please enter industries you're interested in.";
+        }
+        break;
+      case "resume":
+        if (!value) {
+          return "Please upload your resume.";
+        }
+        break;
       default:
-        return true;
+        break;
     }
+    return "";
   };
-  
-  
-  
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const currentFields = sections[step].fields;
     for (let field of currentFields) {
-      if (!validateField(field, formData[field.name])) {
-        setErrorMessage(`⚠️ Invalid or missing input in: ${field.label}`);
+      const error = validateField(field.name, formData[field.name]);
+      if (error) {
+        setErrorMessage(`⚠️ ${error}`);
         return;
       }
     }
@@ -71,34 +100,38 @@ export default function CoFounder() {
     }
   };
 
-  const handleMultiSelect = (e) => {
-    const values = Array.from(e.target.selectedOptions, (option) => option.value);
-    setFormData((prev) => ({ ...prev, [e.target.name]: values }));
-  };
-
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
-    if (type === "file") {
-      setFormData((prev) => ({ ...prev, [name]: files.length > 0 ? files[0] : null }));
-    } else {
-      if (name === "phone") {
-        // Only allow numbers and limit to 10 digits
-        const cleanedValue = value.replace(/\D/g, ""); // Remove non-digits
-        if (cleanedValue.length <= 10) {
-          setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
-        }
+
+    if (type === "tel") {
+      const cleanedValue = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+    } else if (type === "file") {
+      const file = files[0];
+      if (file && file.type !== "application/pdf") {
+        setErrorMessage("⚠️ Only PDF files are allowed for CV upload.");
+        return;
       } else {
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        setErrorMessage("");
+        setFormData((prev) => ({ ...prev, [name]: file }));
       }
+    } else if (type === "text" && name === "fullName") {
+      const cleanedValue = value.replace(/[^A-Za-z\s]/g, "");
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "file" ? files[0] : value,
+      }));
     }
   };
 
   const handleNext = () => {
     const currentFields = sections[step].fields;
     for (let field of currentFields) {
-      const value = formData[field.name];
-      if (!validateField(field, value)) {
-        setErrorMessage(`⚠️ Invalid or missing input in: ${field.label}`);
+      const error = validateField(field.name, formData[field.name]);
+      if (error) {
+        setErrorMessage(`⚠️ ${error}`);
         return;
       }
     }
@@ -106,129 +139,146 @@ export default function CoFounder() {
     setStep((prevStep) => prevStep + 1);
   };
 
-  const tamilNaduDistricts = [
-    "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri",
-    "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri",
-    "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur",
-    "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur",
-    "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur",
-    "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"
-  ];
-
   const sections = [
     {
-      title: "Personal Information",
+      title: "Section 1: Personal Information",
       fields: [
-        { label: "Full Name", name: "fullName", type: "text" },
-        { label: "Email Address", name: "email", type: "email" },
-        { label: "Phone Number", name: "phone", type: "tel" },
-        { label: "LinkedIn Profile", name: "linkedin", type: "url", },
         {
-          label: "Location",
-          name: "location",
+          label: "Full Name",
+          type: "text",
+          name: "fullName",
+          required: true,
+        },
+        {
+          label: "Email Address",
+          type: "email",
+          name: "email",
+          required: true,
+        },
+        {
+          label: "Phone Number",
+          type: "tel",
+          name: "phoneNumber",
+          required: true,
+        },
+        {
+          label: "LinkedIn Profile",
+          type: "url",
+          name: "linkedin",
+          required: true,
+          placeholder: "https://www.linkedin.com/in/yourname",
+        },
+        {
+          label: "District",
           type: "select",
-          options: tamilNaduDistricts,
+          name: "district",
+          required: true,
+          options: [
+            "Ariyalur",
+            "Chengalpattu",
+            "Chennai",
+            "Coimbatore",
+            "Cuddalore",
+            "Dharmapuri",
+            "Dindigul",
+            "Erode",
+            "Kallakurichi",
+            "Kanchipuram",
+            "Kanyakumari",
+            "Karur",
+            "Krishnagiri",
+            "Madurai",
+            "Mayiladuthurai",
+            "Nagapattinam",
+            "Namakkal",
+            "Nilgiris",
+            "Perambalur",
+            "Pudukkottai",
+            "Ramanathapuram",
+            "Ranipet",
+            "Salem",
+            "Sivaganga",
+            "Tenkasi",
+            "Thanjavur",
+            "Theni",
+            "Thoothukudi",
+            "Tiruchirappalli",
+            "Tirunelveli",
+            "Tirupathur",
+            "Tiruppur",
+            "Tiruvallur",
+            "Tiruvannamalai",
+            "Tiruvarur",
+            "Vellore",
+            "Viluppuram",
+            "Virudhunagar",
+          ],
         },
       ],
     },
     {
-      title: "Professional Background",
+      title: "Section 2: Professional Interests",
       fields: [
-        { label: "Current Role/Occupation", name: "role", type: "text" },
         {
-          label: "Areas of Expertise",
-          name: "expertise",
+          label: "Employment Status",
           type: "select",
-          options: ["Tech", "Marketing", "Sales", "Finance", "Operations", "Product"],
+          name: "employmentStatus",
+          required: true,
+          options: ["Employed", "Unemployed", "Student"],
         },
-        { label: "Years of Experience", name: "experience", type: "number" },
-        { label: "Notable Achievements (if any)", name: "achievements", type: "textarea", optional: true },
-      ],
-    },
-    {
-      title: "Startup Interests",
-      fields: [
         {
           label: "Industries Interested In",
+          type: "text",
           name: "industries",
-          type: "multiselect",
-          options: ["AI", "FinTech", "AgriTech", "EdTech", "HealthTech"],
+          required: true,
         },
         {
-          label: "Startup Stage Preference",
-          name: "stagePreference",
-          type: "select",
-          options: ["Idea", "MVP", "Early Revenue", "Scaling"],
+          label: "Resume or Portfolio",
+          type: "file",
+          name: "resume",
+          accept: ".pdf",
+          required: true,
         },
-        {
-          label: "Preferred Business Model",
-          name: "businessModel",
-          type: "select",
-          options: ["B2B", "B2C", "SaaS", "Marketplace"],
-        },
-      ],
-    },
-    {
-      title: "Expectations & Contribution",
-      fields: [
-        {
-          label: "Skills & Resources You Can Offer",
-          name: "skills",
-          type: "multiselect",
-          options: ["Mentorship", "Investment", "Networking", "Tech Expertise"],
-        },
-        {
-          label: "Expected Role in the Startup",
-          name: "expectedRole",
-          type: "select",
-          options: ["Full-time Co-founder", "Part-time Advisor", "Investor"],
-        },
-        { label: "Investment Capacity (if applicable)", name: "investmentCapacity", type: "number", optional: true },
-      ],
-    },
-    {
-      title: "Additional Information",
-      fields: [
-        {
-          label: "Do you want to be a cofounder?",
-          name: "coFounder",
-          type: "radio",
-          options: ["Yes", "No"],
-        },
-        { label: "Resume or Portfolio", name: "resume", type: "file" },
       ],
     },
   ];
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-screen bg-gradient-to-br from-yellow-100 via-white to-blue-100 px-4 py-12">
+    <div className="w-full min-h-screen bg-gradient-to-br from-red-100 via-white to-orange-200 flex items-center justify-center py-2 px-2 md:mt-20 lg:mt-4">
+            <div className="w-full max-w-6xl rounded-2xl shadow-xl flex flex-col md:flex-row overflow-hidden">
       {/* Left Side */}
-      <motion.div
-        initial={{ x: -80, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="md:w-1/2 mb-10 md:mb-0 text-center md:text-left"
-      >
-        <img
-          src={cr}
-          alt="cofounder illustration"
-          className="w-3/4 justify-center h-auto mb-6 animate-[bounce_3s_3] motion-safe:transition-transform"
-        />
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mt-6">
-        Find Your Dream Co-Founder <span className="text-yellow-300">Through TACTOS</span>
-        </h1>
-        <p className="text-gray-600 mt-4 max-w-md">
-          Join a network of passionate individuals and connect with the right co-founder to build something amazing!
-        </p>
-      </motion.div>
+{/* Left Content */}
+<div className="md:w-1/2 p-4 sm:p-6 flex flex-col items-center text-center">
+  {/* Bulb Glow with Centered Image */}
+  <div className="relative z-10 w-60 h-60 md:w-72 md:h-72 flex justify-center items-center">
+    {/* Outer Glow */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 md:w-72 md:h-72  rounded-full blur-[100px] opacity-70"></div>
+    {/* Inner Glow */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full blur-[60px] opacity-70"></div>
+    {/* Bulb Image */}
+    <img
+      src={cr}
+      alt="Bulb"
+      className="w-full h-full z-20 relative drop-shadow-[0_0_40px_rgba(255,223,0,0.85)]"
+    />
+  </div>
+
+  {/* Heading */}
+  <h1 className="text-2xl md:text-3xl font-bold text-yellow-800 text-left mt-6">
+    Find Your Dream Co-Founder <span className="text-yellow-300">Through TACTOS</span>
+  </h1>
+
+  {/* Description */}
+  <p className="text-sm md:text-base text-gray-700 font-medium text-left mt-4 max-w-xl">
+    Join a network of passionate individuals and connect with the right co-founder to build something amazing!
+  </p>
+</div>
+
+      
 
       {/* Right Side - Form */}
-      <motion.div
-        initial={{ x: 80, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="md:w-1/2 bg-white p-4 rounded-lg shadow-2xl w-full max-w-md"
-      >
+      <div className="flex-1 bg-white p-8 mt-10 shadow-2xl rounded-3xl border border-gray-200 w-screen max-w-xl">
+
         <h2 className="text-xl font-bold text-center text-gray-800 mb-2">CoFounder Registration</h2>
         <p className="text-center text-gray-500 mb-4 text-sm">Register now and take the first step toward your startup dream!</p>
 
@@ -366,37 +416,39 @@ export default function CoFounder() {
               </div>
             ))}
 
-<div className="flex justify-between mt-3">
-                {step > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => setStep(step - 1)}
-                    className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                  >
-                    Back
-                  </button>
-                )}
-                {step < sections.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    className="px-4 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                  >
-                    Next
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-                  >
-                    {loading ? "Submitting..." : "Submit"}
-                  </button>
-                )}
-              </div>
+<div className="flex justify-between pt-2">
+            {step > 0 && (
+              <button
+                type="button"
+                onClick={() => setStep((prev) => prev - 1)}
+                className="px-3 py-1.5 bg-gray-200 text-sm rounded hover:bg-gray-300"
+              >
+                Back
+              </button>
+            )}
+           {step === 0 && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
+              >
+                Next
+              </button>
+            )}
+            {step > 0 &&
+              <button
+                type="submit"
+                className="px-4 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-700 text-sm"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            }
+          </div>
           </form>
         )}
-      </motion.div>
+      </div>
+      </div>
     </div>
   );
 }

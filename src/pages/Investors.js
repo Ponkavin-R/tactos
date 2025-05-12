@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 const Investors = () => {
   const [testimonials, setTestimonials] = useState([]);
-  const speed = 12;
 
   const getTypeColor = (type) => {
     const colors = {
@@ -28,7 +26,7 @@ const Investors = () => {
     fetchData();
   }, []);
 
-  const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
+  const repeated = [...testimonials, ...testimonials]; // duplicate once for looping
 
   return (
     <div className="py-12 bg-gray-100 overflow-hidden relative">
@@ -37,16 +35,12 @@ const Investors = () => {
           Our Network
         </h2>
         <p className="text-sm sm:text-base text-center text-gray-600 mb-8 sm:mb-12">
-        We proudly collaborate with industry leaders, visionary investors, and strategic partners to accelerate growth and deliver impactful results.
+          We proudly collaborate with industry leaders, visionary investors, and strategic partners to accelerate growth and deliver impactful results.
         </p>
 
         <div className="relative w-full overflow-hidden">
-          <motion.div
-            className="flex"
-            animate={{ x: ["0%", "-120%"] }}
-            transition={{ duration: speed, ease: "linear", repeat: Infinity }}
-          >
-            {marqueeItems.map((item, index) => (
+          <div className="flex animate-marquee whitespace-nowrap">
+            {repeated.map((item, index) => (
               <div key={`${item.name}-${index}`} className="flex-shrink-0 px-4">
                 <div className="w-44 sm:w-48 h-44 sm:h-48 rounded-lg bg-white shadow-md flex flex-col items-center justify-center p-4 cursor-pointer hover:shadow-lg transition-shadow">
                   <span
@@ -65,7 +59,7 @@ const Investors = () => {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

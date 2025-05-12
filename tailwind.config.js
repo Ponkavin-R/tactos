@@ -39,6 +39,14 @@ module.exports = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        scroll: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" }, // Shift half since duplicated
+        },
       },
       perspective: {
         1000: '1000px',
@@ -56,6 +64,8 @@ module.exports = {
         'spin': 'spin 15s linear infinite',
         'background': 'gradient 15s ease infinite',
         'infinite-scroll': 'infiniteScroll 25s linear infinite',
+        'scroll': 'scroll 20s linear infinite',
+        'marquee': 'marquee 30s linear infinite',
       },
 
     },
