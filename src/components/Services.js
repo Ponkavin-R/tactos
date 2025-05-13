@@ -80,7 +80,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-8 md:px-12 lg:px-20 py-10 bg-gradient-to-br h-screen from-white to-blue-50">
+    <section className="px-4 sm:px-8 md:px-12 lg:px-20 py-10 bg-gradient-to-br h-fit from-white to-blue-50">
       <motion.h2
         initial={{ opacity: 0, y: -30 }}
         whileInView={{ opacity: 1, y: 0 }}

@@ -24,6 +24,8 @@ import StartUps from "./components/StartUps";
 import ScrollToTop from "./components/ScrollToTop";
 import Jobs from "./pages/Jobs";
 import Jobdetail from "./components/Jobdetail";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import TermsAndCondition from "./components/TermsAndCondition";
 
 function App() {
   const location = useLocation();
@@ -51,6 +53,8 @@ function App() {
           <Route path="/business-consultation" element={<Businessconsultation />} />
           <Route path="/cofounder-reg" element={<CoFounderRegistration />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/terms" element={<TermsAndCondition />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
 
           {/* Startup Dashboard Routes */}
           <Route path="/startup-dashboard/*" element={<StartupHome />}>

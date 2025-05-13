@@ -270,13 +270,13 @@ Discover, support, and grow—locally
         {/* Right Section: Company Info + Stats + Actions */}
         <div className="space-y-6">
           {/* Company Info */}
-          <div className="flex flex-col items-center text-center space-y-2">
+          <div className="flex flex-col h-72 items-center text-center space-y-2">
             <img
               src={`${process.env.REACT_APP_API_URL}${selectedStartup.logoUrl}`}
               alt="Logo"
               className="w-24 h-24 object-cover rounded-full border shadow"
             />
-                      <h4 className="text-xl font-semibold text-blue-950 mb-2">
+                      <h4 className="text-xl font-semibold text-blue-950">
                       {selectedStartup.startupDetails?.startupName || 'Unknown Startup'}
 </h4>
              
@@ -291,6 +291,30 @@ Discover, support, and grow—locally
 
           <hr className="border-t" />
 
+          {/* Actions */}
+          <div>
+            <h4 className="text-lg font-semibold mb-1 text-blue-950">Share & Connect</h4>
+            <div className="flex justify-center gap-4 mb-4">
+              <a href={`https://wa.me/?text=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
+                <FaWhatsapp className="text-green-500 text-2xl hover:scale-110 transition" />
+              </a>
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
+                <FaFacebook className="text-blue-600 text-2xl hover:scale-110 transition" />
+              </a>
+              <button onClick={handleCopyUrl}>
+                <FaRegCopy className="text-gray-700 text-2xl hover:scale-110 transition" />
+              </button>
+            </div>
+            <div className="text-center">
+              <button
+                className="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-indigo-700 transition"
+                onClick={() => setShowForm(true)}
+              >
+                Interested in Investing?
+              </button>
+            </div>
+          </div>
+          {/* <hr className="border-t" /> */}
           <h4 className="text-xl font-semibold text-blue-950 mb-2">
    <span>Funding Details</span>
 </h4>
@@ -378,29 +402,7 @@ Discover, support, and grow—locally
 
           <hr className="border-t" />
 
-          {/* Actions */}
-          <div>
-            <h4 className="text-lg font-semibold mb-2 text-blue-950">Share & Connect</h4>
-            <div className="flex justify-center gap-4 mb-4">
-              <a href={`https://wa.me/?text=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
-                <FaWhatsapp className="text-green-500 text-2xl hover:scale-110 transition" />
-              </a>
-              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
-                <FaFacebook className="text-blue-600 text-2xl hover:scale-110 transition" />
-              </a>
-              <button onClick={handleCopyUrl}>
-                <FaRegCopy className="text-gray-700 text-2xl hover:scale-110 transition" />
-              </button>
-            </div>
-            <div className="text-center">
-              <button
-                className="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-indigo-700 transition"
-                onClick={() => setShowForm(true)}
-              >
-                Interested in Investing?
-              </button>
-            </div>
-          </div>
+
         </div>
       </motion.div>
 

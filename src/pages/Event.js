@@ -22,7 +22,8 @@ import 'react-calendar/dist/Calendar.css';
 const Event = () => {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [filters, setFilters] = useState({ name: '', location: '', startDate: '' });
+  const [filters, setFilters] = useState({ name: '', location: '', startDate: '', mode: '' });
+
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [activeTab, setActiveTab] = useState('Free');
   const [showMobileFilter, setShowMobileFilter] = useState(false);
@@ -61,10 +62,12 @@ const Event = () => {
       const matchesName = event.name?.toLowerCase().includes(newFilters.name.toLowerCase());
       const matchesLocation = event.location?.toLowerCase().includes(newFilters.location.toLowerCase());
       const matchesDate = newFilters.startDate ? new Date(event.date) >= new Date(newFilters.startDate) : true;
-      return matchesName && matchesLocation && matchesDate;
+      const matchesMode = newFilters.mode ? event.mode?.toLowerCase() === newFilters.mode.toLowerCase() : true;
+      return matchesName && matchesLocation && matchesDate && matchesMode;
     });
     setFilteredEvents(filtered);
   };
+  
 
   const handleCalendarChange = (date) => {
     setCalendarDate(date);
@@ -141,7 +144,7 @@ const Event = () => {
                 onClick={() => navigate(`/event-description/${event._id}`)}
                 className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-transform hover:scale-105"
               >
-                View Event
+                Register Event
               </button>
             </div>
           </motion.div>
@@ -216,6 +219,32 @@ const Event = () => {
     ))}
   </select>
 </div>
+{/* Mode Filter */}
+<div>
+      <label className="text-gray-600 font-medium block mb-1">Mode</label>
+      <div className="relative">
+        <select
+          name="mode"
+          value={filters.mode}
+          onChange={handleInputChange}
+          className="w-full border border-gray-300 rounded px-2 py-1 appearance-none bg-white pr-8"
+        >
+          <option value="">All</option>
+          <option value="Physical">Physical</option>
+          <option value="Online">Online</option>
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
 
             <div>
               <label className="text-gray-600 font-medium block mb-1">Start Date</label>

@@ -38,7 +38,7 @@ const BusinessServices = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-transparent py-3 px-4 sm:px-6 md:px-12 lg:px-20">
+    <div className="min-h-fit bg-transparent py-12 px-4 sm:px-6 md:px-12 lg:px-20">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-950 mb-12">
       Explore Our Services 
       </h2>

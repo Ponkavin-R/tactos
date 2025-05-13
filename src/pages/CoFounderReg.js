@@ -254,17 +254,17 @@ export default function CoFounder() {
     {/* Outer Glow */}
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 md:w-72 md:h-72  rounded-full blur-[100px] opacity-70"></div>
     {/* Inner Glow */}
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full blur-[60px] opacity-70"></div>
+    <div className="absolute top-1/2 left-1/2  w-48 h-48 rounded-full opacity-70"></div>
     {/* Bulb Image */}
     <img
       src={cr}
       alt="Bulb"
-      className="w-full h-full z-20 relative drop-shadow-[0_0_40px_rgba(255,223,0,0.85)]"
+      className="w-full h-full z-20 relative "
     />
   </div>
 
   {/* Heading */}
-  <h1 className="text-2xl md:text-3xl font-bold text-yellow-800 text-left mt-6">
+  <h1 className="text-2xl md:text-3xl font-bold text-yellow-800 text-left mt-28">
     Find Your Dream Co-Founder <span className="text-yellow-300">Through TACTOS</span>
   </h1>
 

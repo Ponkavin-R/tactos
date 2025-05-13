@@ -74,10 +74,24 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="text-center text-sm text-gray-500 border-t border-gray-300 mt-8 pt-4">
-          <p>&copy; {new Date().getFullYear()} TACTOS. All rights reserved.</p>
-        </div>
+       {/* Footer Bottom */}
+<div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 border-t border-gray-300 mt-8 pt-4 px-4">
+  {/* Left - Privacy Policy */}
+  <div className="mb-2 md:mb-0">
+    <Link to="/privacy-policy" className="hover:underline">Privacy Policy</Link>
+  </div>
+
+  {/* Center - Copyright */}
+  <div className="mb-2 md:mb-0 text-center">
+    <p>&copy; {new Date().getFullYear()} TACTOS. All rights reserved.</p>
+  </div>
+
+  {/* Right - Terms and Conditions */}
+  <div>
+    <Link to="/terms" className="hover:underline">Terms & Conditions</Link>
+  </div>
+</div>
+
       </motion.header>
     </footer>
   );
