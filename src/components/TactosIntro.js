@@ -47,7 +47,7 @@ const AboutUs = () => {
             TACTOS
           </h1>
           <p className="text-base text-white/90 mb-4 leading-relaxed">
-          Is a startup ecosystem builder, creating a safe, supportive, and scalable environment for entrepreneurs and founders. 
+          Is a startup ecosystem builder, creating a safe, supportive, and scalable environment for entrepreneurs and student founders. 
           </p>
           <p className="text-base text-white/90 mb-4 leading-relaxed">
           Our mission is to empower innovators with the right mentorship, access to funding networks, and essential growth resources — while actively safeguarding them from scams and misleading deals.

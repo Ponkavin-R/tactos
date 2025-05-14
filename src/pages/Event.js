@@ -82,6 +82,70 @@ const Event = () => {
     setFilters(newFilters);
     applyFilters(newFilters);
   };
+  const completedEvents = filteredEvents.filter((e) => e.status === 'Completed');
+const recentCompletedEvents = completedEvents.slice(0, 4); // Show only the 4 most recent completed events
+
+const renderCompletedEventCards = (eventList) => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {eventList.map((event, i) => (
+        <motion.div
+          key={i}
+          className="bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: i * 0.1 }}
+        >
+          {/* Event Image */}
+          {event.logo && (
+            <img
+              src={event.logo}
+              alt={event.title}
+              className="w-full h-48 object-cover"
+            />
+          )}
+
+          {/* Event Content */}
+          <div className="p-5">
+            {/* Title */}
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              {event.title}
+            </h3>
+
+            {/* Grid Info Section */}
+            <div className="grid grid-cols-2 gap-3 text-sm text-gray-600 mb-3">
+              <div className="flex items-center gap-2">
+                <FaCalendarAlt className="text-green-500" />
+                <span>{formatDate(event.date)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaClock className="text-blue-500" />
+                <span>{event.time || "N/A"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaRupeeSign className="text-yellow-500" />
+                <span>
+                  {event.type === "Free"
+                    ? "Free"
+                    : `Paid (${event.amount || "N/A"})`}
+                </span>
+              </div>
+              <div className="text-xs text-gray-400 col-span-2 italic">
+                Organized by: {event.name || "Unknown"}
+              </div>
+            </div>
+
+            {/* Description */}
+            <p className="text-gray-500 text-sm line-clamp-2 mb-4">
+              {event.description}
+            </p>
+
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
 
   const renderEventCards = (eventList) => {
   
@@ -271,8 +335,17 @@ const Event = () => {
           </div>
 
           {activeTab === 'Free' ? renderEventCards(freeEvents) : renderEventCards(paidEvents)}
+          <div className="lg:w-full mb-6">
+      <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-5 text-center">Total Completed Events: {completedEvents.length}</h3>
+
+      {/* Displaying the recent completed events */}
+      <h4 className="text-lg font-semibold text-gray-800 mb-4">Recent Completed Events</h4>
+      {renderCompletedEventCards(recentCompletedEvents)}
+    </div>
         </div>
+        
       </div>
+      
     </div>
   );
 };

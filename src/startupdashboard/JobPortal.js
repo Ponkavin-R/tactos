@@ -371,6 +371,31 @@ const JobPortal = () => {
                   <option value="Internship">Internship</option>
                 </select>
               </div>
+              {/* Short Description */}
+<div className="col-span-2">
+  <label className="text-sm font-medium block">Short Description</label>
+  <textarea
+    name="shortDescription"
+    value={formData.shortDescription}
+    onChange={handleChange}
+    className="w-full border rounded px-3 py-2"
+    rows={2}
+    placeholder="Brief overview of the job (1-2 sentences)"
+  />
+</div>
+
+{/* Long Description */}
+<div className="col-span-2">
+  <label className="text-sm font-medium block">Long Description</label>
+  <textarea
+    name="longDescription"
+    value={formData.longDescription}
+    onChange={handleChange}
+    className="w-full border rounded px-3 py-2"
+    rows={6}
+    placeholder="Full job description including responsibilities, qualifications, etc."
+  />
+</div>
 
               {/* Logo Upload and Checkboxes */}
               <div className="col-span-2 flex items-center gap-4">

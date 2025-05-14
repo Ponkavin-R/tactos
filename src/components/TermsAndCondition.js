@@ -25,21 +25,27 @@ const underlineVariants = {
   },
 };
 
-const fadeInUp = (duration = 0.6, delay = 0) => ({
-  hidden: { opacity: 0, y: 25 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration, delay, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-});
+const fadeInUp = (delay = 0.6, custom = 0) => ({
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: delay,
+        delay: custom,
+      },
+    },
+  });
 
 const staggerContainer = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.15, delayChildren: 0.2 },
-  },
-};
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
 
 const SectionTitle = ({ title, subtitle }) => (
   <motion.div
@@ -236,44 +242,36 @@ const termsAndConditionsData = [
 const TermsAndCondition = () => {
     return (
       <div className="max-w-5xl mx-auto px-4 py-20">
-        <SectionTitle title="Terms and Condition" subtitle="Effective from 4th May 2025" />
-        <motion.div
-          className="space-y-10"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {termsAndConditionsData.map((section, index) => (
-            <motion.div
-              key={index}
-              className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300"
-              variants={fadeInUp(0.6, index * 0.1)}
-            >
-              <div className="flex items-start gap-4 mb-4">
-                <div className="text-3xl text-indigo-600">
-                  {iconMap[section.icon.toLowerCase()] || <FiShield />}
-                </div>
-                <h3 className="text-lg font-bold text-slate-800">{section.heading}</h3>
-              </div>
-  
-              {section.description && (
-                <p className="text-slate-600 mb-4">{section.description}</p>
-              )}
-  
-              {section.items && (
-                <ul className="list-disc list-inside space-y-2 text-slate-600">
-                  {section.items.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-                </ul>
-              )}
-            </motion.div>
-          ))}
+        <SectionTitle
+          title="Terms and Condition"
+          subtitle="Effective from 4th May 2025"
+        />
+<motion.div
+  className="space-y-10"
+  variants={staggerContainer}
+  initial="hidden"
+  animate="visible" // ← fallback
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.2 }}
+>
+
+{termsAndConditionsData.map((section, index) => (
+  <div key={index} className="bg-white p-6 rounded-2xl shadow-md">
+    <div className="flex items-start gap-4 mb-4">
+      <div className="text-3xl text-indigo-600">
+        {iconMap[section.icon.toLowerCase()] || <FiShield />}
+      </div>
+      <h3 className="text-lg font-bold text-slate-800">
+        {section.heading}
+      </h3>
+    </div>
+    {section.description && <p>{section.description}</p>}
+  </div>
+))}
+
         </motion.div>
       </div>
     );
   };
   
-
-export default TermsAndCondition;
+  export default TermsAndCondition;

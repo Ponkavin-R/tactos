@@ -212,7 +212,7 @@ const privacyPolicyData = [
 
 const PrivacyPolicy = () => {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-20">
+    <div className="max-w-5xl mx-auto px-4 py-12">
       <SectionTitle title="Privacy Policy" subtitle="Effective from 4th May 2025" />
       <motion.div
         className="space-y-10"

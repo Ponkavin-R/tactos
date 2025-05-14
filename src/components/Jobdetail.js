@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { Tab } from "@headlessui/react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { Transition } from "@headlessui/react";
 import {
   FiMapPin,
   FiBriefcase,
@@ -12,7 +13,6 @@ import {
   FiSmartphone,
   FiMail,
 } from "react-icons/fi";
-import { Link } from 'react-router-dom';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -21,6 +21,7 @@ function classNames(...classes) {
 const Jobdetail = () => {
   const { id } = useParams();
   const [job, setJob] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [otherJobs, setOtherJobs] = useState([]);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [formData, setFormData] = useState({
@@ -69,7 +70,7 @@ const Jobdetail = () => {
     data.append("phone", formData.phone);
     data.append("resume", formData.resume);
     data.append("jobId", id);
-    data.append("userId", job.userId); 
+    data.append("userId", job.userId);
     data.append("company", job.company);
 
     try {
@@ -86,22 +87,19 @@ const Jobdetail = () => {
   };
 
   const SuccessPopup = () => (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         exit={{ scale: 0 }}
-        className="bg-white p-6 rounded-2xl shadow-xl flex flex-col items-center gap-3"
+        className="bg-white p-8 rounded-2xl shadow-2xl text-center"
       >
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-16 w-16 text-green-500"
+          className="h-16 w-16 text-green-500 mx-auto mb-4"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 0.6 }}
         >
           <motion.path
             strokeLinecap="round"
@@ -111,295 +109,320 @@ const Jobdetail = () => {
           />
         </motion.svg>
         <h3 className="text-lg font-semibold text-gray-800">Application Submitted!</h3>
-        <p className="text-sm text-gray-600 text-center">Your application has been successfully sent.</p>
+        <p className="text-sm text-gray-600">Your application has been successfully sent.</p>
       </motion.div>
     </div>
   );
 
   if (!job) {
-    return <div className="text-center py-10 text-gray-500">Loading job details...</div>;
+    return <div className="text-center py-20 text-gray-500">Loading job details...</div>;
   }
 
   return (
-    <div className="max-w-7xl mx-auto mt-10 md:mt-32 lg:mt-40 bg-white rounded-3xl shadow-lg p-6 md:p-10 h-full">
-      <div className="flex flex-col-reverse md:flex-row gap-6">
-        {/* Left Side: Other Jobs */}
-        <div className="w-full md:w-1/3 bg-gray-50 p-5 rounded-lg shadow-lg overflow-x-auto">
-          <h3 className="text-xl font-semibold mb-4">Other Jobs</h3>
-          {/* Desktop View: Vertical layout */}
-          <div className="hidden md:block space-y-4">
-            {otherJobs.map((otherJob) => (
-              <div key={otherJob._id} className="bg-white shadow-md rounded-2xl p-4 sm:p-6 my-4 border border-gray-300 hover:shadow-xl transition-transform duration-300">
-                <div className="flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 sm:mr-6">
-                  <img className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-contain" src={otherJob.logo} alt={otherJob.company} />
-                </div>
-                <div className="flex flex-col justify-between flex-grow text-xs sm:text-sm">
-                  <h2 className="text-sm sm:text-lg font-semibold text-blue-950 mt-2 sm:mt-0">{otherJob.position}</h2>
-                  <div className="flex items-center space-x-2 mt-2 sm:mt-0 sm:flex-row sm:space-x-2">
-                    <h3 className="text-blue-950 font-bold text-sm sm:text-base">{otherJob.company}</h3>
-                    {otherJob.isNew && <span className="text-xxs bg-blue-950 text-white font-semibold px-2 py-0.5 rounded-full uppercase">New</span>}
-                    {otherJob.featured && <span className="text-xxs bg-gray-800 text-white font-semibold px-2 py-0.5 rounded-full uppercase">Featured</span>}
-                  </div>
-                  <p className="text-gray-600 mt-2">
-                    <strong>Role:</strong> {otherJob.role} | <strong>Level:</strong> {otherJob.level}
-                  </p>
-                  <div className="mt-4 sm:mt-0 sm:ml-auto w-fit">
-                    <Link
-                      to={`/jd/${otherJob._id}`}
-                      className="bg-blue-950 text-white font-semibold text-xs sm:text-sm py-1.5 px-4 rounded-lg hover:bg-blue-800 transition"
-                    >
-                      View Job
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+    <div className="max-w-7xl mx-auto mt-24 bg-white rounded-3xl shadow-2xl p-6 md:p-10">
+      <div className="flex flex-col md:flex-row gap-6">
+{/* Other Jobs Sidebar */}
+<div className="w-full md:w-1/3 bg-gray-100 p-5 rounded-xl shadow-md">
+  <h3 className="text-2xl font-semibold text-gray-800">Other Jobs</h3>
+
+  {/* Wrapper for horizontal scroll on small screens */}
+  <div className="space-y-0 md:space-y-5 overflow-x-auto md:overflow-x-visible">
+    <div className="flex md:flex-col gap-4 md:gap-0 min-w-max md:min-w-0">
+      {otherJobs.map((job) => (
+        <div
+          key={job._id}
+          className="min-w-[300px] md:min-w-0 bg-white p-5 rounded-xl border border-gray-200 shadow-md hover:shadow-xl transition md:mb-4 flex-shrink-0"
+        >
+          {/* Header: Logo & Basic Info */}
+          <div className="flex items-center gap-4 mb-4">
+            <img src={job.logo || "https://via.placeholder.com/60"} alt={job.company} className="w-14 h-14 rounded-full object-cover border" />
+            <div>
+              <h4 className="text-lg font-semibold text-blue-900">{job.position}</h4>
+              <p className="text-sm text-gray-500">{job.company}</p>
+            </div>
           </div>
 
-          {/* Mobile View: Horizontal Scroll */}
-          <div className="block md:hidden flex gap-4 overflow-x-auto pb-4">
-            {otherJobs.map((otherJob) => (
-              <div key={otherJob._id} className="min-w-64 bg-white shadow-md rounded-2xl p-4 sm:p-6 my-4 border border-gray-300 hover:shadow-xl transition-transform duration-300">
-                <div className="flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 sm:mr-6">
-                  <img className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-contain" src={otherJob.logo} alt={otherJob.company} />
-                </div>
-                <div className="flex flex-col justify-between flex-grow text-xs sm:text-sm">
-                  <h2 className="text-sm sm:text-lg font-semibold text-blue-950 mt-2 sm:mt-0">{otherJob.position}</h2>
-                  <div className="flex items-center space-x-2 mt-2 sm:mt-0 sm:flex-row sm:space-x-2">
-                    <h3 className="text-blue-950 font-bold text-sm sm:text-base">{otherJob.company}</h3>
-                    {otherJob.isNew && <span className="text-xxs bg-blue-950 text-white font-semibold px-2 py-0.5 rounded-full uppercase">New</span>}
-                    {otherJob.featured && <span className="text-xxs bg-gray-800 text-white font-semibold px-2 py-0.5 rounded-full uppercase">Featured</span>}
-                  </div>
-                  <p className="text-gray-600 mt-2">
-                    <strong>Role:</strong> {otherJob.role} | <strong>Level:</strong> {otherJob.level}
-                  </p>
-                  <div className="mt-4 sm:mt-0 sm:ml-auto w-fit">
-                    <Link
-                      to={`/jd/${otherJob._id}`}
-                      className="bg-blue-950 text-white font-semibold text-xs sm:text-sm py-1.5 px-4 rounded-lg hover:bg-blue-800 transition"
-                    >
-                      View Job
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+          {/* Tags: Role, Level, Contract */}
+          <div className="flex flex-wrap gap-2 text-xs font-medium text-gray-700 mb-3">
+            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{job.role}</span>
+            <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">{job.level}</span>
+            <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">{job.contract}</span>
           </div>
+
+{/* Info: Location, Salary, Short Description */}
+<div className="text-sm text-gray-600 space-y-2 mb-3">
+  <div className="flex items-center gap-2">
+    <FiMapPin className="text-slate-500" />
+    <span className="font-medium">Location:</span>
+    <span>{job.district}</span>
+  </div>
+  <div className="flex items-center gap-2">
+    <FiDollarSign className="text-emerald-600" />
+    <span className="font-medium">Salary:</span>
+    <span>{job.salary || "Not Disclosed"}</span>
+  </div>
+  <p className="text-slate-600 italic w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
+  {job.shortDescription}
+</p>
+
+</div>
+
+
+
+          {/* View Job Button */}
+          <Link
+            to={`/jd/${job._id}`}
+            className="inline-block w-full text-center bg-blue-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-800 transition"
+          >
+            View Job
+          </Link>
         </div>
+      ))}
+    </div>
+  </div>
+</div>
 
-        {/* Right Side: Job Description */}
+
+
+        {/* Job Detail Section */}
         <div className="w-full md:w-2/3">
-         {/* Company Header */}
-               <div className="flex items-center gap-5 mb-8">
-                 <img
-                   src={job.logo || "https://via.placeholder.com/60"}
-                   alt="Company Logo"
-                   className="w-24 h-24 rounded-full object-cover shadow-md"
-                 />
-                 <div>
-                   <h2 className="text-2xl font-semibold text-gray-900">{job.company}</h2>
-                   <div className="flex items-center space-x-4">
-           {(job.isNew || job.featured) && (
-             <>
-               {job.isNew && (
-                 <span className="text-xs bg-blue-950 text-white font-semibold px-3 py-1 rounded-full uppercase">New</span>
-               )}
-               {job.featured && (
-                 <span className="text-xs text-blue-600 font-medium bg-blue-100 px-2 py-1 rounded-full">Featured</span>
-               )}
-             </>
-           )}
-         </div>
-         
-                 </div>
-               </div>
-         
-               {/* Tabs */}
-               <Tab.Group>
-                 <Tab.List className="flex space-x-3 rounded-xl bg-gray-100 p-2 mb-6">
-                   {["Job Description", "Apply"].map((tab) => (
-                     <Tab
-                       key={tab}
-                       className={({ selected }) =>
-                         classNames(
-                           "w-full py-2.5 text-sm leading-5 font-semibold rounded-xl transition-all",
-                           selected
-                             ? "bg-blue-600 text-white shadow-md"
-                             : "text-gray-600 hover:bg-white hover:shadow"
-                         )
-                       }
-                     >
-                       {tab}
-                     </Tab>
-                   ))}
-                 </Tab.List>
-         
-                 <Tab.Panels>
-                   {/* Job Description Panel */}
-                   <Tab.Panel>
-                     <div className="space-y-8 text-gray-800">
-                       {/* Job Role */}
-                       <section>
-                         <h3 className="text-xl font-semibold mb-2">Job Role</h3>
-                         <div className="flex items-center gap-2 text-sm">
-                           <FiBriefcase className="text-blue-500" />
-                           <span>{job.role} - {job.contract}</span>
-                         </div>
-                       </section>
-         
-                       {/* Employment Details */}
-                       <section className="grid sm:grid-cols-2 gap-4 text-sm">
-                         <div className="flex items-center gap-2">
-                           <FiMapPin className="text-blue-500" />
-                           <span>Location: {job.location}</span>
-                         </div>
-                         <div className="flex items-center gap-2">
-                           <FiDollarSign className="text-green-600" />
-                           <span>₹ {job.salary} per annum</span>
-                         </div>
-                         <div className="flex items-center gap-2">
-                           <FiCalendar className="text-blue-500" />
-                           <span>Posted on: {new Date(job.postedAt).toDateString()}</span>
-                         </div>
-                         <div className="flex items-center gap-2">
-                           <FiCalendar className="text-blue-500" />
-                           <span>Joining Date: {new Date(job.dateOfJoining).toDateString()}</span>
-                         </div>
-                         <div className="flex items-center gap-2">
-                           <FiUser className="text-purple-500" />
-                           <span>Experience: {job.experience} Years</span>
-                         </div>
-                       </section>
-         
-                       {/* Description */}
-                       <section>
-                         <h3 className="text-xl font-semibold mb-2">Job Description</h3>
-                         <p className="text-sm leading-relaxed text-gray-700">
-                           {job.description}
-                         </p>
-                       </section>
-         
-                       {/* Tools */}
-                       <section>
-                         <h3 className="text-xl font-semibold mb-4">Tools Required</h3>
-                         <div className="text-sm text-gray-700">
-                           <div className="flex flex-wrap w-10/12 gap-2">
-                             {job.tools && job.tools.map((skill, index) => (
-                               <span
-                                 key={index}
-                                 className="bg-blue-100 text-blue-900 font-semibold px-4 py-2 rounded-full transition-transform transform hover:scale-105 hover:bg-blue-200"
-                               >
-                                 {skill}
-                               </span>
-                             ))}
-                           </div>
-                         </div>
-                       </section>
-         
-                                     {/*Languages */}
-                                     <section>
-                         <h3 className="text-xl font-semibold mb-4">Languages Required</h3>
-                         <div className="text-sm text-gray-700">
-                           <div className="flex flex-wrap w-10/12 gap-2">
-                             {job.languages && job.languages.map((skill, index) => (
-                               <span
-                                 key={index}
-                                 className="bg-blue-100 text-blue-900 font-semibold px-4 py-2 rounded-full transition-transform transform hover:scale-105 hover:bg-blue-200"
-                               >
-                                 {skill}
-                               </span>
-                             ))}
-                           </div>
-                         </div>
-                       </section>
-         
-                       {/* Contact */}
-                       <section>
-                         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                           <FiUser className="text-blue-500" />
-                           <span>Support / Contact</span>
-                         </h3>
-                         <div className="flex flex-col gap-2 text-sm text-gray-700 ml-1">
-                           <div className="flex items-center gap-2">
-                             <FiSmartphone className="text-blue-500" />
-                             <span>{job.contactPhone}</span>
-                           </div>
-                           <div className="flex items-center gap-2">
-                             <FiMail className="text-blue-500" />
-                             <span>{job.contactEmail}</span>
-                           </div>
-                         </div>
-                       </section>
-                     </div>
-                   </Tab.Panel>
-         
-                   {/* Apply Panel */}
-                   <Tab.Panel>
-                     <h2 className="text-xl font-semibold text-gray-800 mb-5">Apply Now</h2>
-                     <form onSubmit={handleSubmit} className="space-y-5 max-w-sm mx-auto">
-                       <div className="flex flex-col">
-                         <label className="text-gray-600 font-medium mb-1">Full Name</label>
-                         <input
-                           type="text"
-                           name="name"
-                           value={formData.name}
-                           required
-                           onChange={handleChange}
-                           className="rounded-xl px-4 py-3 bg-gray-100 border focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-                         />
-                       </div>
-         
-                       <div className="flex flex-col">
-                         <label className="text-gray-600 font-medium mb-1">Email</label>
-                         <input
-                           type="email"
-                           name="email"
-                           value={formData.email}
-                           required
-                           onChange={handleChange}
-                           className="rounded-xl px-4 py-3 bg-gray-100 border focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-                         />
-                       </div>
-         
-                       <div className="flex flex-col">
-                         <label className="text-gray-600 font-medium mb-1">Phone Number</label>
-                         <input
-                           type="tel"
-                           name="phone"
-                           value={formData.phone}
-                           required
-                           onChange={handleChange}
-                           className="rounded-xl px-4 py-3 bg-gray-100 border focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-                         />
-                       </div>
-         
-                       <div className="flex flex-col">
-                         <label className="text-gray-600 font-medium mb-1">Upload Resume (PDF)</label>
-                         <input
-                           type="file"
-                           name="resume"
-                           accept=".pdf"
-                           required
-                           onChange={handleChange}
-                           className="bg-white border rounded-xl px-4 py-3 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 transition"
-                         />
-                       </div>
-         
-                       <button
-                         type="submit"
-                         className="w-full py-3 mt-4 text-white bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition"
-                       >
-                         Submit Application
-                       </button>
-                     </form>
-                   </Tab.Panel>
-                 </Tab.Panels>
-               </Tab.Group>
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+  {/* Left: Logo and company info */}
+  <div className="flex items-center gap-6">
+    <img
+      src={job.logo || "https://via.placeholder.com/60"}
+      alt={job.company}
+      className="w-20 h-20 rounded-full shadow"
+    />
+    <div>
+      <h2 className="text-2xl font-semibold text-gray-800">{job.company}</h2>
+      <div className="flex gap-2 mt-1">
+        {job.isNew && (
+          <span className="bg-blue-900 text-white px-3 py-1 rounded-full text-xs">New</span>
+        )}
+        {job.featured && (
+          <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs">Featured</span>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {/* Right: Apply Button */}
+  <button
+    onClick={() => setIsOpen(true)}
+    className="bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-800 transition duration-300"
+  >
+    Apply
+  </button>
+</div>
+
+
+          <Tab.Group>
+
+
+            <Tab.Panels>
+            <Tab.Panel>
+  <div className="space-y-8 text-gray-800 text-[14px] leading-relaxed font-normal">
+    
+    {/* Job Overview */}
+    <section className="space-y-4">
+      <h2 className="text-lg font-semibold text-slate-700">Job Overview</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8">
+        <div className="flex items-center gap-3">
+          <FiBriefcase className="text-slate-500" />
+          <span className="text-slate-700">{job.role} &mdash; {job.contract}</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <FiMapPin className="text-slate-500" />
+          <span className="text-slate-700">{job.district}</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <FiDollarSign className="text-slate-500" />
+          <span className="text-slate-700">₹{job.salary} / year</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <FiDollarSign className="text-slate-500" />
+          <span className="text-slate-700">Experience: {job.experience} / year</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <FiCalendar className="text-slate-500" />
+          <span className="text-slate-700">Posted: {new Date(job.postedAt).toDateString()}</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <FiCalendar className="text-slate-500" />
+          <span className="text-slate-700">Join: {new Date(job.dateOfJoining).toDateString()}</span>
         </div>
       </div>
+    </section>
 
-      {/* Success Popup */}
-      <AnimatePresence>{showSuccessPopup && <SuccessPopup />}</AnimatePresence>
+    {/* Tools Required */}
+    <section className="space-y-3">
+      <h2 className="text-lg font-semibold text-slate-700">Tools Required</h2>
+      <div className="flex flex-wrap gap-3">
+        {job.tools?.map((tool, index) => (
+          <span
+            key={index}
+            className="bg-slate-100 text-slate-800 font-medium px-4 py-1.5 rounded-full shadow-sm hover:bg-slate-200 transition"
+          >
+            {tool}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    {/* Languages Required */}
+    <section className="space-y-3">
+      <h2 className="text-lg font-semibold text-slate-700">Languages Required</h2>
+      <div className="flex flex-wrap gap-3">
+        {job.languages?.map((language, index) => (
+          <span
+            key={index}
+            className="bg-gray-100 text-gray-800 font-medium px-4 py-1.5 rounded-full shadow-sm hover:bg-gray-200 transition"
+          >
+            {language}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    {/* Job Description */}
+    <section className="space-y-3">
+      <h2 className="text-lg font-semibold text-slate-700">Job Description</h2>
+      {job.shortDescription && (
+        <p className="text-slate-600 italic">{job.shortDescription}</p>
+      )}
+      <p className="text-slate-700 whitespace-pre-line">{job.longDescription}</p>
+    </section>
+
+    {/* Contact Section */}
+    <section className="space-y-3">
+      <h2 className="text-lg font-semibold text-slate-700 flex items-center gap-2">
+        <FiUser className="text-slate-500" />
+        Support / Contact
+      </h2>
+      <div className="space-y-2 pl-1">
+        <div className="flex items-center gap-3">
+          <FiSmartphone className="text-slate-500" />
+          <span className="text-slate-700">{job.contactPhone}</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <FiMail className="text-slate-500" />
+          <span className="text-slate-700">{job.contactEmail}</span>
+        </div>
+      </div>
+    </section>
+    {/* Apply Button */}
+    <div className="pt-6">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="w-full sm:w-auto px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition duration-200"
+        >
+          Apply Job
+        </button>
+      </div>
+
+  </div>
+</Tab.Panel>
+
+{/* Modal */}
+<Transition show={isOpen}>
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-end sm:items-center justify-center">
+          <Transition.Child
+            enter="transition duration-300 transform"
+            enterFrom="translate-y-full opacity-0"
+            enterTo="translate-y-0 opacity-100"
+            leave="transition duration-200 transform"
+            leaveFrom="translate-y-0 opacity-100"
+            leaveTo="translate-y-full opacity-0"
+          >
+            <div className="bg-white w-full max-w-md p-6 rounded-t-2xl sm:rounded-2xl shadow-xl">
+              <h3 className="text-lg font-semibold text-slate-800 mb-4">Apply for this Job</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+                <input
+                  type="file"
+                  name="resume"
+                  onChange={handleChange}
+                  required
+                  className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-emerald-600 file:text-white file:rounded-lg hover:file:bg-emerald-700"
+                />
+                <div className="flex justify-end gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                    className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </Transition.Child>
+        </div>
+      </Transition>
+
+
+              {/* <Tab.Panel>
+                <form onSubmit={handleSubmit} className="space-y-5 bg-gray-50 p-6 rounded-xl shadow">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="relative">
+                      <FiUser className="absolute left-3 top-3 text-gray-400" />
+                      <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required className="w-full pl-10 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" />
+                    </div>
+                    <div className="relative">
+                      <FiMail className="absolute left-3 top-3 text-gray-400" />
+                      <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required className="w-full pl-10 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" />
+                    </div>
+                    <div className="relative">
+                      <FiSmartphone className="absolute left-3 top-3 text-gray-400" />
+                      <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required className="w-full pl-10 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" />
+                    </div>
+                    <div>
+                      <input type="file" name="resume" onChange={handleChange} required className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-blue-600 file:text-white file:rounded-lg hover:file:bg-blue-700" />
+                    </div>
+                  </div>
+                  <button type="submit" className="w-full py-3 bg-blue-700 text-white rounded-lg font-semibold hover:bg-blue-800 transition">
+                    Submit Application
+                  </button>
+                </form>
+              </Tab.Panel> */}
+            </Tab.Panels>
+          </Tab.Group>
+        </div>
+      </div>
+      {showSuccessPopup && <SuccessPopup />}
     </div>
   );
 };

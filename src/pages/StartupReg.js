@@ -50,7 +50,7 @@ export default function StartupReg() {
   const validateField = (field, value) => {
     if (field.type === "email") return validateEmail(value);
     if (field.type === "tel") return validatePhone(value);
-    if (field.name === "linkedin") return validateLinkedIn(value);
+    // if (field.name === "linkedin") return validateLinkedIn(value);
     return value !== "";
   };
   

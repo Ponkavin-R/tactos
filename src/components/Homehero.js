@@ -57,8 +57,8 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center px-6 min-h-screen py-10 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#fdf6f8] to-[#eef3fd] z-[-2] pt-28" />
+    <section className="relative flex flex-col items-center justify-center text-center px-6 min-h-screen pt-16 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#fdf6f8] to-[#eef3fd] z-[-2] pt-24" />
 
       {/* Left Wing */}
       <div
@@ -79,7 +79,7 @@ const HeroSection = () => {
       />
 
       <h1
-        className="relative text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold md:-mt-48 -mt-28 leading-tight mb-4 text-black"
+        className="relative text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold md:-mt-[193px] -mt-[113px] leading-tight mb-4 text-black"
         style={{
           textShadow: "0 4px 10px rgba(0, 0, 0, 0.15)",
         }}
@@ -108,35 +108,33 @@ const HeroSection = () => {
         ))}
       </div>
 
-      {/* Cards positioned over wings */}
-      <div className="cards-container">
-        {/* Gradient border animation */}
-        <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full"></span>
-            <span className="absolute top-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 delay-100 group-hover:w-full"></span>
-            <span className="absolute top-0 right-0 w-0.5 h-0 bg-gradient-to-b from-purple-500 via-pink-500 to-blue-500 transition-all duration-300 delay-200 group-hover:h-full"></span>
+{/* Cards positioned over wings */}
+<div className="cards-container flex flex-wrap justify-center gap-6">
+  {cards.map((card, index) => (
+    <div
+      key={index}
+      className="group relative custom-card bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
+    >
+      {/* Gradient border animation */}
+      <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full z-10" />
+      <span className="absolute top-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 delay-100 group-hover:w-full z-10" />
+      <span className="absolute top-0 right-0 w-0.5 h-0 bg-gradient-to-b from-purple-500 via-pink-500 to-blue-500 transition-all duration-300 delay-200 group-hover:h-full z-10" />
 
-
-        {cards.map((card, index) => (
-           <div
-           key={index}
-           className="group relative flex flex-col items-center bg-white p-4 rounded-xl hover:shadow-2xl shadow-md transition-all duration-300 w-[100px] sm:w-[100px] md:w-[90px] lg:w-[100px] lg:mt-4 h-auto"
-         >
-           {/* Gradient border animation */}
-           <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full"></span>
-           <span className="absolute top-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 delay-100 group-hover:w-full"></span>
-           <span className="absolute top-0 right-0 w-0.5 h-0 bg-gradient-to-b from-purple-500 via-pink-500 to-blue-500 transition-all duration-300 delay-200 group-hover:h-full"></span>
-
-           <img
-             src={card.imgSrc}
-             alt={card.title}
-             className="w-14 h-14 mb-3 rounded-lg hover:scale-90 transition-transform duration-300"
-           />
-           <p className="text-sm font-medium text-gray-800 text-center">
-             {card.title}
-           </p>
-         </div>
-        ))}
+      {/* Card Content */}
+      <div className="z-20 flex flex-col items-center justify-center">
+        <img
+          src={card.imgSrc}
+          alt={card.title}
+          className="w-12 h-12 mb-2 rounded-full object-cover hover:scale-90 transition-transform duration-300"
+        />
+        <p className="text-xs sm:text-sm font-medium text-gray-800 text-center px-1">
+          {card.title}
+        </p>
       </div>
+    </div>
+  ))}
+</div>
+
     </section>
   );
 };

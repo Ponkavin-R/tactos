@@ -44,12 +44,6 @@ const JobBoardComponent = ({ job, handleTagClick }) => {
         <p className="text-gray-600 mt-1">
           <strong>Contract:</strong> {contract} | <strong>Location:</strong> {district}
         </p>
-        <p className="text-gray-600 mt-1">
-          <strong>Salary:</strong> {salary} | <strong>Experience:</strong> {experience}
-        </p>
-        <p className="text-gray-600 mt-1">
-          <strong>Joining:</strong> {dateOfJoining}
-        </p>
 
         <div className="flex flex-wrap mt-2">
           {(languages || []).map((lang) => (
@@ -240,7 +234,7 @@ const Job = () => {
 <div className="md:flex justify-between mb-8">
   <div className="flex items-center space-x-4 mb-4 md:mb-0 overflow-x-auto md:overflow-visible">
     <select
-      className="p-2 rounded-lg border border-gray-300 focus:outline-none flex-shrink-0"
+      className="p-2 pr-8 rounded-lg border border-gray-300 focus:outline-none  flex-shrink-0"
       value={filter}
       onChange={handleFilterChange}
     >
@@ -262,7 +256,7 @@ const Job = () => {
     </select>
 
     <select
-      className="p-2 rounded-lg border border-gray-300 focus:outline-none flex-shrink-0"
+      className="p-2 pr-8 rounded-lg border border-gray-300 focus:outline-none flex-shrink-0"
       value={levelFilter}
       onChange={handleLevelChange}
     >

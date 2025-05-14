@@ -27,14 +27,6 @@ export default function CoFounder() {
           return "Phone Number must be exactly 10 digits.";
         }
         break;
-      case "linkedin":
-        if (
-          !value ||
-          !/^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/.test(value)
-        ) {
-          return "Please enter a valid LinkedIn profile URL.";
-        }
-        break;
       case "district":
         if (!value) {
           return "Please select a district.";
