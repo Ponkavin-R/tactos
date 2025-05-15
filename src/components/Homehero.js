@@ -113,7 +113,7 @@ const HeroSection = () => {
   {cards.map((card, index) => (
     <div
       key={index}
-      className="group relative custom-card bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
+      className="group relative custom-card bg-white shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Gradient border animation */}
       <span className="absolute bottom-0 left-0 w-0.5 h-0 bg-gradient-to-t from-blue-500 via-pink-500 to-purple-500 transition-all duration-300 group-hover:h-full z-10" />
@@ -125,7 +125,7 @@ const HeroSection = () => {
         <img
           src={card.imgSrc}
           alt={card.title}
-          className="w-12 h-12 mb-2 rounded-full object-cover hover:scale-90 transition-transform duration-300"
+          className="w-12 h-12 mb-2  object-cover hover:scale-90 transition-transform duration-300"
         />
         <p className="text-xs sm:text-sm font-medium text-gray-800 text-center px-1">
           {card.title}

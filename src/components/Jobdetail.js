@@ -128,7 +128,7 @@ const Jobdetail = () => {
   {/* Wrapper for horizontal scroll on small screens */}
   <div className="space-y-0 md:space-y-5 overflow-x-auto md:overflow-x-visible">
     <div className="flex md:flex-col gap-4 md:gap-0 min-w-max md:min-w-0">
-      {otherJobs.map((job) => (
+      {otherJobs.slice(0, 10).map((job) => (
         <div
           key={job._id}
           className="min-w-[300px] md:min-w-0 bg-white p-5 rounded-xl border border-gray-200 shadow-md hover:shadow-xl transition md:mb-4 flex-shrink-0"

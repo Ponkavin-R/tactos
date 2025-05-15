@@ -24,58 +24,65 @@ const JobBoardComponent = ({ job, handleTagClick }) => {
   } = job;
 
   return (
-    <div className=" sm:flex-row bg-white shadow-md rounded-2xl p-4 sm:p-6 my-4 border border-gray-300 hover:shadow-xl transition-transform duration-300">
-      <div className="flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 sm:mr-6">
-        <img className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-contain" src={logo} alt={company} />
-      </div>
+<div className="bg-white shadow-md rounded-2xl overflow-hidden p-0 sm:p-0 my-4 border border-gray-300 hover:shadow-xl transition-transform duration-300">
+  {/* Full-width Image */}
+  <div className="w-full h-48">
+    <img
+      className="w-full h-full object-cover"
+      src={logo}
+      alt={company}
+    />
+  </div>
 
-      <div className="flex flex-col justify-between flex-grow text-xs sm:text-sm">
-        <h2 className="text-sm sm:text-lg font-semibold text-blue-950 mt-2 sm:mt-0">{position}</h2>
+  {/* Content Section */}
+  <div className="p-4 sm:p-6 flex flex-col justify-between text-xs sm:text-sm">
+    <h2 className="text-sm sm:text-lg font-semibold text-blue-950 mt-2 sm:mt-0">{position}</h2>
 
-        <div className="flex items-center space-x-2 mt-2 sm:mt-0 sm:flex-row sm:space-x-2">
-          <h3 className="text-blue-950 font-bold text-sm sm:text-base">{company}</h3>
-          {isNew && <span className="text-xxs bg-blue-950 text-white font-semibold px-2 py-0.5 rounded-full uppercase">New</span>}
-          {featured && <span className="text-xxs bg-gray-800 text-white font-semibold px-2 py-0.5 rounded-full uppercase">Featured</span>}
-        </div>
-
-        <p className="text-gray-600 mt-2">
-          <strong>Role:</strong> {role} | <strong>Level:</strong> {level}
-        </p>
-        <p className="text-gray-600 mt-1">
-          <strong>Contract:</strong> {contract} | <strong>Location:</strong> {district}
-        </p>
-
-        <div className="flex flex-wrap mt-2">
-          {(languages || []).map((lang) => (
-            <span
-              key={lang}
-              onClick={() => handleTagClick(lang)}
-              className="cursor-pointer text-green-900 bg-green-100 font-semibold text-xxs sm:text-xs py-1 px-2 rounded-full mr-2 mb-1 hover:bg-green-900 hover:text-white"
-            >
-              {lang}
-            </span>
-          ))}
-          {(tools || []).map((tool) => (
-            <span
-              key={tool}
-              onClick={() => handleTagClick(tool)}
-              className="cursor-pointer text-blue-950 bg-blue-100 font-semibold text-xxs sm:text-xs py-1 px-2 rounded-full mr-2 mb-1 hover:bg-blue-950 hover:text-white"
-            >
-              {tool}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-4 sm:mt-0 sm:ml-auto w-fit">
-          <Link
-            to={`/jd/${_id}`}
-            className="bg-blue-950 text-white font-semibold text-xs sm:text-sm py-1.5 px-4 rounded-lg hover:bg-blue-800 transition"
-          >
-            View Job
-          </Link>
-        </div>
-      </div>
+    <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+      <h3 className="text-blue-950 font-bold text-sm sm:text-base">{company}</h3>
+      {isNew && <span className="text-xxs bg-blue-950 text-white font-semibold px-2 py-0.5 rounded-full uppercase">New</span>}
+      {featured && <span className="text-xxs bg-gray-800 text-white font-semibold px-2 py-0.5 rounded-full uppercase">Featured</span>}
     </div>
+
+    <p className="text-gray-600 mt-2">
+      <strong>Role:</strong> {role} | <strong>Level:</strong> {level}
+    </p>
+    <p className="text-gray-600 mt-1">
+      <strong>Contract:</strong> {contract} | <strong>Location:</strong> {district}
+    </p>
+
+    <div className="flex flex-wrap mt-2">
+    {(languages || []).slice(0, 2).map((lang) => (
+        <span
+          key={lang}
+          onClick={() => handleTagClick(lang)}
+          className="cursor-pointer text-green-900 bg-green-100 font-semibold text-xxs sm:text-xs py-1 px-2 rounded-full mr-2 mb-1 hover:bg-green-900 hover:text-white"
+        >
+          {lang}
+        </span>
+      ))}
+      {(tools || []).slice(0, 1).map((tool) => (
+        <span
+          key={tool}
+          onClick={() => handleTagClick(tool)}
+          className="cursor-pointer text-blue-950 bg-blue-100 font-semibold text-xxs sm:text-xs py-1 px-2 rounded-full mr-2 mb-1 hover:bg-blue-950 hover:text-white"
+        >
+          {tool}
+        </span>
+      ))}
+    </div>
+
+    <div className="mt-4 sm:mt-0 sm:ml-auto w-fit">
+      <Link
+        to={`/jd/${_id}`}
+        className="bg-blue-950 text-white font-semibold text-xs sm:text-sm py-1.5 px-4 rounded-lg hover:bg-blue-800 transition"
+      >
+        View Job
+      </Link>
+    </div>
+  </div>
+</div>
+
   );
 };
 

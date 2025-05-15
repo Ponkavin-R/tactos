@@ -35,7 +35,6 @@
 
 .right-wing {
   right: 0;
-  top:-1px;
 }
 
 .cards-container {
@@ -52,7 +51,7 @@
 
 .custom-card {
   background-color: white;
-  border-radius: 1rem;
+  border-radius: 2px;
   padding: 0.75rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
@@ -61,8 +60,8 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  margin-top: 25px;  /* Added margin-top */
-  height: 130px;    /* Increased height */
+  margin-top: 22px;  /* Added margin-top */
+  height: 120px;    /* Increased height */
 }
 
 .custom-card:hover {
@@ -92,7 +91,7 @@
 
   .custom-card {
     width: 90%;  /* Increase card width for smaller screens */
-    height: auto; /* Adjust height automatically */
+     height: 118px;  /* Adjust height automatically */
   }
 }
 
@@ -105,7 +104,7 @@
 
   .custom-card {
     width: clamp(110px, 15vw, 150px);  /* Reduce card width on smaller tablets */
-    height: 120px;  /* Adjust card height */
+    height: 118px;  /* Adjust card height */
   }
 }
 
@@ -118,7 +117,7 @@
 
   .custom-card {
     width: clamp(110px, 15vw, 150px);  /* Reduce card width on smaller tablets */
-    height: 120px;  /* Adjust card height */
+    height: 118px;  /* Adjust card height */
   }
 }
 
@@ -131,7 +130,7 @@
 
   .custom-card {
     width: clamp(90px, 10vw, 105px);  /* Reduce card width even further */
-    height: 120px;  /* Optionally adjust height */
+    height: 118px;  /* Optionally adjust height */
   }
 }
 

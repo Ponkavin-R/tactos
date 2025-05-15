@@ -203,13 +203,16 @@ const renderCompletedEventCards = (eventList) => {
                 {event.description}
               </p>
   
-              {/* View Button */}
-              <button
-                onClick={() => navigate(`/event-description/${event._id}`)}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-transform hover:scale-105"
-              >
-                Register Event
-              </button>
+              {/* View Button (only for Free and Paid events) */}
+{(activeTab === 'Free' || activeTab === 'Paid') && (
+  <button
+    onClick={() => navigate(`/event-description/${event._id}`)}
+    className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-transform hover:scale-105"
+  >
+    Register Event
+  </button>
+)}
+
             </div>
           </motion.div>
         ))}
@@ -319,29 +322,34 @@ const renderCompletedEventCards = (eventList) => {
 
         {/* Events Section */}
         <div className="lg:w-3/4">
-          <div className="flex gap-4 mb-4 text-sm sm:text-base">
-            <button
-              className={`px-3 py-1 font-medium ${activeTab === 'Free' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'}`}
-              onClick={() => setActiveTab('Free')}
-            >
-              Free Events
-            </button>
-            <button
-              className={`px-3 py-1 font-medium ${activeTab === 'Paid' ? 'border-b-2 border-green-500 text-green-600' : 'text-gray-500'}`}
-              onClick={() => setActiveTab('Paid')}
-            >
-              Paid Events
-            </button>
-          </div>
+        <div className="flex gap-4 mb-4 text-sm sm:text-base">
+  <button
+    className={`px-3 py-1 font-medium ${activeTab === 'Free' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'}`}
+    onClick={() => setActiveTab('Free')}
+  >
+    Free Events
+  </button>
+  <button
+    className={`px-3 py-1 font-medium ${activeTab === 'Paid' ? 'border-b-2 border-green-500 text-green-600' : 'text-gray-500'}`}
+    onClick={() => setActiveTab('Paid')}
+  >
+    Paid Events
+  </button>
+  <button
+    className={`px-3 py-1 font-medium ${activeTab === 'Completed' ? 'border-b-2 border-purple-500 text-purple-600' : 'text-gray-500'}`}
+    onClick={() => setActiveTab('Completed')}
+  >
+    Completed Events: {completedEvents.length}
+  </button>
+</div>
 
-          {activeTab === 'Free' ? renderEventCards(freeEvents) : renderEventCards(paidEvents)}
-          <div className="lg:w-full mb-6">
-      <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-5 text-center">Total Completed Events: {completedEvents.length}</h3>
+{activeTab === 'Free'
+  ? renderEventCards(freeEvents)
+  : activeTab === 'Paid'
+  ? renderEventCards(paidEvents)
+  : renderEventCards(completedEvents)}
 
-      {/* Displaying the recent completed events */}
-      <h4 className="text-lg font-semibold text-gray-800 mb-4">Recent Completed Events</h4>
-      {renderCompletedEventCards(recentCompletedEvents)}
-    </div>
+
         </div>
         
       </div>

@@ -133,7 +133,7 @@ export default function CoFounder() {
 
   const sections = [
     {
-      title: "Section 1: Personal Information",
+      title: "Personal Information",
       fields: [
         {
           label: "Full Name",
@@ -209,7 +209,7 @@ export default function CoFounder() {
       ],
     },
     {
-      title: "Section 2: Professional Interests",
+      title: "Professional Interests",
       fields: [
         {
           label: "Employment Status",

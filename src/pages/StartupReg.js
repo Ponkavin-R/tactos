@@ -44,13 +44,11 @@ export default function StartupReg() {
   
   const validatePhone = (phone) => /^[0-9]{10}$/.test(phone);
   
-  const validateLinkedIn = (url) =>
-    /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9-_%]+\/?$/.test(url);
+
   
   const validateField = (field, value) => {
     if (field.type === "email") return validateEmail(value);
     if (field.type === "tel") return validatePhone(value);
-    // if (field.name === "linkedin") return validateLinkedIn(value);
     return value !== "";
   };
   

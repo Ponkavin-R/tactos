@@ -21,10 +21,7 @@ export default function BusinessConsultation() {
       const phoneRegex = /^\d{10}$/;
       return phoneRegex.test(value);
     }
-    // if (field.name === "linkedin" && value) {
-    //   const linkedinPattern = /^https:\/\/(www\.)?linkedin\.com\/(in|company)\/[A-Za-z0-9_-]+\/?$/;
-    //   return linkedinPattern.test(value);
-    // }
+
     if (field.type === "text" && field.name === "website" && value) {
       const urlRegex = /^(https?:\/\/)?([\w.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
       return urlRegex.test(value);
@@ -85,7 +82,7 @@ export default function BusinessConsultation() {
     {
       title: "Business Information",
       fields: [
-        { label: "Company Linkedin Profile", name: "linkedin", type: "url",required: false},
+        { label: "Company Linkedin Profile", name: "linkedin", type: "text"},
         { label: "Business Name ", name: "businessName", type: "text" },
         { label: "Describe Your Business Briefly", name: "businessDescription", type: "textarea" },
         { label: "Website (optional)", name: "website", type: "url" },
@@ -119,25 +116,6 @@ export default function BusinessConsultation() {
       return;
     }
   
-    // if (name === "linkedin") {
-    //   const linkedinPattern = /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
-    
-    //   // If value is empty and not required, accept it
-    //   if (value.trim() === "") {
-    //     setErrorMessage(""); // clear error
-    //     setFormData((prev) => ({ ...prev, [name]: value }));
-    //     return;
-    //   }
-    
-    //   if (!linkedinPattern.test(value)) {
-    //     setErrorMessage("⚠️ Please enter a valid LinkedIn profile URL.");
-    //   } else {
-    //     setErrorMessage("");
-    //     setFormData((prev) => ({ ...prev, [name]: value }));
-    //   }
-    //   return;
-    // }
-    
   
     if (type === "text" && name === "fullName") {
       // Allow only letters and spaces
