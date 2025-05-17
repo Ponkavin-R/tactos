@@ -61,7 +61,7 @@
   align-items: center;
   position: relative;
   margin-top: 22px;  /* Added margin-top */
-  height: 120px;    /* Increased height */
+  height: 105px;    /* Increased height */
 }
 
 .custom-card:hover {
@@ -82,104 +82,74 @@
 }
 
 /* Media Query for small screens */
+/* Media Query for small screens */
 @media screen and (max-width: 600px) {
-  .cards-container {
-    flex-direction: column;  /* Stack cards vertically */
-    justify-content: center;
-    align-items: center;
-  }
-
   .custom-card {
-    width: 90%;  /* Increase card width for smaller screens */
-     height: 118px;  /* Adjust height automatically */
+    width: 90%;    /* increased a bit */
+    height: 100px; /* same height */
   }
 }
 
-/* Media Query for medium screens (tablet or small laptops) */
+/* Media Query for medium screens (up to 768px) */
 @media screen and (max-width: 768px) {
-  .cards-container {
-    flex-direction: row;  /* Align cards in a row */
-    justify-content: space-between;  /* Space out the cards */
-  }
-
   .custom-card {
-    width: clamp(110px, 15vw, 150px);  /* Reduce card width on smaller tablets */
-    height: 118px;  /* Adjust card height */
+    width: clamp(115px, 15vw, 140px); /* increased width */
+    height: 100px;
   }
 }
 
-/* Media Query for medium screens (tablet or small laptops) */
-@media screen and (max-width: 768px) {
-  .cards-container {
-    flex-direction: row;  /* Keep cards in a row */
-    justify-content: space-between;  /* Space out the cards */
-  }
-
-  .custom-card {
-    width: clamp(110px, 15vw, 150px);  /* Reduce card width on smaller tablets */
-    height: 118px;  /* Adjust card height */
-  }
-}
-
-/* Media Query for 13-inch screens */
-@media screen and (max-width: 1280px) {
-  .cards-container {
-    flex-direction: row;  /* Keep cards in a row */
-    justify-content: space-around;  /* Space cards evenly */
-  }
-
-  .custom-card {
-    width: clamp(90px, 10vw, 105px);  /* Reduce card width even further */
-    height: 118px;  /* Optionally adjust height */
-  }
-}
-
-/* Media Query for large monitors (1920px or wider) */
-@media screen and (min-width: 1920px) {
-  .cards-container {
-    flex-direction: row;  /* Keep cards in a row for large screens */
-    justify-content: space-between;  /* Spread out cards across larger screen width */
-  }
-
-  .custom-card {
-    width: clamp(10px, 8vw, 180px);  /* Increase card width for very large monitors */
-    height: 160px;  /* Increase card height for larger screens */
-  }
-}
-/* Media Query for 1024px screens (larger tablets or smaller laptops) */
+/* Media Query for 1024px screens */
 @media screen and (max-width: 1024px) {
-  .cards-container {
-    flex-direction: row;  /* Keep cards in a row */
-    justify-content: space-between;  /* Spread out the cards */
-  }
-
   .custom-card {
-    width: clamp(100px, 12vw, 140px);  /* Adjust card width for 1024px screens */
-    height: 130px;  /* Adjust card height */
+    width: clamp(100px, 12vw, 130px);
+    height: 110px;
   }
 }
-/* Media Query for 1440px screens (larger laptops or smaller desktop monitors) */
+
+/* Media Query for 1280px screens */
+@media screen and (max-width: 1280px) {
+  .custom-card {
+    width: clamp(85px, 10vw, 115px);
+    height: 100px;
+  }
+}
+
+/* Media Query for 1440px screens */
 @media screen and (max-width: 1440px) {
-  .cards-container {
-    flex-direction: row;  /* Keep cards in a row */
-    justify-content: space-between;  /* Spread out the cards */
-  }
-
   .custom-card {
-    width: clamp(110px, 10vw, 100px);  /* Adjust card size for 1440px screens */
-    height: 130px;  /* Default card height */
+    width: clamp(105px, 10vw, 100px);
+    height: 110px;
   }
 }
 
-/* Media Query for large screens (1280px and above) */
+/* Media Query for large screens (1281px - 1919px) */
 @media screen and (min-width: 1281px) and (max-width: 1919px) {
-  .cards-container {
-    flex-direction: row;  /* Keep cards in a row for large screens */
-    justify-content: space-between;  /* Spread out cards across the screen */
-  }
-
   .custom-card {
-    width: clamp(120px, 10vw, 190px);  /* Default card size */
-    height: 130px;  /* Default height */
+    width: clamp(115px, 10vw, 170px);
+    height: 110px;
   }
+}
+
+/* Media Query for large monitors (1920px and wider) */
+@media screen and (min-width: 1920px) {
+  .custom-card {
+    width: clamp(110px, 9vw, 175px);
+    height: 140px;
+  }
+}
+
+
+@keyframes drawTick {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-tick .tick-path {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: drawTick 0.6s ease-out forwards;
 }

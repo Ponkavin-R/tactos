@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Investors = () => {
   const [testimonials, setTestimonials] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const getTypeColor = (type) => {
     const colors = {
@@ -18,15 +19,14 @@ const Investors = () => {
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/ourinvestors`);
         setTestimonials(res.data);
+        setIsLoaded(true); // set this once data is fetched
       } catch (err) {
         console.error("Failed to fetch investors:", err);
       }
     };
-
+    
     fetchData();
   }, []);
-
-  const repeated = [...testimonials, ...testimonials]; // duplicate once for looping
 
   return (
     <div className="py-12 bg-gray-100 overflow-hidden relative">
@@ -39,29 +39,70 @@ const Investors = () => {
         </p>
 
         <div className="relative w-full overflow-hidden">
-          <div className="flex animate-marquee whitespace-nowrap">
-            {repeated.map((item, index) => (
-              <div key={`${item.name}-${index}`} className="flex-shrink-0 px-4">
-                <div className="w-44 sm:w-48 h-44 sm:h-48 rounded-lg bg-white shadow-md flex flex-col items-center justify-center p-4 cursor-pointer hover:shadow-lg transition-shadow">
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full ${getTypeColor(
-                      item.type
-                    )} text-white font-medium mb-2`}
-                  >
-                    {item.type}
-                  </span>
-                  <div className="w-24 h-24 rounded-full overflow-hidden mb-3 flex items-center justify-center border-2 border-gray-200">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                  </div>
-                  <p className="text-center text-sm sm:text-base font-medium text-gray-800">
-                    {item.name}
-                  </p>
-                </div>
+          {isLoaded && testimonials.length > 0 && (
+            <div className="infinite-carousel-container">
+              <div className="infinite-carousel-track">
+                {[...Array(8)].map((_, dupIndex) => (
+                  testimonials.map((item, index) => (
+                    <div key={`set${dupIndex}-${item.name}-${index}`} className="carousel-item">
+                      <div className="w-48 h-48 rounded-lg bg-white shadow-md flex flex-col items-center justify-center p-4 cursor-pointer hover:shadow-lg transition-shadow">
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${getTypeColor(
+                            item.type
+                          )} text-white font-medium mb-2`}
+                        >
+                          {item.type}
+                        </span>
+                        <div className="w-24 h-24 rounded-full overflow-hidden mb-3 flex items-center justify-center border-2 border-gray-200">
+                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        </div>
+                        <p className="text-center text-base font-medium text-gray-800">
+                          {item.name}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
+
+      <style>{`
+        .infinite-carousel-container {
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+          mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
+        
+        .infinite-carousel-track {
+          display: flex;
+          width: fit-content;
+          transform: translateZ(0);
+          will-change: transform;
+          animation: scroll 25s linear infinite;
+          backface-visibility: hidden;
+          perspective: 1000px;
+        }
+        
+        .carousel-item {
+          flex-shrink: 0;
+          padding: 0 1rem;
+          width: 16rem;
+        }
+        
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-16rem * ${testimonials.length}));
+          }
+        }
+      `}</style>
     </div>
   );
 };

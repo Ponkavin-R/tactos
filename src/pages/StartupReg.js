@@ -17,6 +17,9 @@ export default function StartupReg() {
   const [loading, setLoading] = useState(false);
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [otpSent, setOtpSent] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [otp, setOtp] = useState("");
 
   useEffect(() => {
     let current = 0;
@@ -41,17 +44,45 @@ export default function StartupReg() {
 
   const validateEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.endsWith(".com");
-  
-  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone);
-  
 
-  
+  const validatePhone = (phone) => /^[0-9]{10}$/.test(phone);
+
   const validateField = (field, value) => {
     if (field.type === "email") return validateEmail(value);
     if (field.type === "tel") return validatePhone(value);
     return value !== "";
   };
-  
+
+  const handleSendOtp = async () => {
+    if (!validateEmail(formData.email)) {
+      setErrorMessage("Invalid email format.");
+      return;
+    }
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/send-otp`, { email: formData.email });
+      setOtpSent(true);
+      setErrorMessage("");
+    } catch (err) {
+      setErrorMessage("Failed to send OTP.");
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/verify-otp`, {
+        email: formData.email,
+        otp,
+      });
+      if (res.data.success) {
+        setEmailVerified(true);
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Incorrect OTP");
+      }
+    } catch {
+      setErrorMessage("Verification failed");
+    }
+  };
 
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
@@ -66,7 +97,6 @@ export default function StartupReg() {
     }
   };
 
-  // 👇 NEW MultiSelect Logic
   const handleMultiSelect = (name, value) => {
     setFormData((prev) => {
       const current = prev[name] || [];
@@ -77,6 +107,10 @@ export default function StartupReg() {
   };
 
   const handleNext = () => {
+    if (sections[step].title === "Founder Details" && !emailVerified) {
+      setErrorMessage("⚠️ Please verify your email before proceeding.");
+      return;
+    }
     const currentFields = sections[step].fields;
     for (let field of currentFields) {
       if (!field.optional) {
@@ -135,6 +169,7 @@ export default function StartupReg() {
     if (type === "text" && /\d/.test(value)) e.preventDefault();
     if (type === "tel" && /\D/.test(value)) e.preventDefault();
   };
+
   const tamilNaduDistricts = [
     "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri",
     "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri",
@@ -151,7 +186,7 @@ export default function StartupReg() {
         { label: "Full Name", name: "fullName", type: "text" },
         { label: "Email Address", name: "email", type: "email" },
         { label: "Phone Number", name: "phone", type: "tel" },
-        { label: "LinkedIn Profile", name: "linkedin", type: "url", },
+        { label: "LinkedIn Profile", name: "linkedin", type: "url" },
       ],
     },
     {
@@ -171,7 +206,6 @@ export default function StartupReg() {
           options: ["Idea", "MVP", "Early Revenue", "Scaling"],
         },
         { label: "Website (optional)", name: "website", type: "url", optional: true },
-        
       ],
     },
     {
@@ -183,12 +217,6 @@ export default function StartupReg() {
           type: "multiselect",
           options: ["Mentorship", "Funding", "Market Access", "Product Development"],
         },
-        // {
-        //   label: "Do you need a co-founder?",
-        //   name: "coFounder",
-        //   type: "radio",
-        //   options: ["Yes", "No"],
-        // },
         {
           label: "Location",
           name: "location",
@@ -270,8 +298,83 @@ export default function StartupReg() {
               {sections[step]?.fields.map((field, index) => (
                 <div key={index} className="flex flex-col mb-1">
                   <label className="text-gray-700 font-medium mb-1">{field.label}</label>
+{/* Email field with verify button */}
+{field.type === "email" ? (
+  <>
+    <div className="flex gap-2 items-center">
+      <div className="relative w-full">
+        <input
+          type="email"
+          name={field.name}
+          value={formData[field.name] || ""}
+          onChange={handleChange}
+          className="w-full border rounded px-3 py-2 pr-10" // Add padding to the right for icon
+          disabled={emailVerified}
+        />
+        {emailVerified && (
+  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600">
+    <svg
+      className="w-6 h-6 animate-tick"
+      viewBox="0 0 52 52"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="26"
+        cy="26"
+        r="25"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+      />
+      <path
+        className="tick-path"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4"
+        d="M14 27 L22 35 L38 19"
+      />
+    </svg>
+  </span>
+)}
 
-                  {field.type === "radio" ? (
+      </div>
+      {!emailVerified && (
+        <button
+          type="button"
+          onClick={handleSendOtp}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Verify
+        </button>
+      )}
+    </div>
+
+    {/* OTP input field */}
+    {otpSent && !emailVerified && (
+      <div className="mt-2">
+        <label className="block text-sm text-gray-600 mb-1">Enter OTP</label>
+        <input
+          type="text"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          className="w-full border rounded px-3 py-2 mb-2"
+          maxLength={6}
+        />
+        <button
+          type="button"
+          onClick={handleVerifyOtp}
+          className="bg-green-500 text-white px-4 py-2 rounded"
+        >
+          Submit OTP
+        </button>
+      </div>
+    )}
+  </>
+) 
+
+
+                  :field.type === "radio" ? (
                     field.options.map((option, idx) => (
                       <label key={idx} className="flex items-center space-x-2 mb-1">
                         <input

@@ -23,6 +23,7 @@ const [email, setEmail] = useState('');
 const [phone, setPhone] = useState('');
 
 
+
   useEffect(() => {
     fetchFundings();
   }, []);

@@ -50,7 +50,7 @@ const HeroSection = () => {
         "https://cdni.iconscout.com/illustration/premium/thumb/advanced-ai-technology-with-human-interaction-illustration-download-in-svg-png-gif-file-formats--robotic-brain-digital-transformation-pack-science-illustrations-10841335.png?f=webp",
     },
     {
-      title: "IT Solutions",
+      title: "Tech Support",
       imgSrc:
         "https://static.vecteezy.com/system/resources/previews/011/466/556/non_2x/strategic-planning-illustration-concept-a-flat-illustration-isolated-on-white-background-vector.jpg",
     },
