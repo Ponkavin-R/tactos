@@ -12,6 +12,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess(false);
+  
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/startup-login`, {
         method: 'POST',
@@ -20,22 +23,28 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
+  
       if (response.ok) {
-        // Save startup id to localStorage
-        localStorage.setItem('startupId', data.startup.id); // Use data.startup.id
-        setSuccess(true);
-        setTimeout(() => {
-          navigate('/startup-dashboard');
-        }, 1500); // Navigate after 1.5s delay for success animation
+        // Check account status
+        if (data.startup.status === 'active') {
+          localStorage.setItem('startupId', data.startup.id);
+          setSuccess(true);
+          setTimeout(() => {
+            navigate('/startup-dashboard');
+          }, 1500);
+        } else {
+          setError('⚠️ Your account is not activated yet. Please wait for approval.');
+        }
       } else {
-        setError(data.message);
+        setError(data.message || 'Invalid credentials. Please try again.');
       }
     } catch (err) {
-      setError('Something went wrong. Please try again.');
+      setError('Something went wrong. Please try again later.');
     }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-green-100 via-white to-blue-100p-6">

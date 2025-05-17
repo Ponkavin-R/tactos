@@ -128,6 +128,8 @@ export default function StartupReg() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const lastFields = sections[step].fields;
+  
+    // Validate fields
     for (let field of lastFields) {
       if (!field.optional) {
         const value = formData[field.name];
@@ -137,9 +139,11 @@ export default function StartupReg() {
         }
       }
     }
+  
     setErrorMessage("");
     setLoading(true);
-
+  
+    // Prepare FormData
     const formDataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -148,7 +152,8 @@ export default function StartupReg() {
         formDataToSend.append(key, value);
       }
     });
-
+  
+    // Submit form
     try {
       await axios.post(
         `${process.env.REACT_APP_API_URL}/api/register`,
@@ -157,11 +162,17 @@ export default function StartupReg() {
       );
       setSubmitted(true);
     } catch (error) {
-      setErrorMessage("Submission failed! Please try again.");
+      // Show server response error if available
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrorMessage(`❌ ${error.response.data.message}`);
+      } else {
+        setErrorMessage("❌ Submission failed! Please try again.");
+      }
     } finally {
       setLoading(false);
     }
   };
+  
 
   const restrictInput = (type, e) => {
     const value = e.nativeEvent.data;
