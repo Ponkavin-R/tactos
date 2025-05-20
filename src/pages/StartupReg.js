@@ -319,7 +319,7 @@ export default function StartupReg() {
           name={field.name}
           value={formData[field.name] || ""}
           onChange={handleChange}
-          className="w-full border rounded px-3 py-2 pr-10" // Add padding to the right for icon
+          className="w-full border rounded px-3 py-2 mb-2 pr-10" // Add padding to the right for icon
           disabled={emailVerified}
         />
         {emailVerified && (

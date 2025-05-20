@@ -59,14 +59,17 @@ const Event = () => {
 
   const applyFilters = (newFilters) => {
     const filtered = events.filter((event) => {
-      const matchesName = event.name?.toLowerCase().includes(newFilters.name.toLowerCase());
-      const matchesLocation = event.location?.toLowerCase().includes(newFilters.location.toLowerCase());
+      const matchesName = (event.name || '').toLowerCase().includes((newFilters.name || '').toLowerCase());
+      const matchesLocation = (event.location || '').toLowerCase().includes((newFilters.location || '').toLowerCase());
       const matchesDate = newFilters.startDate ? new Date(event.date) >= new Date(newFilters.startDate) : true;
-      const matchesMode = newFilters.mode ? event.mode?.toLowerCase() === newFilters.mode.toLowerCase() : true;
+      const matchesMode = newFilters.mode
+        ? (event.mode || '').toLowerCase() === newFilters.mode.toLowerCase()
+        : true;
       return matchesName && matchesLocation && matchesDate && matchesMode;
     });
     setFilteredEvents(filtered);
   };
+  
   
 
   const handleCalendarChange = (date) => {
@@ -317,6 +320,20 @@ const renderCompletedEventCards = (eventList) => {
               <label className="text-gray-600 font-medium block mb-1">Start Date</label>
               <Calendar onChange={handleCalendarChange} value={calendarDate} className="border-none" />
             </div>
+            {/* Clear Filters Button */}
+<div className="mt-4">
+  <button
+    type="button"
+    onClick={() => {
+      setFilters({ mode: '' });    // Reset mode filter
+      setCalendarDate(null);        // Reset calendar date (assuming null clears it)
+    }}
+    className="text-red-600 hover:underline text-sm"
+  >
+    Clear Filters
+  </button>
+</div>
+
           </div>
         </div>
 

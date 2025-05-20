@@ -390,10 +390,13 @@ Discover, support, and grow—locally
     </div>
 
     <div className="text-right text-sm text-gray-500 mt-1">
-      {Math.min(
-        (((selectedStartup?.amountRaised || 0) / (selectedStartup?.amountSeeking || 1)) * 100).toFixed(2),
-        100
-      )}% funded
+    <div>
+    {Math.min(
+  ((selectedStartup?.amountRaised || 0) / (selectedStartup?.amountSeeking || 1) * 100).toFixed(2),
+  100
+)}% funded
+
+  </div>
     </div>
   </div>
 </div>
