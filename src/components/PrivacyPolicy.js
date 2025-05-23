@@ -203,7 +203,7 @@ const privacyPolicyData = [
     heading: '13. Contact Us',
     items: [
       'TACTOS Strategic Solutions',
-      'Email: tactosinfo@gmail.com',
+      'Email: contact@tactos.in',
       'Phone: +91 84385 01830',
       'Website: www.tactos.in',
     ],
