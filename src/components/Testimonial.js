@@ -3,35 +3,26 @@ import { Star } from "lucide-react";
 import axios from "axios";
 
 const TestimonialCarousel = () => {
-  const [testimonials, setTestimonials] = useState([
-    {
-      _id: "1",
-      name: "Sarah Johnson",
-      review: "This platform has completely transformed how we approach our business strategy. Highly recommended!",
-      rating: 5,
-      image: "/api/placeholder/200/200"
-    },
-    {
-      _id: "2",
-      name: "Michael Chen",
-      review: "The insights we've gained have been invaluable. Our team is more productive than ever before.",
-      rating: 4,
-      image: "/api/placeholder/200/200"
-    },
-    {
-      _id: "3",
-      name: "Emily Parker",
-      review: "Intuitive interface and excellent customer support. It's been a game-changer for our organization.",
-      rating: 5,
-      image: "/api/placeholder/200/200"
-    }
-  ]);
+  const [testimonials, setTestimonials] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false); // Toggle flag from backend
 
   useEffect(() => {
+    // Fetch toggle setting
+    axios.get(`${process.env.REACT_APP_API_URL}/api/clientsay`)
+      .then((res) => {
+        setIsEnabled(res.data.enabled);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch toggle state", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    // Fetch testimonials data
     axios.get(`${process.env.REACT_APP_API_URL}/api/testimonials`)
       .then((res) => {
-        setTestimonials([...res.data, ...res.data]); // Duplicate for smooth loop
+        setTestimonials([...res.data, ...res.data]); // Duplicate for loop
         setIsLoaded(true);
       })
       .catch((err) => {
@@ -39,6 +30,9 @@ const TestimonialCarousel = () => {
         setIsLoaded(true); // Still show default testimonials
       });
   }, []);
+
+  // Hide the entire component if not enabled
+  if (!isEnabled) return null;
 
   return (
     <section className="py-12 sm:py-20 bg-gradient-to-r from-white to-[#f9f9fc] overflow-hidden">
@@ -90,7 +84,6 @@ const TestimonialCarousel = () => {
         )}
       </div>
 
-      {/* Styling for carousel and fixed card height */}
       <style>{`
         .testimonial-carousel-container {
           width: 100%;
@@ -143,7 +136,6 @@ const TestimonialCarousel = () => {
           }
         }
 
-        /* Optional: line clamp for review text to avoid overflow */
         .line-clamp-4 {
           display: -webkit-box;
           -webkit-line-clamp: 4;

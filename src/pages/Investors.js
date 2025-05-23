@@ -4,6 +4,7 @@ import axios from "axios";
 const Investors = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [toggleEnabled, setToggleEnabled] = useState(false);
 
   const getTypeColor = (type) => {
     const colors = {
@@ -15,18 +16,27 @@ const Investors = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchToggleAndData = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/ourinvestors`);
-        setTestimonials(res.data);
-        setIsLoaded(true); // set this once data is fetched
+        // Fetch toggle state
+        const toggleRes = await axios.get(`${process.env.REACT_APP_API_URL}/api/investortoggle`);
+        setToggleEnabled(toggleRes.data.enabled);
+
+        // If enabled, fetch testimonials
+        if (toggleRes.data.enabled) {
+          const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/ourinvestors`);
+          setTestimonials(res.data);
+          setIsLoaded(true);
+        }
       } catch (err) {
-        console.error("Failed to fetch investors:", err);
+        console.error("Error fetching investor toggle or data:", err);
       }
     };
-    
-    fetchData();
+
+    fetchToggleAndData();
   }, []);
+
+  if (!toggleEnabled) return null; // Hide the component completely if toggle is off
 
   return (
     <div className="py-12 bg-gray-100 overflow-hidden relative">
